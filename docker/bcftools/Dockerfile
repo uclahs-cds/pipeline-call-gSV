@@ -1,7 +1,7 @@
 # use the ubuntu base image
 FROM ubuntu:18.04
 
-LABEL maintainer="tsanders@mednet.ucla.edu"
+LABEL maintainer="Tim Sanders <tsanders@mednet.ucla.edu>"
 
 RUN apt update && apt install -y \
     curl \
