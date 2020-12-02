@@ -1,4 +1,4 @@
-# Pipeline Name
+# call-gSV
 
 1. [Overview](#Overview)
 2. [How To Run](#How-To-Run)

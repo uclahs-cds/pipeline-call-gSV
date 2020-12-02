@@ -1,19 +1,27 @@
 #!/usr/bin/env nextflow
 
 // Docker images here...
-def docker_image_name = "docker image"
+def docker_image_delly = "blcdsdockerregistry/call-gsv:delly-0.8.5"
+def docker_image_bcftools = "blcdsdockerregistry/call-gsv:bcftools-X.X.X"
+
+def number_of_cpus = (int) (Runtime.getRuntime().availableProcessors() / params.max_number_of_parallel_jobs)
+if (number_of_cpus < 1) {
+    number_of_cpus = 1
+}
+def total_memory = ((int) ((java.lang.management.ManagementFactory
+    .getOperatingSystemMXBean()
+    .getTotalPhysicalMemorySize() / (1024.0 * 1024.0 * 1024.0)) * 0.9))
 
 // Log info here
 log.info """\
         ======================================
-        T E M P L A T E - N F  P I P E L I N E
+        C A L L - G S V   N F  P I P E L I N E
         ======================================
         Boutros Lab
 
         Current Configuration:
         - input
-            input a: ${params.variable_name}
-            ...
+            input_csv: ${params.input_csv}
 
         - output: 
             output a: ${params.output_path}
@@ -24,7 +32,8 @@ log.info """\
             ...
 
         Tools Used:
-            tool a: ${docker_image_name}
+            delly: ${docker_image_delly}
+            bcftools: ${docker_image_bcftools}
 
         ------------------------------------
         Starting workflow...
