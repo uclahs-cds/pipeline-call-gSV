@@ -48,6 +48,3 @@ WORKDIR /root/
 
 # Add Delly to PATH
 ENV PATH="/opt/delly/bin:${PATH}"
-
-# by default /bin/sh is executed
-CMD ["/bin/sh"]
