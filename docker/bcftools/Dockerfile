@@ -36,6 +36,3 @@ RUN /bin/bash -c 'make'
 RUN /bin/bash -c 'make install'
 
 RUN /bin/bash -c 'export PATH=/usr/local/bin:$PATH'
-
-# by default /bin/bash is executed
-CMD ["/bin/bash"]
