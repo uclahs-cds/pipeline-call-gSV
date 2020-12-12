@@ -2,6 +2,7 @@
 
 // Docker images here...
 def docker_image_name = "docker image"
+def docker_image_validate_params = "blcdsdockerregistry/validate:1.0.0"
 
 // Log info here
 log.info """\
@@ -43,16 +44,42 @@ Channel
            row.row_2_name_file_extension
       )
    }
-   .set { input_ch_input_csv }
+   .into { input_ch_input_csv; input_ch_input_csv_validate } // copy into two channels, one is for validation
 
 // Decription of input channel
 Channel
    .fromPath(params.variable_name)
    .ifEmpty { error "Cannot find: ${params.variable_name}" }
-   .set { input_ch_variable_name }
+   .into { input_ch_variable_name; input_ch_variable_name_validate } // copy into two channels, one is for validation
+
+// Pre-validation steps
+input_ch_input_csv_validate // flatten csv channel to only file paths
+   .flatMap { library, lane, read_group_name, read1_fastq, read2_fastq ->
+      [read1_fastq, read2_fastq]
+   }
+   .set { input_ch_input_csv_validate_flat } // new flat channel
 
 // process here
-// Decription of process
+/ Input validation process
+process validate_inputs {
+    container docker_image_validate_params // docker img reference
+
+    input:
+    path(file_to_validate) from input_ch_input_csv_validate_flat.mix(
+      input_ch_input_csv_validate // add all input channels
+   ) // combine and mix all input file channels into one channel
+
+    output:
+      val(true) into output_ch_validate_inputs
+
+    script:
+    """
+    set -euo pipefail
+    python -m validate -t file-input ${file_to_validate}
+    """
+}
+
+// Decription of main process
 process tool_name_command_name {
    container docker_image_name
 

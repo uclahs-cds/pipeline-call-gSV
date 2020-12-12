@@ -1,11 +1,11 @@
 ---
 Category: "pipeline"
-Description: "a template nf pipeline for styling and standardization"
+Description: "Pipeline for calling germline Structural Variants"
 Maintainers: "Boutros Lab Infrastructure BoutrosLabInfrastructure@mednet.ucla.edu"
 Contributors: ["Ben Carlin", "Gina Kim"]
 Languages: ["Nextflow", "Docker"]
-Dependencies: ["Java", "Nextflow", "Docker", "Slurm"]
+Dependencies: ["Java", "Nextflow", "Docker"]
 References: "https://uclahs.box.com/s/qfzr99sc8ntmfddn30ii62wx4273utoz"
-Tools: ["tool_a:v1.1.0", "tool_b:v1.1.0"]
-Engineering_Owner: []
-Scientific_Owner: []
+Tools: ["delly:v0.8.6", "BCFtools:v1.1.0"]
+Engineering_Owner: ["Tim Sanders" , "Yael Berkovich"]
+Scientific_Owner: [Julie Livingstone]
