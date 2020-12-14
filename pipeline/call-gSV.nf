@@ -42,23 +42,24 @@ log.info """\
         .stripIndent()
 
 // Channels here
-// Decription of input channel
+// Reference FASTA channel
+Channel
+   .fromPath(params.reference_fasta)
+   .ifEmpty { error "Cannot find reference fasta: ${params.reference_fasta}" }
+   .into { input_ch_reference_fasta }
+
+// Reference exclusions
+Channel
+   .fromPath(params.reference_exclusion)
+   .ifEmpty { error "Cannot find reference exclusion: ${params.reference_exclusion}" }
+   .into { input_ch_reference_exclusion }
+
+// Input BAM
 Channel
    .fromPath(params.input_csv)
-   .ifEmpty { error "Cannot find input csv: ${params.input_csv}" }
    .splitCsv(header:true)
-   .map { row -> 
-       return tuple(row.row_1_name,
-           row.row_2_name_file_extension
-      )
-   }
-   .set { input_ch_input_csv }
 
-// Decription of input channel
-Channel
-   .fromPath(params.variable_name)
-   .ifEmpty { error "Cannot find: ${params.variable_name}" }
-   .set { input_ch_variable_name }
+// Input BAI
 
 // process here
 // Decription of process
