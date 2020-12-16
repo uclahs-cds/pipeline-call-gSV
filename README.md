@@ -1,13 +1,12 @@
 # Call germline Structural Variant Pipeline of Paired End and Split Reads
 
-- [Pipeline Name](#pipeline-name)
+- [call-gSV](#pipeline-name)
   - [Overview](#overview)
   - [How To Run](#how-to-run)
   - [Flow Diagram](#flow-diagram)
   - [Pipeline Steps](#pipeline-steps)
-    - [1. Step/Proccess 1](#1-stepproccess-1)
-    - [2. Step/Proccess 2](#2-stepproccess-2)
-    - [3. Step/Proccess n](#3-stepproccess-n)
+    - [1. Calling Structural Variants](#1-stepproccess-1)
+    - [2. Check Quality](#2-stepproccess-2)
   - [Inputs](#inputs)
   - [Outputs](#outputs)
   - [Testing and Validation](#testing-and-validation)
@@ -18,9 +17,9 @@
 
 ## Overview
 
-The call-gSV nextflow pipeline, calls structural variants including deletions, insertions, translocations utilizing [Delly] (https://github.com/dellytools/delly) and [BCFtools](https://github.com/samtools/bcftools).  The pipeline has been engineered to run in a 4 layer stack in a cloud-based scalable environment of CycleCloud, Slurm, Nextflow and Docker.  Additionally it has been validated with the SMC-HET dataset and reference GRCh38, where paired-end fastq's were created with BAM Surgeon.
+The call-gSV nextflow pipeline, calls structural variants utilizing [Delly](https://github.com/dellytools/delly), suitable for detecting copy-number variable deletion and tandem duplication events as well as balanced rearrangements such as inversions or reciprocal translocations and validates the output quality with [BCFtools](https://github.com/samtools/bcftools).  The pipeline has been engineered to run in a 4 layer stack in a cloud-based scalable environment of CycleCloud, Slurm, Nextflow and Docker.  Additionally it has been validated with the SMC-HET dataset and reference GRCh38, where paired-end fastq's were created with BAM Surgeon.
 
-The pipeline should be run **WITH A SINGLE SAMPLE AT A TiME.**  Otherwise resource allocation and Nextflow errors could cause the pipeline to fail.
+The pipeline should be run **WITH A SINGLE SAMPLE AT A TIME.**  Otherwise resource allocation and Nextflow errors could cause the pipeline to fail.
 
 <b><i>Developer's Notes:</i></b>
 
@@ -54,35 +53,66 @@ A directed acyclic graph of your pipeline.
 
 ### 1. Calling Structural Variants
 
-The first step of the pipeline utilizes [Delly] (https://github.com/dellytools/delly) to call structural variants and output results to a single bcf file. A default exclude map of Delly can be incorporated which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
+The first step of the pipeline utilizes an input BAM file and leverages [Delly](https://github.com/dellytools/delly) which combines short-range and long-range paired-end mapping and split-read analysis for the discovery of balanced and unbalanced structural variants at single-nucleotide breakbpoint resolution (deletions, tandem duplications, inversions and troslocations).  to call structural variants, annotate and merge calls into a single bcf file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
 
-### 2. Step/Proccess 2
+### 2. Check BCF Quality
 
-> A 2-3 sentence description of each step/proccess in your pipeline that includes the purpose of the step/process, the tool(s) being used and their version, and the expected scientific inputs/outputs (e.g: FASTQs and BAMs) of the pipeline.
-
-### 3. Step/Proccess n
-
-> A 2-3 sentence description of each step/proccess in your pipeline that includes the purpose of the step/process, the tool(s) being used and their version, and the expected scientific inputs/outputs (e.g: FASTQs and BAMs) of the pipeline.
-
+Leveraging BCFtools, the quality of the output can be viewed and evaluated in preparation for downstream cohort-wide re-calling and re-genotyping.
 ---
 
 ## Inputs
 
- Input and Input Parameter/Flag | Required | Description |
-| ------------ | ------------ | ------------------------ |
-| input/ouput 1 | yes/no | 1 - 2 sentence description of the input/output. |
-| input/ouput 2 | yes/no | 1 - 2 sentence description of the input/output. |
-| input/ouput n | yes/no | 1 - 2 sentence description of the input/output. |
+### Input CSV Fields
+
+>The input csv must have all columns below and in the same order. An example of an input csv can be found [here](pipeline/inputs/call-gSV.inputs.csv)
+
+| Field | Type | Description |
+|:------|:-----|:------------|
+| index -? | integer | The index of input fastq pairs, starting from 1 - confirm if needed |
+| read_group_identifier | string | The read group each read blongs to. This is concatenated with the `lane` column (see below) and then passed to the `ID` field of the final BAM. No white space is allowed. For more detail see [here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups). |
+| sequencing_center | string | The sequencing center where the data were produced. This is passed to the `CN` field of the final BAM. No white space is allowed. For more detail see [here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups) |
+| library_identifier | string | The library identifier to be passed to the `LB` field of the final BAM. No white space is allowed. For more detail see [here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups) |
+| platform_technology | string | The platform or technology used to produce the reads. This is passed to the `PL` field of the final BAM. No white space is allowed. For more detail see [here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups) |
+| platform_unit | string | The platform unit to be passed to the `PU` field of the final BAM. No white space is allowed. For more detail see [here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups) |
+| sample | string | The sample name to be passed to the `SM` field of the final BAM. No white space is allowed. For more detail see [here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups) |
+| lane | string | The lane name or index. This is concatenated with the `read_group_identifier` column (see above) and then passed to the `ID` field of the final BAM. No white space is allowed. For more detail see [here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups) |
+| sorted_bam | path | Absolute path to the BAM file for the sample. |
+
+### Config File Parameters
+
+| Input Parameter | Required | Type | Description |
+|:----------------|:---------|:-----|:------------|
+| `sample_name` | yes | string | The sample name. This is ignored if the output files are directly saved to the Boutros Lab data storage registry, by setting `blcds_registered_dataset_output = true` |
+| `input_csv` | yes | path | Absolute path to the input csv. See [here](pipeline/inputs/align-DNA.inputs.csv) for example and above for the detail of required fields. |
+| `reference_bam` | yes | path | Absolute path to the reference genome `bam` file. The reference genome is used by Delly for structural variant calling. |
+| `reference_bam_index_files` | yes | path | Absolute path to the genome bam index with a pattern matching. The index must be generated by the `bwa-mem2 index` command using the correct version of BWA-MEM2. |
+| `reference_genome_version` | no | string | The genome build version. This is only used when the output files are directly saved to the Boutros Lab data storage registry, by setting `blcds_registered_dataset_output = true`. |
+| `output_dir` | yes | path | Absolute path to the directory where the output files to be saved. This is ignored if the output files are directly saved to the Boutros Lab data storage registry, by setting `blcds_registered_dataset_output = true` |
+| `temp_dir` | yes | path | Absolute path to the directory where the nextflow's intermediate files are saved. |
+| `save_intermediate_files` | yes | boolean | Save intermediate files. If yes, not only the final BAM, but also the unmerged, unsorted, and duplicates unmarked BAM files will also be saved. |
+| `cache_intermediate_pipeline_steps` | yes | boolean | Enable cahcing to resume pipeline and the end of the last successful process completion when a pipeline fails (if true the default submission script must be modified). |
+| `max_number_of_parallel_jobs` | yes | int | The maximum number of jobs or steps of the pipeline that can be ran in parallel. |
+| `bwa_mem_number_of_cpus` | no | int | Number of cores to use for BWA-MEM2. If not set, this will be calculated to ensure at least 2.5Gb memory per core. |
+| `blcds_registered_dataset_input` | yes | boolean | Input FASTQs are from the Boutros Lab data registry. |
+| `blcds_registered_dataset_output` | yes | boolean | Enable saving final files including BAM and BAM index, and logging files directory to the Boutros Lab Data registry. |
+| `blcds_cluster_slurm` | no | boolean | Pipeline is to run on the Slurm cluster. Set to `false` if it is to run on the SGE cluster. This is used only when `blcds_registered_dataset_output = true` and `blcds_registered_dataset_input = false`. It is also ignored if `blcds_mount_dir` is set. |
+| `blcds_disease_id` | no | string | The registered disease ID of this dataset from the Boutros Lab data registry. Ignored if `blcds_registered_data_input = true` or `blcds_registered_output = false` |
+| `blcds_dataset_id` | no | string | The registered dataset ID of this dataset from the Boutros Lab data registry. Ignored if `blcds_registered_data_input = true` or `blcds_registered_output = false` |
+| `blcds_patient_id` | no | string | The registered patient ID of this sample from the Boutros Lab data registry. Ignored if `blcds_registered_data_input = true` or `blcds_registered_output = false` |
+| `blcds_sample_id` | no | string | The registered sample ID from the Boutros Lab data registry. Ignored if `blcds_registered_data_input = true` or `blcds_registered_output = false` |
+| `blcds_mount_dir` | no | string | The directory that the storage is mounted to (e.g., /hot, /data). |
 
 ---
 
 ## Outputs
 
- Output and Output Parameter/Flag | Required | Description |
+ Output | Required | Description |
 | ------------ | ------------ | ------------------------ |
-| input/ouput 1 | yes/no | 1 - 2 sentence description of the input/output. |
-| input/ouput 2 | yes/no | 1 - 2 sentence description of the input/output. |
-| input/ouput n | yes/no | 1 - 2 sentence description of the input/output. |
+| `.bcf` | yes | Binary VCF output format with structural variants if found. |
+| `.bcf index` | yes | BCF index file. |
+| `.qc` | yes | results from quality control testing. |
+| `report.html`, `timeline.html` and `trace.txt` | yes | A Nextflowreport, timeline and trace files. |
+| `log.command.*` | yes | Process specific logging files created by nextflow. |
 
 ---
 
@@ -112,6 +142,6 @@ Included is a template for validating your input files. For more information on 
 
 ## References
 
-1. [https://tobiasrausch.com/courses/vc/sv/#introduction](https://tobiasrausch.com/courses/vc/sv/#introduction)
-2. [Reference 2](<links-to-papers/external-code/documentation/metadata/other-repos/or-anything-else>)
-3. [Reference n](<links-to-papers/external-code/documentation/metadata/other-repos/or-anything-else>)
+1. [Rausch T, Zichner T, Schlattl A, Stütz AM, Benes V, Korbel JO. DELLY: structural variant discovery by integrated paired-end and split-read analysis. Bioinformatics. 2012;28(18):i333-i339. doi:10.1093/bioinformatics/bts378](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3436805/)
+2. [https://tobiasrausch.com/courses/vc/sv/#introduction](https://tobiasrausch.com/courses/vc/sv/#introduction)
+
