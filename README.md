@@ -58,6 +58,7 @@ The first step of the pipeline utilizes an input BAM file and leverages [Delly](
 ### 2. Check BCF Quality
 
 Leveraging BCFtools, the quality of the output can be viewed and evaluated in preparation for downstream cohort-wide re-calling and re-genotyping.
+
 ---
 
 ## Inputs
@@ -109,8 +110,9 @@ Leveraging BCFtools, the quality of the output can be viewed and evaluated in pr
  Output | Required | Description |
 | ------------ | ------------ | ------------------------ |
 | `.bcf` | yes | Binary VCF output format with structural variants if found. |
-| `.bcf index` | yes | BCF index file. |
-| `.qc` | yes | results from quality control testing. |
+| `.bcf.csi` | yes | CSI-format index for BAM files. |
+| `.vcf` | yes | structural variant calls in vcf format. |
+| `.qc` | yes | TBD - results from quality control testing. |
 | `report.html`, `timeline.html` and `trace.txt` | yes | A Nextflowreport, timeline and trace files. |
 | `log.command.*` | yes | Process specific logging files created by nextflow. |
 
@@ -120,7 +122,7 @@ Leveraging BCFtools, the quality of the output can be viewed and evaluated in pr
 
 ### Test Data Set
 
-A 2-3 sentence description of the test data set(s) used to validate and test this pipeline. If possible, include references and links for how to access and use the test dataset
+Current tests are leveraging aligned and sorted bams generated with GRCh38 and BWA-MEM2-2.1 testing outputs TEST0000000_TWGSAMIN000001-T002-S02-F.bam.
 
 ### Validation <version number\>
 
@@ -144,4 +146,3 @@ Included is a template for validating your input files. For more information on 
 
 1. [Rausch T, Zichner T, Schlattl A, Stütz AM, Benes V, Korbel JO. DELLY: structural variant discovery by integrated paired-end and split-read analysis. Bioinformatics. 2012;28(18):i333-i339. doi:10.1093/bioinformatics/bts378](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3436805/)
 2. [https://tobiasrausch.com/courses/vc/sv/#introduction](https://tobiasrausch.com/courses/vc/sv/#introduction)
-
