@@ -6,7 +6,7 @@
   - [Flow Diagram](#flow-diagram)
   - [Pipeline Steps](#pipeline-steps)
     - [1. Calling Structural Variants](#1-stepproccess-1)
-    - [2. Check Quality](#2-stepproccess-2)
+    - [2. Check Output Quality](#2-stepproccess-2)
   - [Inputs](#inputs)
   - [Outputs](#outputs)
   - [Testing and Validation](#testing-and-validation)
@@ -53,11 +53,11 @@ A directed acyclic graph of your pipeline.
 
 ### 1. Calling Structural Variants
 
-The first step of the pipeline utilizes an input BAM file and leverages [Delly](https://github.com/dellytools/delly) which combines short-range and long-range paired-end mapping and split-read analysis for the discovery of balanced and unbalanced structural variants at single-nucleotide breakbpoint resolution (deletions, tandem duplications, inversions and troslocations).  to call structural variants, annotate and merge calls into a single bcf file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
+The first step of the pipeline utilizes an input BAM file and leverages [Delly](https://github.com/dellytools/delly) which combines short-range and long-range paired-end mapping and split-read analysis for the discovery of balanced and unbalanced structural variants at single-nucleotide breakbpoint resolution (deletions, tandem duplications, inversions and translocations), to call structural variants, annotate and merge calls into a single bcf file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
 
-### 2. Check BCF Quality
+### 2. Check Output Quality
 
-Leveraging BCFtools, the quality of the output can be viewed and evaluated in preparation for downstream cohort-wide re-calling and re-genotyping.
+Running vcf-validate from [VCFTools](https://vcftools.github.io/perl_module.html#vcf-validator) and vcfstats from [RTGtools](https://cdn.rawgit.com/RealTimeGenomics/rtg-tools/master/installer/resources/tools/RTGOperationsManual/rtg_command_reference.html#vcfstats) generates summary statistics that can be viewed and evaluated in preparation for downstream cohort-wide re-calling and re-genotyping.  Additionally, a summarystats text file output is generated quanitifying key structural variants by type per chromosome, per chromosomal arm (p and q), and calculating the total amount of bases implicated in GRs (excluding overlaps).  By default the following types (TBD) of exclusions will be applied which can be over-written in the config file during execution...
 
 ---
 
@@ -111,8 +111,9 @@ Leveraging BCFtools, the quality of the output can be viewed and evaluated in pr
 | ------------ | ------------ | ------------------------ |
 | `.bcf` | yes | Binary VCF output format with structural variants if found. |
 | `.bcf.csi` | yes | CSI-format index for BAM files. |
-| `.vcf` | yes | structural variant calls in vcf format. |
-| `.qc` | yes | TBD - results from quality control testing. |
+| `.validate.txt` | yes | output file from vcf-validator. |
+| `.vcfstats.txt` | yes | output file from rtgtools. |
+| `.summarystats.txt` | yes | output summary quantifying SVs by type (per chromosome), per chromosomal arm (p and q), centromere spanning region and determining the fraction of base affected. |
 | `report.html`, `timeline.html` and `trace.txt` | yes | A Nextflowreport, timeline and trace files. |
 | `log.command.*` | yes | Process specific logging files created by nextflow. |
 
@@ -145,4 +146,7 @@ Included is a template for validating your input files. For more information on 
 ## References
 
 1. [Rausch T, Zichner T, Schlattl A, Stütz AM, Benes V, Korbel JO. DELLY: structural variant discovery by integrated paired-end and split-read analysis. Bioinformatics. 2012;28(18):i333-i339. doi:10.1093/bioinformatics/bts378](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3436805/)
-2. [https://tobiasrausch.com/courses/vc/sv/#introduction](https://tobiasrausch.com/courses/vc/sv/#introduction)
+2. [VCFtools - vcf-validator](https://vcftools.github.io/perl_module.html#vcf-validator)
+3. [Real Time Genomics RTG Tools Operations Manual - vcfstats](https://cdn.rawgit.com/RealTimeGenomics/rtg-tools/master/installer/resources/tools/RTGOperationsManual/rtg_command_reference.html#vcfstats)
+4. [Boutros Lab -CallSV Quality Control pipeline]()
+5. [https://tobiasrausch.com/courses/vc/sv/#introduction](https://tobiasrausch.com/courses/vc/sv/#introduction)
