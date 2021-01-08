@@ -20,6 +20,7 @@ Parameters:
 - input_bam_index       ${params.input_bam_index}
 - reference_fasta       ${params.reference_fasta}
 - exclusion_file        ${params.exclusion_file}
+- output_dir            ${params.output_dir}
 
 
 ------------------------------------
@@ -33,7 +34,7 @@ include { delly_call_sv } from './modules/delly'
 
 workflow {
     validate_file(channel.fromList([params.input_bam, params.input_bam_index]))
-    delly_call_sv()
+    delly_call_sv(params.exclusion_file, params.reference_fasta, [params.input_bam, params.input_bam_index])
 }
 
 // Channels here

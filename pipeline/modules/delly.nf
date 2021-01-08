@@ -15,8 +15,8 @@ process delly_call_sv {
 	publishDir params.output_dir, mode: "copy"
 
 	input:
-	path excl_tsv
-	path ref_fasta
+	path exclusion_file
+	path reference_fasta
 	tuple path(input_bam), path(input_bam_index)
 
 	output:
