@@ -49,4 +49,4 @@ WORKDIR /root/
 # Add Delly to PATH
 ENV PATH="/opt/delly/bin:${PATH}"
 
-CMD ["bash"]
+CMD ["sh"]
