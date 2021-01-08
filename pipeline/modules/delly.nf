@@ -3,9 +3,9 @@
 def docker_image_delly = "blcdsdockerregistry/call-gsv:delly-0.8.6"
 
 log.info """\
-====================================
+------------------------------------
     D E L L Y
-====================================
+------------------------------------
 Docker Images:
 - docker_image_delly:   ${docker_image_delly}
 """

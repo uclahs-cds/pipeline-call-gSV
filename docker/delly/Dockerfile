@@ -1,5 +1,5 @@
 # use the ubuntu base image
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 LABEL maintainer="Tim Sanders <tsanders@mednet.ucla.edu>"
 
@@ -49,4 +49,4 @@ WORKDIR /root/
 # Add Delly to PATH
 ENV PATH="/opt/delly/bin:${PATH}"
 
-CMD ["sh"]
+CMD ["bash"]
