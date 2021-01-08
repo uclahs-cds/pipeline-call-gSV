@@ -14,18 +14,6 @@ C A L L - G S V   N F  P I P E L I N E
 ======================================
 Boutros Lab
 
-Current Configuration:
-- input
-    input_csv: ${params.input_csv}
-
-- output: 
-    output a: ${params.output_path}
-
-Tools Used:
-    delly: ${docker_image_delly}
-    bcftools: ${docker_image_bcftools}
-    validation: ${docker_image_validation}
-
 Parameters:
 - sample_name           ${params.sample_name}
 - input_bam             ${params.input_bam}
