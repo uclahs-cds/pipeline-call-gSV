@@ -19,8 +19,6 @@ process delly_call_sv {
 	path reference_fasta
 	tuple path(input_bam), path(input_bam_index)
 
-	output:
-
 	"""
 	set -euo pipefail
 	delly \
