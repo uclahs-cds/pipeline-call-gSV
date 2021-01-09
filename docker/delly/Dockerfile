@@ -4,7 +4,7 @@ FROM ubuntu:20.04
 LABEL maintainer="Tim Sanders <tsanders@mednet.ucla.edu>"
 
 # install required packages
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     autoconf \
     build-essential \
     cmake \
@@ -49,4 +49,4 @@ WORKDIR /root/
 # Add Delly to PATH
 ENV PATH="/opt/delly/bin:${PATH}"
 
-CMD ["bash"]
+CMD ["/bin/sh"]
