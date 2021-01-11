@@ -2,12 +2,7 @@
 
 nextflow.enable.dsl=2
 
-// Docker images here...
-// def docker_image_delly = "blcdsdockerregistry/call-gsv:delly-0.8.6"
-// def docker_image_bcftools = "blcdsdockerregistry/call-gsv:bcftools-1.11"
-// def docker_image_validation = "blcdsdockerregistry/validate:1.0.0"
 
-// Log info here
 log.info """\
 ======================================
 C A L L - G S V   N F  P I P E L I N E
