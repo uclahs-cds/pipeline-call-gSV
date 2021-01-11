@@ -43,6 +43,8 @@ RUN mkdir -p /opt/delly/bin
 WORKDIR /opt/delly/bin
 COPY --from=0 /opt/delly/bin/delly .
 
+RUN apk add --update bash && rm -rf /var/cache/apk/*
+
 # Workdir
 WORKDIR /root/
 
