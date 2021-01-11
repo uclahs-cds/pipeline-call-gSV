@@ -36,5 +36,5 @@ include { bcftools_vcf } from './modules/bcftools'
 workflow {
     validate_file(channel.fromList([params.input_bam, params.input_bam_index]))
     delly_call_sv(params.exclusion_file, params.reference_fasta, [params.input_bam, params.input_bam_index])
-    bcftools_vcf(delly_call_sv.out.bcftools_sv_file)
+    bcftools_vcf(delly_call_sv.out.bcf_sv_file)
 }
