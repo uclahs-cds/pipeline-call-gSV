@@ -3,7 +3,7 @@ FROM ubuntu:20.04
 
 LABEL maintainer="Tim Sanders <tsanders@mednet.ucla.edu>"
 
-RUN apt update && apt install -y \
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y \
     curl \
     autoconf \
     build-essential \
