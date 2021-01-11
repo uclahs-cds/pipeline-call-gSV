@@ -18,7 +18,7 @@ process bcftools_vcf {
 	path bcf_sv_file
 
 	output:
-	path "delly_sv_${params.sample_name}.vcf" emit: vcf_sv_file
+	path "delly_sv_${params.sample_name}.vcf", emit: vcf_sv_file
 
 	"""
 	set -euo pipefail
