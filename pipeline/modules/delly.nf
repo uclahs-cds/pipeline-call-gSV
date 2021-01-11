@@ -4,7 +4,7 @@ def docker_image_delly = "blcdsdockerregistry/call-gsv:delly-0.8.6"
 
 log.info """\
 ------------------------------------
-    D E L L Y
+             D E L L Y
 ------------------------------------
 Docker Images:
 - docker_image_delly:   ${docker_image_delly}
@@ -20,7 +20,7 @@ process delly_call_sv {
 	tuple path(input_bam), path(input_bam_index)
 
 	output:
-	path "delly_sv_${params.sample_name}.bcf"
+	path "delly_sv_${params.sample_name}.bcf" emit: bcf_sv_file
 
 	"""
 	set -euo pipefail

@@ -31,83 +31,10 @@ Starting workflow...
 
 include { validate_file } from './modules/validation'
 include { delly_call_sv } from './modules/delly'
+include { bcftools_vcf } from './modules/bcftools'
 
 workflow {
     validate_file(channel.fromList([params.input_bam, params.input_bam_index]))
     delly_call_sv(params.exclusion_file, params.reference_fasta, [params.input_bam, params.input_bam_index])
+    bcftools_vcf()
 }
-
-// Channels here
-
-// Validation
-// Channel
-//     .fromList([])
-//     .set { ch_validate_inputs }
-
-// // Reference FASTA channel
-// Channel
-//    .fromPath(params.reference_fasta)
-//    .ifEmpty { error "Cannot find reference fasta: ${params.reference_fasta}" }
-//    .into { input_ch_reference_fasta }
-
-// // Reference exclusions
-// Channel
-//    .fromPath(params.reference_exclusion)
-//    .ifEmpty { error "Cannot find reference exclusion: ${params.reference_exclusion}" }
-//    .into { input_ch_reference_exclusion }
-
-// // Input BAM
-// Channel
-//     .fromPath(params.input_bam)
-//     .into { input_ch_bam }
-//    //.fromPath(params.input_csv)
-//    //.splitCsv(header:true)
-
-// Input BAI
-
-
-// process call_delly {
-//    container docker_image_delly
-
-//    publishDir params.output_dir, enabled: true, mode: 'copy'
-
-//    label "resource_allocation_tool_name_command_name"
-
-//    // Additional directives here
-   
-//    input: 
-//       file(excl_tsv) from input_ch_reference_exclusion
-//       file(ref_fasta) from input_ch_reference_fasta
-//       file(bam) from input_ch_bam
-
-//       tuple(val(row_1_name), 
-//          path(row_2_name_file_extension),
-//       ) from input_ch_input_csv
-//       val(variable_name) from input_ch_variable_name
-
-//    output:
-//       file("${variable_name}.command_name.file_extension") into output_ch_tool_name_command_name
-
-//    script:
-//    """
-//    # make sure to specify pipefail to make sure process correctly fails on error
-//    set -euo pipefail
-
-//    # the script should ideally only have call to a tool
-//    # to make the command more human readable:
-//    #  - seperate components of the call out on different lines
-//    #  - when possible by explict with command options, spelling out their long names
-//    delly \
-//       call \
-//       #--svtype ALL
-//       --exclude   $excl_tsv \
-//       --genome    $ref_fasta \
-//       --outfile   sv.bcf \
-//       #--vcffile 
-//       $bam
-
-
-//       --input ${row_2_name_file_extension} \
-//       --output ${variable_name}.command_name.file_extension
-//    """
-// }
