@@ -23,6 +23,6 @@ process rtgtools_vcfstats {
 	"""
 	set -euo pipefail
 
-	vcfstats $vcf_sv_file > delly_sv_${params.sample_name}_stats.txt
+	rtg vcfstats $vcf_sv_file > delly_sv_${params.sample_name}_stats.txt
 	"""
 }
