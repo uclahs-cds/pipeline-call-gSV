@@ -1,37 +1,20 @@
-# use the ubuntu base image
-FROM ubuntu:20.04
+FROM alpine:3.12 as builder
 
 LABEL maintainer="Tim Sanders <tsanders@mednet.ucla.edu>"
 
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends \
-    curl \
-    autoconf \
-    build-essential \
-    cmake \
-    g++ \
-    gfortran \
-    libcurl4-gnutls-dev \
-    hdf5-tools \
-    libboost-date-time-dev \
-    libboost-program-options-dev \
-    libboost-system-dev \
-    libboost-filesystem-dev \
-    libboost-iostreams-dev \
-    libbz2-dev \
-    libhdf5-dev \
-    libncurses-dev \
-    liblzma-dev \
-    zlib1g-dev \
-    pkg-config
+RUN apk --no-cache add alpine-sdk perl zlib-dev curl
+RUN set -ex \
+    && curl -L -O https://github.com/vcftools/vcftools/releases/download/v0.1.16/vcftools-0.1.16.tar.gz \
+    && tar zxf vcftools-0.1.16.tar.gz \
+    && rm vcftools-0.1.16.tar.gz \
+    && cd vcftools-0.1.16 \
+    && ./configure --prefix=/app/vcftools-0.1.16 \
+    && make \
+    && make install
 
-RUN curl -OL https://github.com/vcftools/vcftools/releases/download/v0.1.16/vcftools-0.1.16.tar.gz
-
-RUN tar -zxf vcftools-0.1.16.tar.gz && rm vcftools-0.1.16.tar.gz
-
-WORKDIR vcftools-0.1.16
-
-RUN /bin/bash -c './configure' 
-
-RUN /bin/bash -c 'make'
-
-RUN /bin/bash -c 'make install'
+FROM alpine:3.12
+ENV PATH /app/vcftools-0.1.16/bin:$PATH
+ENV PERL5LIB /app/vcftools-0.1.16/share/perl:$PERL5LIB
+RUN apk add --no-cache libstdc++ perl zlib
+RUN apk add --update bash && rm -rf /var/cache/apk/*
+COPY --from=builder /app/ /app/
