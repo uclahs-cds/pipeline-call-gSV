@@ -29,6 +29,7 @@ include { validate_file } from './modules/validation'
 include { delly_call_sv } from './modules/delly'
 include { bcftools_vcf } from './modules/bcftools'
 include { rtgtools_vcfstats } from './modules/rtgtools'
+include { vcftools_validator } from './modules/vcftools'
 
 workflow {
     validate_file(channel.fromList([params.input_bam, params.input_bam_index]))
@@ -36,5 +37,6 @@ workflow {
     bcftools_vcf(delly_call_sv.out.bcf_sv_file)
     if (params.run_qc) {
         rtgtools_vcfstats(bcftools_vcf.out.vcf_sv_file)
+        vcftools_validator(bcftools_vcf.out.vcf_sv_file)
     }
 }
