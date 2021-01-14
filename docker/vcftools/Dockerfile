@@ -21,7 +21,8 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y \
     libhdf5-dev \
     libncurses-dev \
     liblzma-dev \
-    zlib1g-dev
+    zlib1g-dev \
+    pkg-config
 
 RUN curl -OL https://github.com/vcftools/vcftools/releases/download/v0.1.16/vcftools-0.1.16.tar.gz
 
