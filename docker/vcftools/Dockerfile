@@ -3,7 +3,7 @@ FROM ubuntu:20.04
 
 LABEL maintainer="Tim Sanders <tsanders@mednet.ucla.edu>"
 
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y \
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends \
     curl \
     autoconf \
     build-essential \
@@ -26,13 +26,11 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y \
 
 RUN curl -OL https://github.com/vcftools/vcftools/releases/download/v0.1.16/vcftools-0.1.16.tar.gz
 
-RUN tar -zxf vcftools-0.1.16.tar.gz
-
-RUN rm vcftools-0.1.16.tar.gz
+RUN tar -zxf vcftools-0.1.16.tar.gz && rm vcftools-0.1.16.tar.gz
 
 WORKDIR vcftools-0.1.16
 
-RUN /bin/bash -c './configure'
+RUN /bin/bash -c './configure' 
 
 RUN /bin/bash -c 'make'
 
