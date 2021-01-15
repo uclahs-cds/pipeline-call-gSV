@@ -14,7 +14,7 @@ RUN set -ex \
 
 FROM alpine:3.12
 ENV PATH /app/vcftools-0.1.16/bin:$PATH
-ENV PERL5LIB /app/vcftools-0.1.16/share/perl:$PERL5LIB
+ENV PERL5LIB /app/vcftools-0.1.16/share/perl5/site_perl:$PERL5LIB
 RUN apk add --no-cache libstdc++ perl zlib
 RUN apk add --update bash && rm -rf /var/cache/apk/*
 COPY --from=builder /app/ /app/
