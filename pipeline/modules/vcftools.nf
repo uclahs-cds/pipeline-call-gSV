@@ -1,6 +1,6 @@
 #!/usr/bin/env nextflow
 
-def docker_image_vcftools = "biocontainers/vcftools:v0.1.16-1-deb_cv1"
+def docker_image_vcftools = "blcdsdockerregistry/vcftools:0.1.16"
 
 log.info """\
 ------------------------------------
