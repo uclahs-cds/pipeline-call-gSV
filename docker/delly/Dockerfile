@@ -38,7 +38,7 @@ RUN cd /opt \
 
 
 # Multi-stage build
-FROM alpine:latest
+FROM alpine:3.13
 RUN mkdir -p /opt/delly/bin
 WORKDIR /opt/delly/bin
 COPY --from=0 /opt/delly/bin/delly .
