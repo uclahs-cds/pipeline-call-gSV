@@ -1,5 +1,5 @@
 # use the ubuntu base image
-FROM ubuntu:20.04
+FROM ubuntu:20.04 as builder
 
 LABEL maintainer="Tim Sanders <tsanders@mednet.ucla.edu>"
 
