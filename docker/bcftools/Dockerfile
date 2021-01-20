@@ -33,8 +33,10 @@ RUN ./configure --prefix=/app/bcftools-1.11 \
     && make \
     && make install
 
-FROM alpine:3.13
 ENV PATH /app/bcftools-1.11/bin:$PATH
-RUN apk add --no-cache libstdc++ zlib
-RUN apk add --update bash && rm -rf /var/cache/apk/*
-COPY --from=builder /app/ /app/
+
+#FROM alpine:3.13
+#ENV PATH /app/bcftools-1.11/bin:$PATH
+#RUN apk add --no-cache libstdc++ zlib
+#RUN apk add --update bash && rm -rf /var/cache/apk/*
+#COPY --from=builder /app/ /app/
