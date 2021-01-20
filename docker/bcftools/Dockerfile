@@ -23,7 +23,7 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y --no-install-rec
     liblzma-dev \
     zlib1g-dev
 
-ADD https://github.com/samtools/bcftools/releases/download/1.11/bcftools-1.11.tar.bz2
+ADD https://github.com/samtools/bcftools/releases/download/1.11/bcftools-1.11.tar.bz2 /
 RUN tar -jxf bcftools-1.11.tar.bz2 \
     && rm bcftools-1.11.tar.bz2
 
