@@ -23,12 +23,18 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y --no-install-rec
     liblzma-dev \
     zlib1g-dev
 
-RUN curl -OL https://github.com/samtools/bcftools/releases/download/1.11/bcftools-1.11.tar.bz2 \
-    && tar -jxf bcftools-1.11.tar.bz2 \
+ADD https://github.com/samtools/bcftools/releases/download/1.11/bcftools-1.11.tar.bz2
+RUN tar -jxf bcftools-1.11.tar.bz2 \
     && rm bcftools-1.11.tar.bz2
 
 WORKDIR bcftools-1.11
 
 RUN make \
     && make install \
-    && export PATH=/usr/local/bin:$PATH'
+    && export PATH=/usr/local/bin:$PATH
+
+FROM alpine:3.13
+ENV PATH /app/vcftools-0.1.16/bin:$PATH
+RUN apk add --no-cache libstdc++ zlib
+RUN apk add --update bash && rm -rf /var/cache/apk/*
+COPY --from=builder /app/ /app/
