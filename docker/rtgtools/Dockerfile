@@ -7,9 +7,10 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y \
     unzip
 
 RUN curl -OL https://github.com/RealTimeGenomics/rtg-tools/releases/download/3.11/rtg-tools-3.11-linux-x64.zip \
-    && unzip rtg-tools-3.11-linux-x64.zip -d /rtgtools
+    && unzip rtg-tools-3.11-linux-x64.zip
 
+WORKDIR rtg-tools-3.11
 
-FROM alpine:3.13
-RUN apk add --update bash && rm -rf /var/cache/apk/*
-COPY --from=0 /rtgtools /rtgtools
+ENV PATH="/rtg-tools-3.11:${PATH}"
+
+RUN echo "n" | rtg help
