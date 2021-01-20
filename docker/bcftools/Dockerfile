@@ -29,12 +29,12 @@ RUN tar -jxf bcftools-1.11.tar.bz2 \
 
 WORKDIR bcftools-1.11
 
-RUN make \
-    && make install \
-    && export PATH=/usr/local/bin:$PATH
+RUN ./configure --prefix=/app/bcftools-1.11 \
+    && make \
+    && make install
 
 FROM alpine:3.13
-ENV PATH /app/vcftools-0.1.16/bin:$PATH
+ENV PATH /app/bcftools-1.11/bin:$PATH
 RUN apk add --no-cache libstdc++ zlib
 RUN apk add --update bash && rm -rf /var/cache/apk/*
 COPY --from=builder /app/ /app/
