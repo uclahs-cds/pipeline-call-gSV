@@ -1,6 +1,6 @@
 #!/usr/bin/env nextflow
 
-def docker_image_rtgtools = "realtimegenomics/rtg-tools:3.11"
+def docker_image_rtgtools = "blcdsdockerregistry/call-gsv:rtgtools-3.11"
 
 log.info """\
 ------------------------------------
