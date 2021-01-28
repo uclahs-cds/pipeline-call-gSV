@@ -1,42 +1,8 @@
-<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="491px" height="331px" viewBox="-0.5 -0.5 491 331" content="&lt;mxfile host=&quot;cded0ce0-0f2c-4612-b16b-1c8bf31dc85a&quot; modified=&quot;2020-12-16T05:02:26.698Z&quot; agent=&quot;5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.52.0 Chrome/83.0.4103.122 Electron/9.3.5 Safari/537.36&quot; etag=&quot;pKrQIYO_4lHtZTPy60_C&quot; version=&quot;13.10.0&quot; type=&quot;embed&quot;&gt;&lt;diagram id=&quot;lX_AtyMCk8_TJPKLi9Mc&quot; name=&quot;Page-1&quot;&gt;7VnbUtswEP2aPMJYdmzMIwmXdqZM6WSGwqOwlVitYrmyTJJ+fde2FFtWLhBI0qHlAbSri6VzVmfXpucNp/MbgbPklseE9Vwnnve8y57rnvV9+F06FrWj7zm1YyJoXLtQ4xjR30Q59bCCxiQ3BkrOmaSZ6Yx4mpJIGj4sBJ+Zw8acmU/N8IRYjlGEme39TmOZ1N7Qdxr/J0IniX4yclTPFOvBypEnOOazlsu76nlDwbmsW9P5kLASO41LPe96Te9yY4Kk8iUTgnrCM2aFOpval1zow5I0vigxAytiOM9p1PMGiZwycCBowpPE4gEMRxuPpXHqa/Ny3u68XGhrTuWDXgParVlgNZNKQ8/JpeA/yZAzLqrNeU71Az32wRUWOS9EpHlTx5VYTIgeFtY+EhucK7huCJ8S2DUMmDVMa6KTFsnaJwjDkj6bkYJVwE2Wyy2fcMcp7Nh19N1Qy6ibceL65gr1cdSkNrGddVDoGwvpdfU6NQTWOtBoHbpxVWGzJuY8K4auKZNE2JHEGNxQMAazhEoyynBFzAw0wgwpnGf1tR3TOYk3sftMhCTzjbypXvfcRHZpt3gNV/AaOuspNFDbBFHfgkiSXFbRMiZwKMAB1JDmERcxrqy/CTrvmNDZCjXisPG4VypbwOBRgydhgBX8Kkr5HIx5Kk/yKnlcwAAUZPMKD90PrUn5d3BxW24yffclP6cxANylEiQ/K5tACWaMMD4ReApzMiIowENEt++u6djGfkW6ype1zVhLLbHju268SkeDS3Rd6Wh5Qr1AoOxX6e0rbqQZVX07qNAqoQ3eI6pCK6ruMaMxlqTiLStkbhEneAGExioVbWXCQB49YUTc1RksuLq43oB0l5H3QB5th97dE/SrKgxIvSNlwt1O+ISnmF013oEJfTPmC+eZAvwHkXKhcMKF5J0iZYdiY9fC5q1FSmgXKZqMrUXKG6sPLzQDw99b1aBP1LqBQ1yNGElRRLIAAQTjHguK0w99GbvZ9aCXEdksJCT6Ca5vBQiiXPxDwC+zzUGQ944pg430PbZ6tslgo3yPhvDtRQY18IYMosPIYN8xI6NbyK6RQVtO+5vXWfMyt4uc9o8aTrtkVdQ7ZFZdfidqh5N/oHAKOkLTFZCXxpO1ENpfQPl2ZhCkro9HCfaRXcZ9nMzQrY8PmxnsN97Wu8nXQn7wlxPvmNifWdgPorEF9v9XeH1RzI+MSw7aXHn74io8RsrbIQ0ZKSc4TMpB3Uxxdn7a+ZL80qRjieEeq5jzo1YxryiK31qNHCgMuh9uA3e3GECdgth1zt8pBsBs/ttVD2/+Zehd/QE=&lt;/diagram&gt;&lt;/mxfile&gt;">
+<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="491px" height="281px" viewBox="-0.5 -0.5 491 281" content="&lt;mxfile host=&quot;7a282ded-1b25-42de-87ff-20616bc09e12&quot; modified=&quot;2021-01-28T00:31:14.250Z&quot; agent=&quot;5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.52.1 Chrome/83.0.4103.122 Electron/9.3.5 Safari/537.36&quot; etag=&quot;RT6WgJuLcnhg1NwkH-GF&quot; version=&quot;13.10.0&quot; type=&quot;embed&quot;&gt;&lt;diagram id=&quot;lX_AtyMCk8_TJPKLi9Mc&quot; name=&quot;Page-1&quot;&gt;7VnbcpswEP0aHpNBYAh+9C1pZ5ppOp5J40cFZKCRERUixv36CpAMQr7Fie2ZtH4xu1ot0tmzu5Jt2KNFcUdhGt2TAGHDMoPCsMeGZQEb9PhXqVnVmj4wa0VI40AYNYpp/AcJpTTL4wBliiEjBLM4VZU+SRLkM0UHKSVL1WxOsPrWFIZIU0x9iHXtzzhgUa31HLPRf0FxGMk3A1OMLKA0FoosggFZtlT2xLBHlBBWPy2KEcIleBKXet7tltH1wihK2CET3HrCK8S52JtYF1vJzaIkGJSYccnHMMti37CHEVtgrgD8kb+Jrp64YEphVgrXjhTHRXtwvJJSEbMn6YM/t2ZxqZlUCnJOxih5QSOCCa0WZ5vVh4/oGxdYZCSnvoyb2C6DNETSzKt1KFBiLuC6Q2SB+Kq5wbKJtAx01Aqy1FGEIYtfVaZAQbhw7W79hgcS8xVbpkiOG+FGZMaV5age6u2ISe3AdvwAz1EcSb/STw2B5oc/tDbdqCrabOGczqEpoQwFRsk9F3N8hs9U4ZT7Oy8JPpyThF1lVXoPuAFw06IKpRznT2H5PRzcl0tPPtzl1yRAhcZ4npRp+cjZBDFGmIQULvicFNGYA4Nod+yhGRguo5ihaQorzi15/VOzZR4XSFa0Wsa4xWdoOpYVbGK6Owa3FdPLHUoHrpDflBGviEen2Ml1MWqpZOwJsZUJYFMquOZ21itE28UqT2PVI8RxABmq4pbmLNMCR0nOAxqIYrE3Egry4BkCZG2uMe5kcLsD6W5EPgJ5sB9660TQb+oBvDhOhchzOyIhSSCeNNqhCn1j842QVAD+CzG2EjjBnJFOGzmiHRzbet7bRjy9jchg7G0j7+wPtqcSwzlZXZc7amXgCFYWU0Zzn+W8AHLhEdIYJp86Ge3+BZMR6FGIkP/CVT9yXhDZ6h8Cft1tzoK8fcky2JS+WWtkXxlsKt9MKXwnKYMSeKUMgvOUwZ6pMsM7rAzq5bS328+W4/Yx5bR3UTod01WBcc6uur7Jt+nknIlObqfQdAvIoXzSHIHTEcrROwNF9fl4GkEH6Me4z9MZuufj83YG/cbbupt8z9knv5zYl8T+RsN+6M81sP9f4WWiqD8DrWPQjpV9qlh5l2h5R7QhpeW452k5oNspbvrXnd/6Dm06WjE84Smmf9FTzBsOxe89jZyJBp0bjuVax3EAdA7Eltn/IA5wsfk/ojZv/tWxJ38B&lt;/diagram&gt;&lt;/mxfile&gt;">
     <defs/>
     <g>
         <path d="M 140 30 L 183.63 30" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke"/>
         <path d="M 188.88 30 L 181.88 33.5 L 183.63 30 L 181.88 26.5 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all"/>
-        <ellipse cx="310" cy="290" rx="40" ry="40" fill="#ffffff" stroke="#000000" pointer-events="all"/>
-        <g transform="translate(-0.5 -0.5)">
-            <switch>
-                <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 290px; margin-left: 271px;">
-                        <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
-                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
-                                Filter
-                            </div>
-                        </div>
-                    </div>
-                </foreignObject>
-                <text x="310" y="294" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle">
-                    Filter
-                </text>
-            </switch>
-        </g>
-        <ellipse cx="410" cy="290" rx="40" ry="40" fill="#ffffff" stroke="#000000" pointer-events="all"/>
-        <g transform="translate(-0.5 -0.5)">
-            <switch>
-                <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 290px; margin-left: 371px;">
-                        <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
-                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
-                                test reference discordance
-                            </div>
-                        </div>
-                    </div>
-                </foreignObject>
-                <text x="410" y="294" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle">
-                    test referenc...
-                </text>
-            </switch>
-        </g>
         <path d="M 0 60 L 20 0 L 150 0 L 130 60 Z" fill="#a0522d" stroke="#6d1f00" stroke-miterlimit="10" pointer-events="all"/>
         <g transform="translate(-0.5 -0.5)">
             <switch>
