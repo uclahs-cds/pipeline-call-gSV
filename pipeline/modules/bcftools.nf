@@ -18,13 +18,13 @@ process bcftools_vcf {
 	path bcf_sv_file
 
 	output:
-	path "delly_sv_${params.sample_name}.vcf", emit: vcf_sv_file
+	path "DELLY-0.8.6_${params.dataset_id}_${params.sample_name}.vcf", emit: vcf_sv_file
 
 	"""
 	set -euo pipefail
 	bcftools \
 		view \
 		$bcf_sv_file \
-		--output delly_sv_${params.sample_name}.vcf
+		--output DELLY-0.8.6_${params.dataset_id}_${params.sample_name}.vcf
 	"""
 }

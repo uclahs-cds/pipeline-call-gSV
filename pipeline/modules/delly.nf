@@ -12,7 +12,7 @@ Docker Images:
 
 process delly_call_sv {
 	container docker_image_delly
-	publishDir params.output_dir, mode: "copy"
+	publishDir params.output_dir, enabled: params.save_intermediate_files, mode: "copy"
 
 	input:
 	path exclusion_file
@@ -20,7 +20,7 @@ process delly_call_sv {
 	tuple path(input_bam), path(input_bam_index)
 
 	output:
-	path "delly_sv_${params.sample_name}.bcf", emit: bcf_sv_file
+	path "DELLY-0.8.6_${params.dataset_id}_${params.sample_name}.bcf", emit: bcf_sv_file
 
 	"""
 	set -euo pipefail
@@ -28,7 +28,7 @@ process delly_call_sv {
 		call \
 		--exclude   $exclusion_file \
 		--genome    $reference_fasta \
-		--outfile   delly_sv_${params.sample_name}.bcf \
+		--outfile   DELLY-0.8.6_${params.dataset_id}_${params.sample_name}.bcf \
 		--map-qual 20 \
 		$input_bam
 	"""

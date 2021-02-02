@@ -18,11 +18,11 @@ process vcftools_validator {
 	path vcf_sv_file
 
 	output:
-	path "delly_sv_${params.sample_name}_validation.txt"
+	path "DELLY-0.8.6_${params.dataset_id}_${params.sample_name}_validation.txt"
 
 	"""
 	set -euo pipefail
 
-	vcf-validator -d -u $vcf_sv_file > delly_sv_${params.sample_name}_validation.txt;
+	vcf-validator -d -u $vcf_sv_file > DELLY-0.8.6_${params.dataset_id}_${params.sample_name}_validation.txt;
 	"""
 }

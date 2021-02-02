@@ -18,11 +18,11 @@ process rtgtools_vcfstats {
 	path vcf_sv_file
 
 	output:
-	path "delly_sv_${params.sample_name}_stats.txt"
+	path "DELLY-0.8.6_${params.dataset_id}_${params.sample_name}_stats.txt"
 
 	"""
 	set -euo pipefail
 
-	rtg vcfstats $vcf_sv_file > delly_sv_${params.sample_name}_stats.txt
+	rtg vcfstats $vcf_sv_file > DELLY-0.8.6_${params.dataset_id}_${params.sample_name}_stats.txt
 	"""
 }
