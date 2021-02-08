@@ -12,7 +12,8 @@
   - [Testing and Validation](#testing-and-validation)
     - [Test Data Set](#test-data-set)
     - [Performance Validation](#performance-validation)
-    - [Quality Check Result Comparison](#quality-check-result-comparison)    
+    - [Quality Check Result Comparison](#quality-check-result-comparison)
+    - [Human Genome Benchmarks](#human-genome-benchmarks)
     - [Validation Tool](#validation-tool)
   - [References](#references)
 
@@ -66,28 +67,25 @@ Running vcf-validate from [VCFTools](https://vcftools.github.io/perl_module.html
 
 ### Input CSV Fields
 
->The input csv should have all columns below and in the same order. An example of an input csv can be found [here](pipeline/inputs/call-gSV.inputs.csv)
+>The input csv should have all columns below and in the same order. An example of an input csv can be found [here](pipeline/inputs/call-gSV.inputs.csv).     For more detail from the Broad Institute read more [here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups).
 
 | Field | Type | Description |
 |:------|:-----|:------------|
-| index -? | integer | The index of input fastq pairs, starting from 1 - confirm if needed |
-| read_group_identifier | string | The read group each read blongs to. This is concatenated with the `lane` column (see below) and then passed to the `ID` field of the final BAM. No white space is allowed. For more detail see [here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups). |
-| sequencing_center | string | The sequencing center where the data were produced. This is passed to the `CN` field of the final BAM. No white space is allowed. For more detail see [here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups) |
-| library_identifier | string | The library identifier to be passed to the `LB` field of the final BAM. No white space is allowed. For more detail see [here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups) |
-| platform_technology | string | The platform or technology used to produce the reads. This is passed to the `PL` field of the final BAM. No white space is allowed. For more detail see [here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups) |
-| platform_unit | string | The platform unit to be passed to the `PU` field of the final BAM. No white space is allowed. For more detail see [here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups) |
-| sample | string | The sample name to be passed to the `SM` field of the final BAM. No white space is allowed. For more detail see [here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups) |
-| lane | string | The lane name or index. This is concatenated with the `read_group_identifier` column (see above) and then passed to the `ID` field of the final BAM. No white space is allowed. For more detail see [here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups) |
-| sorted_bam | path | Absolute path to the BAM file for the sample. |
-
+| patient | string | The patient name to be passed to final BCF. No white space is allowed. |
+| sample | string | The sample name to be passed to final BCF. No white space is allowed. |
+| input_bam | path | Absolute path to the BAM file for the sample. |
+| input_bai | path | Absolute path to the BAI file for the sample. |
+| ref-fa | path | Absolute path to the reference fasta file. |
+| ref_fai | path | Absolute path to the reference fasta index file. |
+| exclusion_tsv | path | Absolute path to the delly exclusion file. |
 
 ### Execute Config File Settings
 
 | Config File | Available Node cpus / memory | Designated Process 1; cpus / memory | Designated Process 2; cpus / memory |
 |:------------|:---------|:-------------------------|:-------------------------|
-| `lowmem.config` | 2 / 3 GB | delly_call_sv; 1 / 3.GB | validate_file; 1 / 1.GB |
-| `midmem.config` | 72 / 136.8 GB | delly_call_sv; 71 / 130.GB | validate_file; 1 / 1.GB |
-| `execute.config` | 64 / 950 GB | delly_call_sv; 1 / 3.GB | validate_file; 1 / 1.GB |
+| `lowmem.config` | 2 / 3 GB | delly_call_sv; 1 / 3 GB | validate_file; 1 / 1 GB |
+| `midmem.config` | 72 / 136.8 GB | delly_call_sv; 71 / 130 GB | validate_file; 1 / 1 GB |
+| `execute.config` | 64 / 950 GB | delly_call_sv; 63 / 940 GB | validate_file; 1 / 1 GB |
 
 ### Methods Config File Parameters
 
@@ -107,18 +105,6 @@ Running vcf-validate from [VCFTools](https://vcftools.github.io/perl_module.html
 | `temp_dir` | yes | path | Absolute path to the directory where the nextflow's intermediate files are saved. |
 | `reference_genome_version` | no | string | The genome build version. This is only used when the output files are directly saved to the Boutros Lab data storage registry, by setting `blcds_registered_dataset_output = true`. |
 | `temp_dir` | yes | path | Absolute path to the directory where the nextflow's intermediate files are saved. |
-| `save_intermediate_files` | yes | boolean | Save intermediate files. If yes, not only the final BAM, but also the unmerged, unsorted, and duplicates unmarked BAM files will also be saved. |
-| `cache_intermediate_pipeline_steps` | yes | boolean | Enable cahcing to resume pipeline and the end of the last successful process completion when a pipeline fails (if true the default submission script must be modified). |
-| `max_number_of_parallel_jobs` | yes | int | The maximum number of jobs or steps of the pipeline that can be ran in parallel. |
-| `bwa_mem_number_of_cpus` | no | int | Number of cores to use for BWA-MEM2. If not set, this will be calculated to ensure at least 2.5Gb memory per core. |
-| `blcds_registered_dataset_input` | yes | boolean | Input BAMss are from the Boutros Lab data registry. |
-| `blcds_registered_dataset_output` | yes | boolean | Enable saving final files and logging files directory to the Boutros Lab Data registry. |
-| `blcds_cluster_slurm` | no | boolean | Pipeline is to run on the Slurm cluster. Set to `false` if it is to run on the SGE cluster. This is used only when `blcds_registered_dataset_output = true` and `blcds_registered_dataset_input = false`. It is also ignored if `blcds_mount_dir` is set. |
-| `blcds_disease_id` | no | string | The registered disease ID of this dataset from the Boutros Lab data registry. Ignored if `blcds_registered_data_input = true` or `blcds_registered_output = false` |
-| `blcds_dataset_id` | no | string | The registered dataset ID of this dataset from the Boutros Lab data registry. Ignored if `blcds_registered_data_input = true` or `blcds_registered_output = false` |
-| `blcds_patient_id` | no | string | The registered patient ID of this sample from the Boutros Lab data registry. Ignored if `blcds_registered_data_input = true` or `blcds_registered_output = false` |
-| `blcds_sample_id` | no | string | The registered sample ID from the Boutros Lab data registry. Ignored if `blcds_registered_data_input = true` or `blcds_registered_output = false` |
-| `blcds_mount_dir` | no | string | The directory that the storage is mounted to (e.g., /hot, /data). |
 
 ---
 
@@ -147,15 +133,18 @@ Testing was performed leveraging aligned and sorted bams generated using bwa-mem
 
 ### Performance Validation
 
-|Test Case | Node Type | Duration | Max CPU | Max Memory |
-|:---------|:----------|:---------|:--------|:-----------|
+|Test Case | Node Type | Duration | CPU Hours | Virtual Memory Usage (RAM) |
+|:---------|:----------|:---------|:----------|:-------------------|
 | amini | lowmem | XX hours | XX CPU | XX Memory |
 | apartial | midmem | XX hours | XX CPU | XX Memory |
-| afull | midmem | XX hours | XX CPU | XX Memory |
+| afull | midmem | 5h 11m 10s | 366.8 | 10.89 GB |
 
 ### Quality Check Result Comparison
+
 |Metric | amini | apartial | afull | Source |
 |:------|:------|:---------|:------|:-------|
+| PRECISE Calls | TBD | TBD | TBD | `grep -c -w  "PRECISE" filename.vcf` |
+| IMPRECISE Calls | TBD | TBD | TBD | `grep -c -w  "IMPRECISE" filename.vcf` |
 | Failed Filters | 3 | TBD | 44991 | `.stats.txt` |
 | Passed Filters | 28 | TBD | 18257 | `.stats.txt` |
 | Structural variant breakends | 2 | TBD | 1124 | `.stats.txt` |
@@ -164,6 +153,10 @@ Testing was performed leveraging aligned and sorted bams generated using bwa-mem
 | Breakend Het/Hom ratio | 1.00 (1/1) | TBD | 13.41 (1046/78) | `.stats.txt` |
 | Symbolic SV Het/Hom ratio | 3.80 (19/5) | TBD | 2.15 (8534/3966) | `.stats.txt` |
 | Duplicate entries | chr21:42043166 | TBD  | chr1:16050024 | `.validate.txt` |
+
+### Human Genome Benchmarks
+Note, per Nature the following benchmarks exist for the human genome:
+“Structural variants affect more bases: the typical genome contains an estimated **2,100 to 2,500 structural variants** (∼1,000 large deletions, ∼160 copy-number variants, ∼915 Alu insertions, ∼128 L1 insertions, ∼51 SVA insertions, ∼4 NUMTs, and ∼10 inversions), affecting ∼20 million bases of sequence.”
 
 ### Validation Tool
 
@@ -177,4 +170,4 @@ Included is a template for validating your input files. For more information on 
 2. [VCFtools - vcf-validator](https://vcftools.github.io/perl_module.html#vcf-validator)
 3. [Real Time Genomics RTG Tools Operations Manual - vcfstats](https://cdn.rawgit.com/RealTimeGenomics/rtg-tools/master/installer/resources/tools/RTGOperationsManual/rtg_command_reference.html#vcfstats)
 4. [Boutros Lab -CallSV Quality Control pipeline]()
-5. [https://tobiasrausch.com/courses/vc/sv/#introduction](https://tobiasrausch.com/courses/vc/sv/#introduction)
+5. [The 1000 Genomes Project Consortium., Corresponding authors., Auton, A. et al. A global reference for human genetic variation. Nature 526, 68–74 (2015). https://doi.org/10.1038/nature15393](https://www.nature.com/articles/nature15393)

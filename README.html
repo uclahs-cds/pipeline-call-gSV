@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="call-germline-structural-variant-pipeline">Call germline Structural Variant Pipeline</h1>
+<ul>
+<li><a href="#pipeline-name">call-gSV</a>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#how-to-run">How To Run</a></li>
+<li><a href="#flow-diagram">Flow Diagram</a></li>
+<li><a href="#pipeline-steps">Pipeline Steps</a>
+<ul>
+<li><a href="#1-calling-structural-variants">1. Calling Structural Variants</a></li>
+<li><a href="#2-check-output-quality">2. Check Output Quality</a></li>
+</ul>
+</li>
+<li><a href="#inputs">Inputs</a></li>
+<li><a href="#outputs">Outputs</a></li>
+<li><a href="#testing-and-validation">Testing and Validation</a>
+<ul>
+<li><a href="#test-data-set">Test Data Set</a></li>
+<li><a href="#performance-validation">Performance Validation</a></li>
+<li><a href="#quality-check-result-comparison">Quality Check Result Comparison</a></li>
+<li><a href="#validation-tool">Validation Tool</a></li>
+</ul>
+</li>
+<li><a href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="overview">Overview</h2>
+<p>The call-gSV nextflow pipeline, calls structural variants utilizing <a href="https://github.com/dellytools/delly">Delly</a>, suitable for detecting copy-number variable deletion and tandem duplication events as well as balanced rearrangements such as inversions or reciprocal translocations and validates the output quality with <a href="https://github.com/samtools/bcftools">BCFtools</a>.  The pipeline has been engineered to run in a 4 layer stack in a cloud-based scalable environment of CycleCloud, Slurm, Nextflow and Docker.  Additionally it has been validated with the SMC-HET dataset and reference GRCh38, where paired-end fastq's were created with BAM Surgeon.</p>
+<p>The pipeline should be run <strong>WITH A SINGLE SAMPLE AT A TIME.</strong>  Otherwise resource allocation and Nextflow errors could cause the pipeline to fail.</p>
+<p><b><i>Developer's Notes:</i></b></p>
+<blockquote>
+<p>TBD - We performed a benchmarking on our SLURM cluster.  Using XX CPUs for structural variant calling (<code>delly_number_of_cpus</code>) gives the best performance.</p>
+</blockquote>
+<hr>
+<h2 id="how-to-run">How To Run</h2>
+<p>Pipelines should be run <strong>WITH A SINGLE SAMPLE AT TIME</strong>. Otherwise resource allocation and Nextflow errors could cause the pipeline to fail</p>
+<ol>
+<li>
+<p>Make sure the pipeline is already downloaded to yoru machine. You can either download the stable release or the dev version by cloning the repo.</p>
+</li>
+<li>
+<p>Create a config file for input, output, and parameters. An example can be found <a href="pipeline/config/call-gSV.config">here</a>. See <a href="#Inputs">Inputs</a> for description of each variables in the config file.</p>
+</li>
+<li>
+<p>Update the input csv. See <a href="#Inputs">Inputs</a> for the columns needed. All columns must exist in order to run the pipeline. An example can be found <a href="pipeline/inputs/call-gSV.inputs.csv">here</a>. The example csv is a single-lane sample. All records must have the same value in the <strong>sample</strong> column.</p>
+</li>
+<li>
+<p>See the submission script, <a href="https://github.com/uclahs-cds/tool-submit-nf">here</a>, to submit your pipeline</p>
+</li>
+</ol>
+<hr>
+<h2 id="flow-diagram">Flow Diagram</h2>
+<p>A directed acyclic graph of your pipeline.</p>
+<p><img src="call-gSV-flowchart-diagram.drawio.svg?raw=true" alt="call-gSV flow diagram"></p>
+<hr>
+<h2 id="pipeline-steps">Pipeline Steps</h2>
+<h3 id="1-calling-structural-variants">1. Calling Structural Variants</h3>
+<p>The first step of the pipeline utilizes an input BAM file and leverages <a href="https://github.com/dellytools/delly">Delly</a> which combines short-range and long-range paired-end mapping and split-read analysis for the discovery of balanced and unbalanced structural variants at single-nucleotide breakbpoint resolution (deletions, tandem duplications, inversions and translocations), to call structural variants, annotate and merge calls into a single bcf file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.</p>
+<h3 id="2-check-output-quality">2. Check Output Quality</h3>
+<p>Running vcf-validate from <a href="https://vcftools.github.io/perl_module.html#vcf-validator">VCFTools</a> and vcfstats from <a href="https://cdn.rawgit.com/RealTimeGenomics/rtg-tools/master/installer/resources/tools/RTGOperationsManual/rtg_command_reference.html#vcfstats">RTGtools</a> generates summary statistics that can be viewed and evaluated in preparation for downstream cohort-wide re-calling and re-genotyping.</p>
+<hr>
+<h2 id="inputs">Inputs</h2>
+<h3 id="input-csv-fields">Input CSV Fields</h3>
+<blockquote>
+<p>The input csv should have all columns below and in the same order. An example of an input csv can be found <a href="pipeline/inputs/call-gSV.inputs.csv">here</a></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Field</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">index -?</td>
+<td style="text-align:left">integer</td>
+<td style="text-align:left">The index of input fastq pairs, starting from 1 - confirm if needed</td>
+</tr>
+<tr>
+<td style="text-align:left">read_group_identifier</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">The read group each read blongs to. This is concatenated with the <code>lane</code> column (see below) and then passed to the <code>ID</code> field of the final BAM. No white space is allowed. For more detail see <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups">here</a>.</td>
+</tr>
+<tr>
+<td style="text-align:left">sequencing_center</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">The sequencing center where the data were produced. This is passed to the <code>CN</code> field of the final BAM. No white space is allowed. For more detail see <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups">here</a></td>
+</tr>
+<tr>
+<td style="text-align:left">library_identifier</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">The library identifier to be passed to the <code>LB</code> field of the final BAM. No white space is allowed. For more detail see <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups">here</a></td>
+</tr>
+<tr>
+<td style="text-align:left">platform_technology</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">The platform or technology used to produce the reads. This is passed to the <code>PL</code> field of the final BAM. No white space is allowed. For more detail see <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups">here</a></td>
+</tr>
+<tr>
+<td style="text-align:left">platform_unit</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">The platform unit to be passed to the <code>PU</code> field of the final BAM. No white space is allowed. For more detail see <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups">here</a></td>
+</tr>
+<tr>
+<td style="text-align:left">sample</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">The sample name to be passed to the <code>SM</code> field of the final BAM. No white space is allowed. For more detail see <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups">here</a></td>
+</tr>
+<tr>
+<td style="text-align:left">lane</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">The lane name or index. This is concatenated with the <code>read_group_identifier</code> column (see above) and then passed to the <code>ID</code> field of the final BAM. No white space is allowed. For more detail see <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups">here</a></td>
+</tr>
+<tr>
+<td style="text-align:left">sorted_bam</td>
+<td style="text-align:left">path</td>
+<td style="text-align:left">Absolute path to the BAM file for the sample.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="execute-config-file-settings">Execute Config File Settings</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Config File</th>
+<th style="text-align:left">Available Node cpus / memory</th>
+<th style="text-align:left">Designated Process 1; cpus / memory</th>
+<th style="text-align:left">Designated Process 2; cpus / memory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>lowmem.config</code></td>
+<td style="text-align:left">2 / 3 GB</td>
+<td style="text-align:left">delly_call_sv; 1 / 3.GB</td>
+<td style="text-align:left">validate_file; 1 / 1.GB</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>midmem.config</code></td>
+<td style="text-align:left">72 / 136.8 GB</td>
+<td style="text-align:left">delly_call_sv; 71 / 130.GB</td>
+<td style="text-align:left">validate_file; 1 / 1.GB</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>execute.config</code></td>
+<td style="text-align:left">64 / 950 GB</td>
+<td style="text-align:left">delly_call_sv; 1 / 3.GB</td>
+<td style="text-align:left">validate_file; 1 / 1.GB</td>
+</tr>
+</tbody>
+</table>
+<h3 id="methods-config-file-parameters">Methods Config File Parameters</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Input Parameter</th>
+<th style="text-align:left">Required</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>dataset_id</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">Boutros lab dataset id.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>blcds_registered_dataset</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">boolean</td>
+<td style="text-align:left">Affirms if dataset is registered in the Boutros Lab Data registry. Default value is false.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>sge_scheduler</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">boolean</td>
+<td style="text-align:left">Affirms whether job will be executed on the SGE cluster. Default value is false.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>sample_name</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">The sample name. This is ignored if the output files are directly saved to the Boutros Lab data storage registry, by setting <code>blcds_registered_dataset_output = true</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>input_bam</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">path</td>
+<td style="text-align:left">Absolute path to the input <code>bam</code> file which should be aligned and sorted</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>input_bam_index</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">path</td>
+<td style="text-align:left">Absolute path to the input bam index.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>reference_fasta</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">path</td>
+<td style="text-align:left">Absolute path to the reference genome <code>fasta</code> file. The reference genome is used by Delly for structural variant calling.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>exclusion_file</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">path</td>
+<td style="text-align:left">Absolute path to the delly reference genome <code>exclusion</code> file utilized to remove suggested regions for structural variant calling.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>run_qc</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">boolean</td>
+<td style="text-align:left">Optional parameter to indicate whether subsequent quality checks should be run. Default value is false.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>output_dir</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">path</td>
+<td style="text-align:left">Absolute path to the directory where the output files to be saved.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>output_log_dir</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">path</td>
+<td style="text-align:left">Absolute path to the directory where the output log files to be saved.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>temp_dir</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">path</td>
+<td style="text-align:left">Absolute path to the directory where the nextflow's intermediate files are saved.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>reference_genome_version</code></td>
+<td style="text-align:left">no</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">The genome build version. This is only used when the output files are directly saved to the Boutros Lab data storage registry, by setting <code>blcds_registered_dataset_output = true</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>temp_dir</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">path</td>
+<td style="text-align:left">Absolute path to the directory where the nextflow's intermediate files are saved.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>save_intermediate_files</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">boolean</td>
+<td style="text-align:left">Save intermediate files. If yes, not only the final BAM, but also the unmerged, unsorted, and duplicates unmarked BAM files will also be saved.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>cache_intermediate_pipeline_steps</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">boolean</td>
+<td style="text-align:left">Enable cahcing to resume pipeline and the end of the last successful process completion when a pipeline fails (if true the default submission script must be modified).</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>max_number_of_parallel_jobs</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">int</td>
+<td style="text-align:left">The maximum number of jobs or steps of the pipeline that can be ran in parallel.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>bwa_mem_number_of_cpus</code></td>
+<td style="text-align:left">no</td>
+<td style="text-align:left">int</td>
+<td style="text-align:left">Number of cores to use for BWA-MEM2. If not set, this will be calculated to ensure at least 2.5Gb memory per core.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>blcds_registered_dataset_input</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">boolean</td>
+<td style="text-align:left">Input BAMss are from the Boutros Lab data registry.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>blcds_registered_dataset_output</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">boolean</td>
+<td style="text-align:left">Enable saving final files and logging files directory to the Boutros Lab Data registry.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>blcds_cluster_slurm</code></td>
+<td style="text-align:left">no</td>
+<td style="text-align:left">boolean</td>
+<td style="text-align:left">Pipeline is to run on the Slurm cluster. Set to <code>false</code> if it is to run on the SGE cluster. This is used only when <code>blcds_registered_dataset_output = true</code> and <code>blcds_registered_dataset_input = false</code>. It is also ignored if <code>blcds_mount_dir</code> is set.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>blcds_disease_id</code></td>
+<td style="text-align:left">no</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">The registered disease ID of this dataset from the Boutros Lab data registry. Ignored if <code>blcds_registered_data_input = true</code> or <code>blcds_registered_output = false</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>blcds_dataset_id</code></td>
+<td style="text-align:left">no</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">The registered dataset ID of this dataset from the Boutros Lab data registry. Ignored if <code>blcds_registered_data_input = true</code> or <code>blcds_registered_output = false</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>blcds_patient_id</code></td>
+<td style="text-align:left">no</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">The registered patient ID of this sample from the Boutros Lab data registry. Ignored if <code>blcds_registered_data_input = true</code> or <code>blcds_registered_output = false</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>blcds_sample_id</code></td>
+<td style="text-align:left">no</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">The registered sample ID from the Boutros Lab data registry. Ignored if <code>blcds_registered_data_input = true</code> or <code>blcds_registered_output = false</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>blcds_mount_dir</code></td>
+<td style="text-align:left">no</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">The directory that the storage is mounted to (e.g., /hot, /data).</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="outputs">Outputs</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Output</th>
+<th style="text-align:left">Required</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>.bcf</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">Binary VCF output format with structural variants if found.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>.bcf.csi</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">CSI-format index for BAM files.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>.validate.txt</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">output file from vcf-validator.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>.stats.txt</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">output file from rtgtools.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>report.html</code>, <code>timeline.html</code> and <code>trace.txt</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">A Nextflowreport, timeline and trace files.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>log.command.*</code></td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">Process specific logging files created by nextflow.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="testing-and-validation">Testing and Validation</h2>
+<h3 id="test-data-set">Test Data Set</h3>
+<p>Testing was performed leveraging aligned and sorted bams generated using bwa-mem2-2.1 against reference GRCh38:</p>
+<ul>
+<li><strong>amini:</strong>    BWA-MEM2-2.1_TEST0000000_TWGSAMIN000001-T002-S02-F.bam and bai</li>
+<li><strong>apartial:</strong> BWA-MEM2-2.1_TEST0000000_TWGSAPRT000001-T001-S01-F.bam and bai</li>
+<li><strong>afull:</strong>    a-full-CPCG0196-B1.bam and bai</li>
+</ul>
+<h3 id="performance-validation">Performance Validation</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Test Case</th>
+<th style="text-align:left">Node Type</th>
+<th style="text-align:left">Duration</th>
+<th style="text-align:left">Max CPU</th>
+<th style="text-align:left">Max Memory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">amini</td>
+<td style="text-align:left">lowmem</td>
+<td style="text-align:left">XX hours</td>
+<td style="text-align:left">XX CPU</td>
+<td style="text-align:left">XX Memory</td>
+</tr>
+<tr>
+<td style="text-align:left">apartial</td>
+<td style="text-align:left">midmem</td>
+<td style="text-align:left">XX hours</td>
+<td style="text-align:left">XX CPU</td>
+<td style="text-align:left">XX Memory</td>
+</tr>
+<tr>
+<td style="text-align:left">afull</td>
+<td style="text-align:left">midmem</td>
+<td style="text-align:left">XX hours</td>
+<td style="text-align:left">XX CPU</td>
+<td style="text-align:left">XX Memory</td>
+</tr>
+</tbody>
+</table>
+<h3 id="quality-check-result-comparison">Quality Check Result Comparison</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Metric</th>
+<th style="text-align:left">amini</th>
+<th style="text-align:left">apartial</th>
+<th style="text-align:left">afull</th>
+<th style="text-align:left">Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Failed Filters</td>
+<td style="text-align:left">3</td>
+<td style="text-align:left">TBD</td>
+<td style="text-align:left">44991</td>
+<td style="text-align:left"><code>.stats.txt</code></td>
+</tr>
+<tr>
+<td style="text-align:left">Passed Filters</td>
+<td style="text-align:left">28</td>
+<td style="text-align:left">TBD</td>
+<td style="text-align:left">18257</td>
+<td style="text-align:left"><code>.stats.txt</code></td>
+</tr>
+<tr>
+<td style="text-align:left">Structural variant breakends</td>
+<td style="text-align:left">2</td>
+<td style="text-align:left">TBD</td>
+<td style="text-align:left">1124</td>
+<td style="text-align:left"><code>.stats.txt</code></td>
+</tr>
+<tr>
+<td style="text-align:left">Symbolic structural variants</td>
+<td style="text-align:left">24</td>
+<td style="text-align:left">TBD</td>
+<td style="text-align:left">12500</td>
+<td style="text-align:left"><code>.stats.txt</code></td>
+</tr>
+<tr>
+<td style="text-align:left">Total Het/Hom ratio</td>
+<td style="text-align:left">3.33 (20/6)</td>
+<td style="text-align:left">TBD</td>
+<td style="text-align:left">2.37 (9580/4044)</td>
+<td style="text-align:left"><code>.stats.txt</code></td>
+</tr>
+<tr>
+<td style="text-align:left">Breakend Het/Hom ratio</td>
+<td style="text-align:left">1.00 (1/1)</td>
+<td style="text-align:left">TBD</td>
+<td style="text-align:left">13.41 (1046/78)</td>
+<td style="text-align:left"><code>.stats.txt</code></td>
+</tr>
+<tr>
+<td style="text-align:left">Symbolic SV Het/Hom ratio</td>
+<td style="text-align:left">3.80 (19/5)</td>
+<td style="text-align:left">TBD</td>
+<td style="text-align:left">2.15 (8534/3966)</td>
+<td style="text-align:left"><code>.stats.txt</code></td>
+</tr>
+<tr>
+<td style="text-align:left">Duplicate entries</td>
+<td style="text-align:left">chr21:42043166</td>
+<td style="text-align:left">TBD</td>
+<td style="text-align:left">chr1:16050024</td>
+<td style="text-align:left"><code>.validate.txt</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="validation-tool">Validation Tool</h3>
+<p>Included is a template for validating your input files. For more information on the tool check out: https://github.com/uclahs-cds/tool-validate-nf</p>
+<hr>
+<h2 id="references">References</h2>
+<ol>
+<li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3436805/">Rausch T, Zichner T, Schlattl A, Stütz AM, Benes V, Korbel JO. DELLY: structural variant discovery by integrated paired-end and split-read analysis. Bioinformatics. 2012;28(18):i333-i339. doi:10.1093/bioinformatics/bts378</a></li>
+<li><a href="https://vcftools.github.io/perl_module.html#vcf-validator">VCFtools - vcf-validator</a></li>
+<li><a href="https://cdn.rawgit.com/RealTimeGenomics/rtg-tools/master/installer/resources/tools/RTGOperationsManual/rtg_command_reference.html#vcfstats">Real Time Genomics RTG Tools Operations Manual - vcfstats</a></li>
+<li><a href="">Boutros Lab -CallSV Quality Control pipeline</a></li>
+<li><a href="https://tobiasrausch.com/courses/vc/sv/#introduction">https://tobiasrausch.com/courses/vc/sv/#introduction</a></li>
+</ol>
+
+</body>
+</html>
