@@ -36,7 +36,6 @@ delly_bam_ch = Channel
     				file(row.exclusion_tsv)
     				)
     	}
-    .collect()
 
 // Create channel for validation
 validation_channel = Channel
