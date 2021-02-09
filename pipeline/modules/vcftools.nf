@@ -15,14 +15,15 @@ process vcftools_validator {
 	publishDir params.output_dir, mode: "copy"
 
 	input:
+	tuple val(patient), val(sample), path(input_bam), path(input_bai), path(ref_fa), path(ref_fai), path(exclusion_tsv)
 	path vcf_sv_file
 
 	output:
-	path "DELLY-0.8.6_${params.dataset_id}_${params.sample_name}_validation.txt"
+	path "DELLY-0.8.6_${params.dataset_id}_${sample}_validation.txt"
 
 	"""
 	set -euo pipefail
 
-	vcf-validator -d -u $vcf_sv_file > DELLY-0.8.6_${params.dataset_id}_${params.sample_name}_validation.txt;
+	vcf-validator -d -u $vcf_sv_file > DELLY-0.8.6_${params.dataset_id}_${sample}_validation.txt;
 	"""
 }

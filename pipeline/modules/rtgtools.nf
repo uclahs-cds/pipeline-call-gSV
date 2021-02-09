@@ -15,14 +15,15 @@ process rtgtools_vcfstats {
 	publishDir params.output_dir, mode: "copy"
 
 	input:
+	tuple val(patient), val(sample), path(input_bam), path(input_bai), path(ref_fa), path(ref_fai), path(exclusion_tsv)
 	path vcf_sv_file
 
 	output:
-	path "DELLY-0.8.6_${params.dataset_id}_${params.sample_name}_stats.txt"
+	path "DELLY-0.8.6_${params.dataset_id}_${sample}_stats.txt"
 
 	"""
 	set -euo pipefail
 
-	rtg vcfstats $vcf_sv_file > DELLY-0.8.6_${params.dataset_id}_${params.sample_name}_stats.txt
+	rtg vcfstats $vcf_sv_file > DELLY-0.8.6_${params.dataset_id}_${sample}_stats.txt
 	"""
 }
