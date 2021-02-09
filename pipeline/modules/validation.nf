@@ -12,10 +12,11 @@ process validate_file {
     container docker_image_validation
 
     input:
-    path file_to_validate
+    tuple path(input_bam), path(input_bai),
+    //path file_to_validate
 
     """
     set -euo pipefail
-    python -m validate -t file-input ${file_to_validate}
+    python -m validate -t file-input ${input_bam}
     """
 }

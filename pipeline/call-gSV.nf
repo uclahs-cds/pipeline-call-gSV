@@ -42,7 +42,7 @@ delly_bam_ch = Channel
 validation_channel = Channel
 	.fromPath(params.input_csv, checkIfExists:true)
 	.splitCsv(header:true)
-	.map{ row -> [file(row.input_bam),file(row.input_bai)]}
+	.map{ row -> tuple(file(row.input_bam),file(row.input_bai))}
 	.collect()
 
 workflow {
