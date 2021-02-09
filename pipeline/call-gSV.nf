@@ -38,8 +38,13 @@ delly_bam_ch = Channel
     	}
     .collect()
 
+// Create channel for validation
+input_csv
+  .flatMap{[it.input_bam, it.input_bai]}
+  .set{ input_validation }
+
 workflow {
-    //validate_file(channel.fromList([delly_bam_ch[2], delly_bam_ch[3]]))
+    validate_file(input_validation)
     delly_call_sv(delly_bam_ch)
     bcftools_vcf(delly_bam_ch, delly_call_sv.out.bcf_sv_file)
     if (params.run_qc) {
