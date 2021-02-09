@@ -39,9 +39,11 @@ delly_bam_ch = Channel
     .collect()
 
 // Create channel for validation
-input_csv
-  .flatMap{[it.input_bam, it.input_bai]}
-  .set{ input_validation }
+validation_channel = Channel
+	.fromPath(params.input_csv, checkIfExists:true)
+	.splitCsv(header:true)
+	.map{ row -> [file(row.input_bam),file(row.input_bai)]}
+	.collect()
 
 workflow {
     validate_file(input_validation)
