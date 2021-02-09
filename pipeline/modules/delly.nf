@@ -32,6 +32,6 @@ process delly_call_sv {
 		--genome    $ref-fa \
 		--outfile   DELLY-0.8.6_${params.dataset_id}_${sample}.bcf \
 		--map-qual 20 \
-		$input_bam
+		$input-bam
 	"""
 }
