@@ -22,9 +22,9 @@ include { bcftools_vcf } from './modules/bcftools'
 include { rtgtools_vcfstats } from './modules/rtgtools'
 include { vcftools_validator } from './modules/vcftools'
 
-Channel
+delly_bam_ch = Channel
     .fromPath(params.input_csv, checkIfExists:true)
-    .ifEmpty { error "Cannot find input csv: ${params.input_csv}"}
+    //.ifEmpty { error "Cannot find input csv: ${params.input_csv}"}
     .splitCsv(header:true)
     .map{ row -> tuple(
     				row.patient,
@@ -36,7 +36,7 @@ Channel
     				row.exclusion-tsv
     				)
     	}
-    .into { delly_bam_ch }
+    .collect()
 
 workflow {
     //validate_file(channel.fromList([params.input_bam, params.input_bam_index]))
