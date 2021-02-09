@@ -18,7 +18,7 @@ Starting workflow...
 
 //include { validate_file } from './modules/validation'
 include { delly_call_sv } from './modules/delly'
-//include { bcftools_vcf } from './modules/bcftools'
+include { bcftools_vcf } from './modules/bcftools'
 //include { rtgtools_vcfstats } from './modules/rtgtools'
 //include { vcftools_validator } from './modules/vcftools'
 
