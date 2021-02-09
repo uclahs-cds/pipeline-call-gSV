@@ -42,7 +42,7 @@ workflow {
     //validate_file(channel.fromList([params.input_bam, params.input_bam_index]))
     //delly_call_sv(params.exclusion_file, params.reference_fasta, [params.input_bam, params.input_bam_index])
     delly_call_sv(delly_bam_ch)
-    bcftools_vcf(delly_call_sv.out.bcf_sv_file)
+    bcftools_vcf(delly_bam_ch, delly_call_sv.out.bcf_sv_file)
     //if (params.run_qc) {
     //    rtgtools_vcfstats(bcftools_vcf.out.vcf_sv_file)
     //    vcftools_validator(bcftools_vcf.out.vcf_sv_file)

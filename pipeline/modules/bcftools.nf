@@ -15,6 +15,7 @@ process bcftools_vcf {
 	publishDir params.output_dir, mode: "copy"
 
 	input:
+	tuple val(patient), val(sample), path(input_bam), path(input_bai), path(ref_fa), path(ref_fai), path(exclusion_tsv)
 	path bcf_sv_file
 
 	output:
