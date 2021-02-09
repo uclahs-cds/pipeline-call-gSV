@@ -46,7 +46,7 @@ validation_channel = Channel
 	.collect()
 
 workflow {
-    validate_file(input_validation)
+    validate_file(validation_channel)
     delly_call_sv(delly_bam_ch)
     bcftools_vcf(delly_bam_ch, delly_call_sv.out.bcf_sv_file)
     if (params.run_qc) {
