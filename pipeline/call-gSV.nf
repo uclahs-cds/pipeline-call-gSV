@@ -39,7 +39,7 @@ delly_bam_ch = Channel
     .collect()
 
 workflow {
-    validate_file(channel.fromList([delly_bam_ch[2], delly_bam_ch[3]]))
+    //validate_file(channel.fromList([delly_bam_ch[2], delly_bam_ch[3]]))
     delly_call_sv(delly_bam_ch)
     bcftools_vcf(delly_bam_ch, delly_call_sv.out.bcf_sv_file)
     if (params.run_qc) {
