@@ -16,11 +16,11 @@ Starting workflow...
 """
 .stripIndent()
 
-include { validate_file } from './modules/validation'
+//include { validate_file } from './modules/validation'
 include { delly_call_sv } from './modules/delly'
-include { bcftools_vcf } from './modules/bcftools'
-include { rtgtools_vcfstats } from './modules/rtgtools'
-include { vcftools_validator } from './modules/vcftools'
+//include { bcftools_vcf } from './modules/bcftools'
+//include { rtgtools_vcfstats } from './modules/rtgtools'
+//include { vcftools_validator } from './modules/vcftools'
 
 delly_bam_ch = Channel
     .fromPath(params.input_csv, checkIfExists:true)
@@ -29,8 +29,8 @@ delly_bam_ch = Channel
     .map{ row -> tuple(
     				row.patient,
     				row.sample,
-    				row.input-bam,
-    				row.input-bai,
+    				row.input_bam,
+    				row.input_bai,
     				row.ref-fa,
     				row.ref-fai,
     				row.exclusion-tsv

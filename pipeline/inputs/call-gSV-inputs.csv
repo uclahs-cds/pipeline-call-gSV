@@ -1,2 +1,2 @@
-patient,sample,input-bam,input-bai,ref-fa,ref-fai,exclusion-tsv
+patient,sample,input_bam,input_bai,ref_fa,ref_fai,exclusion_tsv
 patient-name,sample-name,/path/to/sample.bam,/path/to/sample.bam.bai,/path/to/fasta.fa,/path/to/fasta.fa.fai,/path/to/exclusion.tsv

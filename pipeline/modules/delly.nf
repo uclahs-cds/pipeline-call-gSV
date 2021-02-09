@@ -18,7 +18,7 @@ process delly_call_sv {
 	//path exclusion_file
 	//path reference_fasta
 	//tuple path(input_bam), path(input_bam_index)
-	tuple patient, sample, path(input-bam), path(input-bai), path(ref-fa), path(ref-fai), path(exclusion-tsv)
+	tuple patient, sample, path(input_bam), path(input_bai), path(ref_fa), path(ref_fai), path(exclusion_tsv)
 
 	output:
 	//path "DELLY-0.8.6_${params.dataset_id}_${params.sample_name}.bcf", emit: bcf_sv_file
@@ -32,6 +32,6 @@ process delly_call_sv {
 		--genome    $ref-fa \
 		--outfile   DELLY-0.8.6_${params.dataset_id}_${sample}.bcf \
 		--map-qual 20 \
-		$input-bam
+		$input_bam
 	"""
 }
