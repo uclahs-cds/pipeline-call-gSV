@@ -18,18 +18,19 @@ process delly_call_sv {
 	//path exclusion_file
 	//path reference_fasta
 	//tuple path(input_bam), path(input_bam_index)
-	tuple patient, sample, path(input_bam), path(input_bai), path(ref_fa), path(ref_fai), path(exclusion_tsv)
+	tuple val(patient), val(sample), path(input_bam), path(input_bai), path(ref_fa), path(ref_fai), path(exclusion_tsv)
+
 
 	output:
-	//path "DELLY-0.8.6_${params.dataset_id}_${params.sample_name}.bcf", emit: bcf_sv_file
+	//path "DELLY-0.8.6_${params.dataset_id}_${sample_name}.bcf", emit: bcf_sv_file
 	path "DELLY-0.8.6_${params.dataset_id}_${sample}.bcf", emit: bcf_sv_file
 
 	"""
 	set -euo pipefail
 	delly \
 		call \
-		--exclude   $exclusion-tsv \
-		--genome    $ref-fa \
+		--exclude   $exclusion_tsv \
+		--genome    $ref_fa \
 		--outfile   DELLY-0.8.6_${params.dataset_id}_${sample}.bcf \
 		--map-qual 20 \
 		$input_bam

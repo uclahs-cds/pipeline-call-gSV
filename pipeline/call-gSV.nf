@@ -29,11 +29,11 @@ delly_bam_ch = Channel
     .map{ row -> tuple(
     				row.patient,
     				row.sample,
-    				row.input_bam,
-    				row.input_bai,
-    				row.ref-fa,
-    				row.ref-fai,
-    				row.exclusion-tsv
+    				file(row.input_bam),
+    				file(row.input_bai),
+    				file(row.ref_fa),
+    				file(row.ref_fai),
+    				file(row.exclusion_tsv)
     				)
     	}
     .collect()
