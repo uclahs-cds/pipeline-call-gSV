@@ -25,7 +25,7 @@ The pipeline should be run **WITH A SINGLE SAMPLE AT A TIME.**  Otherwise resour
 
 <b><i>Developer's Notes:</i></b>
 
-> TBD - We performed a benchmarking on our SLURM cluster.  Using XX CPUs for structural variant calling (`delly_number_of_cpus`) gives the best performance.
+> TBD - We performed a benchmarking on our SLURM cluster.  Using 71 CPUs for structural variant calling gives the best performance.
 
 ---
 
@@ -33,9 +33,9 @@ The pipeline should be run **WITH A SINGLE SAMPLE AT A TIME.**  Otherwise resour
 
 Pipelines should be run **WITH A SINGLE SAMPLE AT TIME**. Otherwise resource allocation and Nextflow errors could cause the pipeline to fail
 
-1. Make sure the pipeline is already downloaded to yoru machine. You can either download the stable release or the dev version by cloning the repo.  
+1. Make sure the pipeline is already downloaded to your machine. You can either download the stable release or the dev version by cloning the repo.  
 
-2. Create a config file for input, output, and parameters. An example can be found [here](pipeline/config/call-gSV.config). See [Inputs](#Inputs) for description of each variables in the config file.
+2. Update the nextflow.config file for input, output, and parameters. An example can be found [here](pipeline/config/call-gSV.config). See [Inputs](#Inputs) for description of each variables in the config file.
 
 3. Update the input csv. See [Inputs](#Inputs) for the columns needed. All columns must exist in order to run the pipeline. An example can be found [here](pipeline/inputs/call-gSV.inputs.csv). The example csv is a single-lane sample. All records must have the same value in the **sample** column.
  
@@ -74,10 +74,6 @@ Running vcf-validate from [VCFTools](https://vcftools.github.io/perl_module.html
 | patient | string | The patient name to be passed to final BCF. No white space is allowed. |
 | sample | string | The sample name to be passed to final BCF. No white space is allowed. |
 | input_bam | path | Absolute path to the BAM file for the sample. |
-| input_bai | path | Absolute path to the BAI file for the sample. |
-| ref-fa | path | Absolute path to the reference fasta file. |
-| ref_fai | path | Absolute path to the reference fasta index file. |
-| exclusion_tsv | path | Absolute path to the delly exclusion file. |
 
 ### Execute Config File Settings
 
@@ -133,26 +129,35 @@ Testing was performed leveraging aligned and sorted bams generated using bwa-mem
 
 ### Performance Validation
 
-|Test Case | Node Type | Duration | CPU Hours | Virtual Memory Usage (RAM) |
-|:---------|:----------|:---------|:----------|:-------------------|
-| amini | lowmem | XX hours | XX CPU | XX Memory |
-| apartial | midmem | XX hours | XX CPU | XX Memory |
-| afull | midmem | 5h 11m 10s | 366.8 | 10.89 GB |
+|Test Case | Test Date | Node Type | Duration | CPU Hours | Virtual Memory Usage (RAM) -peak rss |
+|:---------|:----------|:----------|:---------|:----------|:---------------------------|
+| amini | 2021-01-27 | lowmem | 2m 35s | a few seconds | 201.5 MB |
+| apartial | 2021-02-10 | midmem | 42m 5s | 48.8 | 8.9 GB Memory |
+| afull | 2021-2-10 | midmem | 7h 10m 43s | 509.0 | 10.9 GB |
 
 ### Quality Check Result Comparison
 
 |Metric | amini | apartial | afull | Source |
 |:------|:------|:---------|:------|:-------|
-| PRECISE Calls | TBD | TBD | TBD | `grep -c -w  "PRECISE" filename.vcf` |
-| IMPRECISE Calls | TBD | TBD | TBD | `grep -c -w  "IMPRECISE" filename.vcf` |
-| Failed Filters | 3 | TBD | 44991 | `.stats.txt` |
-| Passed Filters | 28 | TBD | 18257 | `.stats.txt` |
-| Structural variant breakends | 2 | TBD | 1124 | `.stats.txt` |
-| Symbolic structural variants | 24 | TBD | 12500 | `.stats.txt` |
-| Total Het/Hom ratio | 3.33 (20/6) | TBD | 2.37 (9580/4044) | `.stats.txt` |
-| Breakend Het/Hom ratio | 1.00 (1/1) | TBD | 13.41 (1046/78) | `.stats.txt` |
-| Symbolic SV Het/Hom ratio | 3.80 (19/5) | TBD | 2.15 (8534/3966) | `.stats.txt` |
-| Duplicate entries | chr21:42043166 | TBD  | chr1:16050024 | `.validate.txt` |
+| Count Calls | 3 | 2612 | 63248 | `grep -c "^chr" filename.vcf` |
+| Count Pass | 3 | 2593 | 62704 | `grep -c -w  "PASS" filename.vcf -1` |
+| Count Deletion | 2 | 1475 | 49433 | `grep -c -w  "SVTYPE=DEL" filename.vcf` |
+| Count Duplication | 1 | 170 | 2311 | `grep -c -w  "SVTYPE=DUP" filename.vcf` |
+| Count Inversion | 0 | 317 | 2801 | `grep -c -w  "SVTYPE=INV" filename.vcf` |
+| Count Translocation | 0 | 384 | 7439 | `grep -c -w  "SVTYPE=BND" filename.vcf` |
+| Count Insertion | 0 | 267 | 1265 | `grep -c -w  "SVTYPE=INS" filename.vcf` |
+| PRECISE Calls | 3 | 1850 | 11541 | `grep -c -w  "PRECISE" filename.vcf` |
+| IMPRECISE Calls | 2 | 764 | 51709 | `grep -c -w  "IMPRECISE" filename.vcf` |
+| Failed Filters | 0 | 653 | 44991 | `.stats.txt` |
+| Passed Filters | 3 | 1959 | 18257 | `.stats.txt` |
+| Structural variant breakends | 0 | 219 | 1124 | `.stats.txt` |
+| Symbolic structural variants | 2 | 1559 | 12500 | `.stats.txt` |
+| Same as reference | 1 | 263 | 4595 | `.stats.txt` |
+| Missing Genotype | 0 | 8 | 38 | `.stats.txt` | 
+| Total Het/Hom ratio | (2/0) | 1.00 (843/845) | 2.37 (9580/4044) | `.stats.txt` |
+| Breakend Het/Hom ratio | (0/0) | 0.84 (59/70) | 13.41 (1046/78) | `.stats.txt` |
+| Symbolic SV Het/Hom ratio | (2/0) | 1.01 (784/775) | 2.15 (8534/3966) | `.stats.txt` |
+| Duplicate entries | 0 errors total | 1 error chr8:3893339  | 1 error chr1:16050024 | `.validate.txt` |
 
 ### Human Genome Benchmarks
 Note, per Nature the following benchmarks exist for the human genome:
