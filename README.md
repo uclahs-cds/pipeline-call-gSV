@@ -1,4 +1,4 @@
-# Call germline Structural Variant Pipeline
+# Call Germline Structural Variant Pipeline
 
 - [call-gSV](#pipeline-name)
   - [Overview](#overview)
@@ -25,8 +25,15 @@ The pipeline should be run **WITH A SINGLE SAMPLE AT A TIME.**  Otherwise resour
 
 <b><i>Developer's Notes:</i></b>
 
-> TBD - We performed a benchmarking on our SLURM cluster.  Using 71 CPUs for structural variant calling gives the best performance.
+> We will be performing benchmarking on our SLURM cluster.  Currently using 71 CPUs for structural variant calling gives the best performance, running in 3-8 hours per sample with ~10GB of memory.  <i>...Stay tuned for updates from further testing.</i>
 
+### Execute Config File Settings
+
+| Config File | Available Node cpus / memory | Designated Process 1; cpus / memory | Designated Process 2; cpus / memory |
+|:------------|:---------|:-------------------------|:-------------------------|
+| `lowmem.config` | 2 / 3 GB | delly_call_sv; 1 / 3 GB | validate_file; 1 / 1 GB |
+| `midmem.config` | 72 / 136.8 GB | delly_call_sv; 71 / 130 GB | validate_file; 1 / 1 GB |
+| `execute.config` | 64 / 950 GB | delly_call_sv; 63 / 940 GB | validate_file; 1 / 1 GB |
 ---
 
 ## How To Run
@@ -35,7 +42,7 @@ Pipelines should be run **WITH A SINGLE SAMPLE AT TIME**. Otherwise resource all
 
 1. Make sure the pipeline is already downloaded to your machine. You can either download the stable release or the dev version by cloning the repo.  
 
-2. Update the nextflow.config file for input, output, and parameters. An example can be found [here](pipeline/config/call-gSV.config). See [Inputs](#Inputs) for description of each variables in the config file.
+2. Update the nextflow.config file for input, output, and parameters. An example can be found [here](pipeline/config/nextflow.config). See [Inputs](#Inputs) for description of each variables in the config file.
 
 3. Update the input csv. See [Inputs](#Inputs) for the columns needed. All columns must exist in order to run the pipeline. An example can be found [here](pipeline/inputs/call-gSV.inputs.csv). The example csv is a single-lane sample. All records must have the same value in the **sample** column.
  
@@ -55,7 +62,13 @@ A directed acyclic graph of your pipeline.
 
 ### 1. Calling Structural Variants
 
-The first step of the pipeline utilizes an input BAM file and leverages [Delly](https://github.com/dellytools/delly) which combines short-range and long-range paired-end mapping and split-read analysis for the discovery of balanced and unbalanced structural variants at single-nucleotide breakbpoint resolution (deletions, tandem duplications, inversions and translocations), to call structural variants, annotate and merge calls into a single bcf file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
+The first step of the pipeline requires an aligned and sorted BAM file and BAM index as an input for variant calling with [Delly.](https://github.com/dellytools/delly) Delly combines short-range and long-range paired-end mapping and split-read analysis for the discovery of balanced and unbalanced structural variants at single-nucleotide breakpoint resolution (deletions, tandem duplications, inversions and translocations.) Structural variants are called, annotated and merged into a single bcf file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
+
+Currently the following filters are applied and or considered for application and parameterization in subsequent releases:
+* **map-qual:** >20 (Applied / Non-parameterized)    
+* **pe:** >= 5 (Not yet Applied / Non-parameterized)
+* **sr:** >= 5 (Not yet Applied / Non-parameterized)
+* **keep_imprecise:** >= true (Not yet Applied / Non-parameterized)
 
 ### 2. Check Output Quality
 
@@ -65,41 +78,32 @@ Running vcf-validate from [VCFTools](https://vcftools.github.io/perl_module.html
 
 ## Inputs
 
-### Input CSV Fields
+### Input CSV
 
->The input csv should have all columns below and in the same order. An example of an input csv can be found [here](pipeline/inputs/call-gSV.inputs.csv).     For more detail from the Broad Institute read more [here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups).
+>The input csv should have all columns below and in the same order. An example of an input csv can be found [here](pipeline/inputs/call-gSV-inputs.csv).
 
 | Field | Type | Description |
 |:------|:-----|:------------|
-| patient | string | The patient name to be passed to final BCF. No white space is allowed. |
-| sample | string | The sample name to be passed to final BCF. No white space is allowed. |
+| patient-name | string | The patient name to be passed to final BCF. No white space is allowed. |
+| sample-name | string | The sample name to be passed to final BCF. No white space is allowed. |
 | input_bam | path | Absolute path to the BAM file for the sample. |
 
-### Execute Config File Settings
 
-| Config File | Available Node cpus / memory | Designated Process 1; cpus / memory | Designated Process 2; cpus / memory |
-|:------------|:---------|:-------------------------|:-------------------------|
-| `lowmem.config` | 2 / 3 GB | delly_call_sv; 1 / 3 GB | validate_file; 1 / 1 GB |
-| `midmem.config` | 72 / 136.8 GB | delly_call_sv; 71 / 130 GB | validate_file; 1 / 1 GB |
-| `execute.config` | 64 / 950 GB | delly_call_sv; 63 / 940 GB | validate_file; 1 / 1 GB |
 
-### Methods Config File Parameters
+### Nextflow Config File Parameters
 
 | Input Parameter | Required | Type | Description |
 |:----------------|:---------|:-----|:------------|
 | `dataset_id` | yes | string | Boutros lab dataset id. |
 | `blcds_registered_dataset` | yes | boolean | Affirms if dataset is registered in the Boutros Lab Data registry. Default value is false. |
 | `sge_scheduler` | yes | boolean | Affirms whether job will be executed on the SGE cluster. Default value is false. |
-| `sample_name` | yes | string | The sample name. This is ignored if the output files are directly saved to the Boutros Lab data storage registry, by setting `blcds_registered_dataset_output = true` |
-| `input_bam` | yes | path | Absolute path to the input `bam` file which should be aligned and sorted |
-| `input_bam_index` | yes | path | Absolute path to the input bam index. |
+| `input_csv` | yes | string | Absolute path to the input csv file for the pipeline. |
 | `reference_fasta` | yes | path | Absolute path to the reference genome `fasta` file. The reference genome is used by Delly for structural variant calling. |
 | `exclusion_file` | yes | path | Absolute path to the delly reference genome `exclusion` file utilized to remove suggested regions for structural variant calling. |
 | `run_qc` | yes | boolean | Optional parameter to indicate whether subsequent quality checks should be run. Default value is false. |
+| `save_intermediate_files` | yes | boolean | Optional parameter to indicate whether intermediate files will be saved. Default value is true. |
 | `output_dir` | yes | path | Absolute path to the directory where the output files to be saved. |
 | `output_log_dir` | yes | path | Absolute path to the directory where the output log files to be saved. |
-| `temp_dir` | yes | path | Absolute path to the directory where the nextflow's intermediate files are saved. |
-| `reference_genome_version` | no | string | The genome build version. This is only used when the output files are directly saved to the Boutros Lab data storage registry, by setting `blcds_registered_dataset_output = true`. |
 | `temp_dir` | yes | path | Absolute path to the directory where the nextflow's intermediate files are saved. |
 
 ---
@@ -109,6 +113,7 @@ Running vcf-validate from [VCFTools](https://vcftools.github.io/perl_module.html
 | Output | Required | Description |
 |:-------|:---------|:------------|
 | `.bcf` | yes | Binary VCF output format with structural variants if found. |
+| `.vcf` | yes | VCF output format with structural variants if found. |
 | `.bcf.csi` | yes | CSI-format index for BAM files. |
 | `.validate.txt` | yes | output file from vcf-validator. |
 | `.stats.txt` | yes | output file from rtgtools. |
@@ -123,41 +128,42 @@ Running vcf-validate from [VCFTools](https://vcftools.github.io/perl_module.html
 
 Testing was performed leveraging aligned and sorted bams generated using bwa-mem2-2.1 against reference GRCh38:
 
-* **amini:**    BWA-MEM2-2.1_TEST0000000_TWGSAMIN000001-T002-S02-F.bam and bai
+* **amini:**    BWA-MEM2-2.1_TEST0000000_TWGSAMIN000001-T001-S01-F.bam and bai
 * **apartial:** BWA-MEM2-2.1_TEST0000000_TWGSAPRT000001-T001-S01-F.bam and bai
 * **afull:**    a-full-CPCG0196-B1.bam and bai
+* **SMC-HET:**    HG002.N.bam and bai
 
 ### Performance Validation
 
 |Test Case | Test Date | Node Type | Duration | CPU Hours | Virtual Memory Usage (RAM) -peak rss |
 |:---------|:----------|:----------|:---------|:----------|:---------------------------|
-| amini | 2021-01-27 | lowmem | 2m 35s | a few seconds | 201.5 MB |
-| apartial | 2021-02-10 | midmem | 42m 5s | 48.8 | 8.9 GB Memory |
-| afull | 2021-2-10 | midmem | 7h 10m 43s | 509.0 | 10.9 GB |
+| amini | 2021-02-12 | lowmem | 1m 29s | a few seconds | 208.8 MB |
+| apartial | 2021-02-10 | midmem | 42m 5s | 48.8 | 8.9 GB |
+| afull | 2021-02-10 | midmem | 7h 10m 43s | 509.0 | 10.9 GB |
+| SMC-HET | 2021-02-12 | midmem | 3h 9m 60s | 223.5 |  8.9 GB |
 
 ### Quality Check Result Comparison
 
-|Metric | amini | apartial | afull | Source |
-|:------|:------|:---------|:------|:-------|
-| Count Calls | 3 | 2612 | 63248 | `grep -c "^chr" filename.vcf` |
-| Count Pass | 3 | 2593 | 62704 | `grep -c -w  "PASS" filename.vcf -1` |
-| Count Deletion | 2 | 1475 | 49433 | `grep -c -w  "SVTYPE=DEL" filename.vcf` |
-| Count Duplication | 1 | 170 | 2311 | `grep -c -w  "SVTYPE=DUP" filename.vcf` |
-| Count Inversion | 0 | 317 | 2801 | `grep -c -w  "SVTYPE=INV" filename.vcf` |
-| Count Translocation | 0 | 384 | 7439 | `grep -c -w  "SVTYPE=BND" filename.vcf` |
-| Count Insertion | 0 | 267 | 1265 | `grep -c -w  "SVTYPE=INS" filename.vcf` |
-| PRECISE Calls | 3 | 1850 | 11541 | `grep -c -w  "PRECISE" filename.vcf` |
-| IMPRECISE Calls | 2 | 764 | 51709 | `grep -c -w  "IMPRECISE" filename.vcf` |
-| Failed Filters | 0 | 653 | 44991 | `.stats.txt` |
-| Passed Filters | 3 | 1959 | 18257 | `.stats.txt` |
-| Structural variant breakends | 0 | 219 | 1124 | `.stats.txt` |
-| Symbolic structural variants | 2 | 1559 | 12500 | `.stats.txt` |
-| Same as reference | 1 | 263 | 4595 | `.stats.txt` |
-| Missing Genotype | 0 | 8 | 38 | `.stats.txt` | 
-| Total Het/Hom ratio | (2/0) | 1.00 (843/845) | 2.37 (9580/4044) | `.stats.txt` |
-| Breakend Het/Hom ratio | (0/0) | 0.84 (59/70) | 13.41 (1046/78) | `.stats.txt` |
-| Symbolic SV Het/Hom ratio | (2/0) | 1.01 (784/775) | 2.15 (8534/3966) | `.stats.txt` |
-| Duplicate entries | 0 errors total | 1 error chr8:3893339  | 1 error chr1:16050024 | `.validate.txt` |
+|Metric | amini | apartial | afull | SMC-HET | Source |
+|:------|:------|:---------|:------|:--------|:-------|
+| Count Pass | 3 | 2593 | 62704 | 15196 | `grep -c -w  "PASS" filename.vcf -1` |
+| Count Deletion | 2 | 1475 | 49433 | 9317 | `grep -c -w  "SVTYPE=DEL" filename.vcf` |
+| Count Duplication | 1 | 170 | 2311| 1705 | `grep -c -w  "SVTYPE=DUP" filename.vcf` |
+| Count Inversion | 0 | 317 | 2801 | 2197 | `grep -c -w  "SVTYPE=INV" filename.vcf` |
+| Count Translocation | 0 | 384 | 7439 | 0 | `grep -c -w  "SVTYPE=BND" filename.vcf` |
+| Count Insertion | 0 | 267 | 1265 | 2059 | `grep -c -w  "SVTYPE=INS" filename.vcf` |
+| PRECISE Calls | 3 | 1850 | 11541 | 8267 | `grep -c -w  "PRECISE" filename.vcf` |
+| IMPRECISE Calls | 2 | 764 | 51709 | 7012 | `grep -c -w  "IMPRECISE" filename.vcf` |
+| Failed Filters | 0 | 653 | 44991 | 2619 | `.stats.txt` |
+| Passed Filters | 3 | 1959 | 18257 | 12658 | `.stats.txt` |
+| Structural variant breakends | 0 | 219 | 1124 | 0 | `.stats.txt` |
+| Symbolic structural variants | 2 | 1559 | 12500 | 11156 | `.stats.txt` |
+| Same as reference | 1 | 263 | 4595 | 1471 | `.stats.txt` |
+| Missing Genotype | 0 | 8 | 38 | 31 | `.stats.txt` | 
+| Total Het/Hom ratio | (2/0) | 1.00 (843/845) | 2.37 (9580/4044) | 1.86 (7251/3905) | `.stats.txt` |
+| Breakend Het/Hom ratio | (0/0) | 0.84 (59/70) | 13.41 (1046/78) | (0/0) | `.stats.txt` |
+| Symbolic SV Het/Hom ratio | (2/0) | 1.01 (784/775) | 2.15 (8534/3966) | 1.86 (7251/3905) | `.stats.txt` |
+| Duplicate entries | 0 errors total | 1 error chr8:3893339  | 1 error chr1:16050024 | 1 error chr1:187464829 | `.validate.txt` |
 
 ### Human Genome Benchmarks
 Note, per Nature the following benchmarks exist for the human genome:
