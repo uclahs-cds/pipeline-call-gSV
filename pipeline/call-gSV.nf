@@ -32,8 +32,8 @@ delly_bam_ch = Channel
     				row.input_bam,
     				"${row.input_bam}.bai",
     				params.reference_fasta,
-    				"${row.ref_fai}.fai",
-    				params.exclusion_tsv
+    				"${params.reference_fasta}.fai",
+    				params.exclusion_file
     				)
     	}
 

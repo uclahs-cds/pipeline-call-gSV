@@ -15,7 +15,7 @@ process delly_call_sv {
 	publishDir params.output_dir, enabled: params.save_intermediate_files, mode: "copy"
 
 	input:
-	tuple val(patient), val(sample), path(input_bam), path(input_bai), path(ref_fa), path(ref_fai), path(exclusion_tsv)
+	tuple val(patient), val(sample), path(input_bam), path(input_bam_bai), path(reference_fasta), path(reference_fasta_fai"), path(exclusion_file)
 
 
 	output:
@@ -25,8 +25,8 @@ process delly_call_sv {
 	set -euo pipefail
 	delly \
 		call \
-		--exclude   $exclusion_tsv \
-		--genome    $ref_fa \
+		--exclude   $exclusion_file \
+		--genome    $reference_fasta \
 		--outfile   DELLY-0.8.6_${params.dataset_id}_${sample}.bcf \
 		--map-qual 20 \
 		$input_bam

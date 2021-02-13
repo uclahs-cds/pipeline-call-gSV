@@ -15,7 +15,7 @@ process rtgtools_vcfstats {
 	publishDir params.output_dir, mode: "copy"
 
 	input:
-	tuple val(patient), val(sample), path(input_bam), path(input_bai), path(ref_fa), path(ref_fai), path(exclusion_tsv)
+	tuple val(patient), val(sample), path(input_bam), path(input_bam_bai), path(reference_fasta), path(reference_fasta_fai), path(exclusion_file)
 	path vcf_sv_file
 
 	output:
