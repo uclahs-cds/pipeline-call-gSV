@@ -30,10 +30,10 @@ delly_bam_ch = Channel
     				row.patient,
     				row.sample,
     				row.input_bam,
-    				row.input_bai,
-    				row.ref_fa,
-    				row.ref_fai,
-    				row.exclusion_tsv
+    				"${row.input_bam}.bai",
+    				params.reference_fasta,
+    				"${row.ref_fai}.fai",
+    				params.exclusion_tsv
     				)
     	}
 
@@ -41,8 +41,7 @@ delly_bam_ch = Channel
 validation_channel = Channel
 	.fromPath(params.input_csv, checkIfExists:true)
 	.splitCsv(header:true)
-	.map{ row -> tuple(file(row.input_bam),file(row.input_bai))}
-	.collect()
+	.map{ row -> tuple(row.input_bam,"${row.input_bam}.bai")}
 
 workflow {
     validate_file(validation_channel)
