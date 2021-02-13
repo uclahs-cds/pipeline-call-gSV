@@ -15,7 +15,7 @@ process delly_call_sv {
 	publishDir params.output_dir, enabled: params.save_intermediate_files, mode: "copy"
 
 	input:
-	tuple val(patient), val(sample), path(input_bam), path(input_bam_bai), path(reference_fasta), path(reference_fasta_fai"), path(exclusion_file)
+	tuple val(patient), val(sample), path(input_bam), path(input_bam_bai), path(reference_fasta), path(reference_fasta_fai), path(exclusion_file)
 
 
 	output:
