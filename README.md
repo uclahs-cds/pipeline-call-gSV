@@ -128,9 +128,9 @@ Running vcf-validate from [VCFTools](https://vcftools.github.io/perl_module.html
 
 Testing was performed leveraging aligned and sorted bams generated using bwa-mem2-2.1 against reference GRCh38:
 
-* **amini:**    BWA-MEM2-2.1_TEST0000000_TWGSAMIN000001-T001-S01-F.bam and bai
-* **apartial:** BWA-MEM2-2.1_TEST0000000_TWGSAPRT000001-T001-S01-F.bam and bai
-* **afull:**    a-full-CPCG0196-B1.bam and bai
+* **A-mini:**    BWA-MEM2-2.1_TEST0000000_TWGSAMIN000001-T001-S01-F.bam and bai
+* **A-partial:** BWA-MEM2-2.1_TEST0000000_TWGSAPRT000001-T001-S01-F.bam and bai
+* **A-full:**    a-full-CPCG0196-B1.bam and bai
 * **SMC-HET:**    HG002.N.bam and bai
 
 ### Performance Validation
@@ -144,7 +144,7 @@ Testing was performed leveraging aligned and sorted bams generated using bwa-mem
 
 ### Quality Check Result Comparison
 
-|Metric | amini | apartial | afull | SMC-HET | Source |
+|Metric | A-mini | A-partial | A-full | SMC-HET | Source |
 |:------|:------|:---------|:------|:--------|:-------|
 | Count Pass | 3 | 2593 | 62704 | 15196 | `grep -c -w  "PASS" filename.vcf -1` |
 | Count Deletion | 2 | 1475 | 49433 | 9317 | `grep -c -w  "SVTYPE=DEL" filename.vcf` |
