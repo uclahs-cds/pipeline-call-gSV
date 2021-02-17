@@ -15,7 +15,7 @@ process delly_call_sv {
 	
 	publishDir params.output_dir,
 		enabled: params.save_intermediate_files,
-		pattern: "*.bcf"
+		pattern: "*.bcf",
 		mode: "copy"
 
 	publishDir params.output_log_dir,
