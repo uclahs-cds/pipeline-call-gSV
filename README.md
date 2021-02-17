@@ -65,7 +65,7 @@ A directed acyclic graph of your pipeline.
 The first step of the pipeline requires an aligned and sorted BAM file and BAM index as an input for variant calling with [Delly.](https://github.com/dellytools/delly) Delly combines short-range and long-range paired-end mapping and split-read analysis for the discovery of balanced and unbalanced structural variants at single-nucleotide breakpoint resolution (deletions, tandem duplications, inversions and translocations.) Structural variants are called, annotated and merged into a single bcf file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
 
 Currently the following filters are applied and or considered for application and parameterization in subsequent releases:
-* **map-qual:** >20 (Applied / Non-parameterized)    
+* **map-qual:** = 20 (Applied / Parameterized)    
 * **pe:** >= 5 (Not yet Applied / Non-parameterized)
 * **sr:** >= 5 (Not yet Applied / Non-parameterized)
 * **keep_imprecise:** >= true (Not yet Applied / Non-parameterized)
@@ -88,8 +88,6 @@ Running vcf-validate from [VCFTools](https://vcftools.github.io/perl_module.html
 | sample-name | string | The sample name to be passed to final BCF. No white space is allowed. |
 | input_bam | path | Absolute path to the BAM file for the sample. |
 
-
-
 ### Nextflow Config File Parameters
 
 | Input Parameter | Required | Type | Description |
@@ -100,7 +98,8 @@ Running vcf-validate from [VCFTools](https://vcftools.github.io/perl_module.html
 | `input_csv` | yes | string | Absolute path to the input csv file for the pipeline. |
 | `reference_fasta` | yes | path | Absolute path to the reference genome `fasta` file. The reference genome is used by Delly for structural variant calling. |
 | `exclusion_file` | yes | path | Absolute path to the delly reference genome `exclusion` file utilized to remove suggested regions for structural variant calling. |
-| `run_qc` | yes | boolean | Optional parameter to indicate whether subsequent quality checks should be run. Default value is false. |
+| `map_qual` | no | path | minimum paired-end (PE) mapping quaility threshold for Delly). |
+| `run_qc` | no | boolean | Optional parameter to indicate whether subsequent quality checks should be run. Default value is false. |
 | `save_intermediate_files` | yes | boolean | Optional parameter to indicate whether intermediate files will be saved. Default value is true. |
 | `output_dir` | yes | path | Absolute path to the directory where the output files to be saved. |
 | `output_log_dir` | yes | path | Absolute path to the directory where the output log files to be saved. |
@@ -110,15 +109,15 @@ Running vcf-validate from [VCFTools](https://vcftools.github.io/perl_module.html
 
 ## Outputs
 
-| Output | Required | Description |
+| Output | Output Type | Description |
 |:-------|:---------|:------------|
-| `.bcf` | yes | Binary VCF output format with structural variants if found. |
-| `.vcf` | yes | VCF output format with structural variants if found. |
-| `.bcf.csi` | yes | CSI-format index for BAM files. |
-| `.validate.txt` | yes | output file from vcf-validator. |
-| `.stats.txt` | yes | output file from rtgtools. |
-| `report.html`, `timeline.html` and `trace.txt` | yes | A Nextflowreport, timeline and trace files. |
-| `log.command.*` | yes | Process specific logging files created by nextflow. |
+| `.bcf` | final | Binary VCF output format with structural variants if found. |
+| `.vcf` | intermediate | VCF output format with structural variants if found. |
+| `.bcf.csi` | final | CSI-format index for BAM files. |
+| `.validate.txt` | final | output file from vcf-validator. |
+| `.stats.txt` | final | output file from rtgtools. |
+| `report.html`, `timeline.html` and `trace.txt` | logs | A Nextflowreport, timeline and trace files. |
+| `log.command.*` | logs | Process specific logging files created by nextflow. |
 
 ---
 
@@ -126,7 +125,7 @@ Running vcf-validate from [VCFTools](https://vcftools.github.io/perl_module.html
 
 ### Test Data Set
 
-Testing was performed leveraging aligned and sorted bams generated using bwa-mem2-2.1 against reference GRCh38:
+Testing was performed leveraging aligned and sorted bams generated using bwa-mem2-2.1 against reference GRCh38 (SMC-HET was aligned against hs37d5):
 
 * **A-mini:**    BWA-MEM2-2.1_TEST0000000_TWGSAMIN000001-T001-S01-F.bam and bai
 * **A-partial:** BWA-MEM2-2.1_TEST0000000_TWGSAPRT000001-T001-S01-F.bam and bai
@@ -137,9 +136,9 @@ Testing was performed leveraging aligned and sorted bams generated using bwa-mem
 
 |Test Case | Test Date | Node Type | Duration | CPU Hours | Virtual Memory Usage (RAM) -peak rss |
 |:---------|:----------|:----------|:---------|:----------|:---------------------------|
-| amini | 2021-02-12 | lowmem | 1m 29s | a few seconds | 208.8 MB |
-| apartial | 2021-02-10 | midmem | 42m 5s | 48.8 | 8.9 GB |
-| afull | 2021-02-10 | midmem | 7h 10m 43s | 509.0 | 10.9 GB |
+| A-mini | 2021-02-12 | lowmem | 1m 29s | a few seconds | 208.8 MB |
+| A-partial | 2021-02-10 | midmem | 42m 5s | 48.8 | 8.9 GB |
+| A-full | 2021-02-10 | midmem | 7h 10m 43s | 509.0 | 10.9 GB |
 | SMC-HET | 2021-02-12 | midmem | 3h 9m 60s | 223.5 |  8.9 GB |
 
 ### Quality Check Result Comparison
