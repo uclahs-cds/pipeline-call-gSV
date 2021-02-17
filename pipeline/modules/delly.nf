@@ -28,7 +28,7 @@ process delly_call_sv {
 		--exclude   $exclusion_file \
 		--genome    $reference_fasta \
 		--outfile   DELLY-0.8.6_${params.dataset_id}_${sample}.bcf \
-		--map-qual 20 \
+		--map-qual ${params.map_qual} \
 		$input_bam
 	"""
 }
