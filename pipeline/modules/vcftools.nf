@@ -12,7 +12,15 @@ Docker Images:
 
 process vcftools_validator {
 	container docker_image_vcftools
-	publishDir params.output_dir, mode: "copy"
+
+	publishDir params.output_dir,
+		pattern: "*_validation.txt",
+		mode: "copy"
+
+	publishDir params.output_log_dir,
+		pattern: ".command.*",
+		mode: "copy",
+		saveAs: { "vcftools_validator/log${file(it).getName()}" }
 
 	input:
 	tuple val(patient), val(sample), path(input_bam), path(input_bam_bai), path(reference_fasta), path(reference_fasta_fai), path(exclusion_file)
@@ -20,6 +28,7 @@ process vcftools_validator {
 
 	output:
 	path "DELLY-${params.delly_version}_${params.dataset_id}_${sample}_validation.txt"
+	path ".command.*"
 
 	"""
 	set -euo pipefail
