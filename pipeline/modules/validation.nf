@@ -1,4 +1,4 @@
-def docker_image_validation = "blcdsdockerregistry/validate:1.0.0"
+def docker_image_validation = "blcdsdockerregistry/validate:${params.validate_version}"
 
 log.info """\
 ------------------------------------

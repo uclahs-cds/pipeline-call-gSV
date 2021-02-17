@@ -1,6 +1,6 @@
 #!/usr/bin/env nextflow
 
-def docker_image_vcftools = "blcdsdockerregistry/vcftools:0.1.16"
+def docker_image_vcftools = "blcdsdockerregistry/vcftools:${params.vcftools_version}"
 
 log.info """\
 ------------------------------------
@@ -19,11 +19,11 @@ process vcftools_validator {
 	path vcf_sv_file
 
 	output:
-	path "DELLY-0.8.6_${params.dataset_id}_${sample}_validation.txt"
+	path "DELLY-${params.delly_version}_${params.dataset_id}_${sample}_validation.txt"
 
 	"""
 	set -euo pipefail
 
-	vcf-validator -d -u $vcf_sv_file > DELLY-0.8.6_${params.dataset_id}_${sample}_validation.txt;
+	vcf-validator -d -u $vcf_sv_file > DELLY-${params.delly_version}_${params.dataset_id}_${sample}_validation.txt;
 	"""
 }

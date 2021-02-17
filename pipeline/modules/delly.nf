@@ -1,6 +1,6 @@
 #!/usr/bin/env nextflow
 
-def docker_image_delly = "blcdsdockerregistry/call-gsv:delly-0.8.6"
+def docker_image_delly = "blcdsdockerregistry/call-gsv:delly-${params.delly_version}"
 
 log.info """\
 ------------------------------------
@@ -19,7 +19,7 @@ process delly_call_sv {
 
 
 	output:
-	path "DELLY-0.8.6_${params.dataset_id}_${sample}.bcf", emit: bcf_sv_file
+	path "DELLY-${params.delly_version}_${params.dataset_id}_${sample}.bcf", emit: bcf_sv_file
 
 	"""
 	set -euo pipefail
@@ -27,7 +27,7 @@ process delly_call_sv {
 		call \
 		--exclude   $exclusion_file \
 		--genome    $reference_fasta \
-		--outfile   DELLY-0.8.6_${params.dataset_id}_${sample}.bcf \
+		--outfile   DELLY-${params.delly_version}_${params.dataset_id}_${sample}.bcf \
 		--map-qual ${params.map_qual} \
 		$input_bam
 	"""

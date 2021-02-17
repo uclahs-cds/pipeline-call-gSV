@@ -1,6 +1,6 @@
 #!/usr/bin/env nextflow
 
-def docker_image_bcftools = "blcdsdockerregistry/call-gsv:bcftools-1.11"
+def docker_image_bcftools = "blcdsdockerregistry/call-gsv:bcftools-${params.bcftools_version}"
 
 log.info """\
 ------------------------------------
@@ -19,13 +19,13 @@ process bcftools_vcf {
 	path bcf_sv_file
 
 	output:
-	path "DELLY-0.8.6_${params.dataset_id}_${sample}.vcf", emit: vcf_sv_file
+	path "DELLY-${params.delly_version}_${params.dataset_id}_${sample}.vcf", emit: vcf_sv_file
 
 	"""
 	set -euo pipefail
 	bcftools \
 		view \
 		$bcf_sv_file \
-		--output DELLY-0.8.6_${params.dataset_id}_${sample}.vcf
+		--output DELLY-${params.delly_version}_${params.dataset_id}_${sample}.vcf
 	"""
 }

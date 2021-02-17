@@ -1,6 +1,6 @@
 #!/usr/bin/env nextflow
 
-def docker_image_rtgtools = "blcdsdockerregistry/call-gsv:rtgtools-3.11"
+def docker_image_rtgtools = "blcdsdockerregistry/call-gsv:rtgtools-${params.rtgtools_version}"
 
 log.info """\
 ------------------------------------
@@ -19,11 +19,11 @@ process rtgtools_vcfstats {
 	path vcf_sv_file
 
 	output:
-	path "DELLY-0.8.6_${params.dataset_id}_${sample}_stats.txt"
+	path "DELLY-${params.delly_version}_${params.dataset_id}_${sample}_stats.txt"
 
 	"""
 	set -euo pipefail
 
-	rtg vcfstats $vcf_sv_file > DELLY-0.8.6_${params.dataset_id}_${sample}_stats.txt
+	rtg vcfstats $vcf_sv_file > DELLY-${params.delly_version}_${params.dataset_id}_${sample}_stats.txt
 	"""
 }
