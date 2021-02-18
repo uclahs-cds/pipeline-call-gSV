@@ -21,6 +21,7 @@ include { delly_call_sv } from './modules/delly'
 include { bcftools_vcf } from './modules/bcftools'
 include { rtgtools_vcfstats } from './modules/rtgtools'
 include { vcftools_validator } from './modules/vcftools'
+include { generate_sha512 } from './modules/sha512'
 
 delly_bam_ch = Channel
     .fromPath(params.input_csv, checkIfExists:true)
@@ -51,4 +52,5 @@ workflow {
         rtgtools_vcfstats(delly_bam_ch, bcftools_vcf.out.vcf_sv_file)
         vcftools_validator(delly_bam_ch, bcftools_vcf.out.vcf_sv_file)
     }
+    generate_sha512(bcftools_vcf.out.vcf_sv_file)
 }
