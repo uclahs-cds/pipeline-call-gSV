@@ -58,7 +58,7 @@ delly_bam_ch = Channel
                     row.input_bam,
                     "${row.input_bam}.bai",
                     params.reference_fasta,
-                    "${params.reference_fasta}.fai",
+                    params.reference_fasta_index,
                     params.exclusion_file
                     )
         }
