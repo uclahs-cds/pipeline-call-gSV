@@ -14,7 +14,7 @@ Current Configuration:
 - input:
     input_csv: ${params.input_csv}
     reference_fasta: ${params.reference_fasta}
-    reference_fasta_index: ${params.reference_fasta}.fai
+    reference_fasta_index: ${params.reference_fasta_index}
     reference_prefix: ${params.reference_prefix}
     exclusion_file: ${params.exclusion_file}
 
