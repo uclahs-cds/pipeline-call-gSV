@@ -14,9 +14,14 @@ process generate_sha512 {
     container docker_image_sha512
 
     publishDir params.output_dir,
-        pattern: "*.sha512",
+        pattern: "*.vcf.sha512",
         mode: "copy",
         saveAs: { "bcftools-${params.bcftools_version}/${file(it).getName()}" }
+
+    publishDir params.output_dir,
+        pattern: "*.bcf.sha512",
+        mode: "copy",
+        saveAs: { "delly-${params.delly_version}/${file(it).getName()}" }
 
     publishDir params.output_log_dir,
         pattern: ".command.*",
@@ -24,15 +29,15 @@ process generate_sha512 {
         saveAs: { "generate_sha512/log${file(it).getName()}" }
 
     input:
-    path vcf_sv_file
+    path input_checksum_file
 
     output:
-    path "${vcf_sv_file.getName()}.sha512"
+    path "${input_checksum_file}.sha512"
     path ".command.*"
 
     """
     set -euo pipefail
 
-    sha512sum $vcf_sv_file > ${vcf_sv_file.getName()}.sha512
+    sha512sum $input_checksum_file > ${input_checksum_file}.sha512
     """
 }

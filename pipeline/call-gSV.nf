@@ -77,5 +77,5 @@ workflow {
         rtgtools_vcfstats(delly_bam_ch, bcftools_vcf.out.vcf_sv_file)
         vcftools_validator(delly_bam_ch, bcftools_vcf.out.vcf_sv_file)
     }
-    generate_sha512(bcftools_vcf.out.vcf_sv_file)
+    generate_sha512(delly_call_sv.out.bcf_sv_file.mix(bcftools_vcf.out.vcf_sv_file))
 }
