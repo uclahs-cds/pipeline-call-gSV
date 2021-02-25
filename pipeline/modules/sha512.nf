@@ -11,27 +11,27 @@ Docker Images:
 """
 
 process generate_sha512 {
-	container docker_image_sha512
+    container docker_image_sha512
 
-	publishDir params.output_dir,
-		pattern: "*.sha512",
-		mode: "copy"
+    publishDir params.output_dir,
+        pattern: "*.sha512",
+        mode: "copy"
 
-	publishDir params.output_log_dir,
-		pattern: ".command.*",
-		mode: "copy",
-		saveAs: { "generate_sha512/log${file(it).getName()}" }
+    publishDir params.output_log_dir,
+        pattern: ".command.*",
+        mode: "copy",
+        saveAs: { "generate_sha512/log${file(it).getName()}" }
 
-	input:
-	path vcf_sv_file
+    input:
+    path vcf_sv_file
 
-	output:
-	path "${vcf_sv_file.getName()}.sha512"
-	path ".command.*"
+    output:
+    path "${vcf_sv_file.getName()}.sha512"
+    path ".command.*"
 
-	"""
-	set -euo pipefail
+    """
+    set -euo pipefail
 
-	sha512sum $vcf_sv_file > ${vcf_sv_file.getName()}.sha512
-	"""
+    sha512sum $vcf_sv_file > ${vcf_sv_file.getName()}.sha512
+    """
 }
