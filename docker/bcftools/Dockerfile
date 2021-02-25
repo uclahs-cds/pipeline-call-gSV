@@ -1,5 +1,5 @@
 # use the ubuntu base image
-FROM ubuntu:20.04 as builder
+FROM ubuntu:20.04
 
 LABEL maintainer="Tim Sanders <tsanders@mednet.ucla.edu>"
 
@@ -34,9 +34,3 @@ RUN ./configure --prefix=/app/bcftools-1.11 \
     && make install
 
 ENV PATH /app/bcftools-1.11/bin:$PATH
-
-#FROM alpine:3.13
-#ENV PATH /app/bcftools-1.11/bin:$PATH
-#RUN apk add --no-cache libstdc++ zlib
-#RUN apk add --update bash && rm -rf /var/cache/apk/*
-#COPY --from=builder /app/ /app/
