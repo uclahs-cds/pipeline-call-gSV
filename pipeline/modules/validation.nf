@@ -1,3 +1,5 @@
+#!/usr/bin/env nextflow
+
 def docker_image_validation = "blcdsdockerregistry/validate:${params.validate_version}"
 
 log.info """\
