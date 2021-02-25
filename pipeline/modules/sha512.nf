@@ -15,7 +15,8 @@ process generate_sha512 {
 
     publishDir params.output_dir,
         pattern: "*.sha512",
-        mode: "copy"
+        mode: "copy",
+        saveAs: { "bcftools-${params.bcftools_version}/${file(it).getName()}" }
 
     publishDir params.output_log_dir,
         pattern: ".command.*",
