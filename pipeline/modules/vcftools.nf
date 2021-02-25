@@ -15,7 +15,8 @@ process vcftools_validator {
 
     publishDir params.output_dir,
         pattern: "*_validation.txt",
-        mode: "copy"
+        mode: "copy",
+        saveAs: { "vcftools-${params.vcftools_version}/${file(it).getName()}" }
 
     publishDir params.output_log_dir,
         pattern: ".command.*",
