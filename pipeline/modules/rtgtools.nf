@@ -15,7 +15,8 @@ process rtgtools_vcfstats {
 
     publishDir params.output_dir,
         pattern: "*_stats.txt",
-        mode: "copy"
+        mode: "copy",
+        saveAs: { "rtgtools-${params.rtgtools_version}/${file(it).getName()}" }
 
     publishDir params.output_log_dir,
         pattern: ".command.*",
