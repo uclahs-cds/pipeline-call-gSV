@@ -15,7 +15,7 @@ process delly_call_sv {
 
     publishDir params.output_dir,
         enabled: params.save_intermediate_files,
-        pattern: "*.bcf",
+        pattern: "*.bcf*",
         mode: "copy"
 
     publishDir params.output_log_dir,
@@ -29,6 +29,7 @@ process delly_call_sv {
 
     output:
     path "DELLY-${params.delly_version}_${params.dataset_id}_${sample}.bcf", emit: bcf_sv_file
+    path "DELLY-${params.delly_version}_${params.dataset_id}_${sample}.bcf.csi"
     path ".command.*"
 
     """
