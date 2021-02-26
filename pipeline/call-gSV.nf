@@ -81,7 +81,12 @@ else {
 validation_channel = Channel
     .fromPath(params.input_csv, checkIfExists:true)
     .splitCsv(header:true)
-    .map{ row -> tuple(row.input_bam,"${row.input_bam}.bai")}
+    .map{ row -> [ 
+                row.input_bam,
+                params.reference_fasta
+                ]
+        }
+    .flatten()
 
 workflow {
     validate_file(validation_channel)
