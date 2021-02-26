@@ -25,13 +25,17 @@ process delly_call_sv {
         saveAs: { "delly_call_sv/log${file(it).getName()}" }
 
     input:
-    tuple val(patient), val(sample), path(input_bam), path(input_bam_bai), path(reference_fasta), path(reference_fasta_fai), path(exclusion_file)
+    tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
+    path(reference_fasta)
+    path(reference_fasta_fai)
+    path(exclusion_file)
 
 
     output:
-    path "DELLY-${params.delly_version}_${params.dataset_id}_${sample}.bcf", emit: bcf_sv_file
-    path "DELLY-${params.delly_version}_${params.dataset_id}_${sample}.bcf.csi"
+    path "DELLY-${params.delly_version}_${params.dataset_id}_${bam_sample_name}.bcf", emit: bcf_sv_file
+    path "DELLY-${params.delly_version}_${params.dataset_id}_${bam_sample_name}.bcf.csi"
     path ".command.*"
+    val bam_sample_name, emit: bam_sample_name
 
     """
     set -euo pipefail
@@ -39,7 +43,7 @@ process delly_call_sv {
         call \
         --exclude   $exclusion_file \
         --genome    $reference_fasta \
-        --outfile   DELLY-${params.delly_version}_${params.dataset_id}_${sample}.bcf \
+        --outfile   DELLY-${params.delly_version}_${params.dataset_id}_${bam_sample_name}.bcf \
         --map-qual ${params.map_qual} \
         $input_bam
     """

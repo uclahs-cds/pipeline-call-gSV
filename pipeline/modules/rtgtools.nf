@@ -24,16 +24,16 @@ process rtgtools_vcfstats {
         saveAs: { "rtgtools_vcfstats/log${file(it).getName()}" }
 
     input:
-    tuple val(patient), val(sample), path(input_bam), path(input_bam_bai), path(reference_fasta), path(reference_fasta_fai), path(exclusion_file)
     path vcf_sv_file
+    val bam_sample_name
 
     output:
-    path "DELLY-${params.delly_version}_${params.dataset_id}_${sample}_stats.txt"
+    path "DELLY-${params.delly_version}_${params.dataset_id}_${bam_sample_name}_stats.txt"
     path ".command.*"
 
     """
     set -euo pipefail
 
-    rtg vcfstats $vcf_sv_file > DELLY-${params.delly_version}_${params.dataset_id}_${sample}_stats.txt
+    rtg vcfstats $vcf_sv_file > DELLY-${params.delly_version}_${params.dataset_id}_${bam_sample_name}_stats.txt
     """
 }

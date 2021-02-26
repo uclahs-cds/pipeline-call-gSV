@@ -49,19 +49,33 @@ include { rtgtools_vcfstats } from './modules/rtgtools'
 include { vcftools_validator } from './modules/vcftools'
 include { generate_sha512 } from './modules/sha512'
 
-delly_bam_ch = Channel
+input_bam_ch = Channel
     .fromPath(params.input_csv, checkIfExists:true)
     .splitCsv(header:true)
     .map{ row -> tuple(
                     row.patient,
                     row.sample,
                     row.input_bam,
-                    "${row.input_bam}.bai",
-                    params.reference_fasta,
-                    params.reference_fasta_index,
-                    params.exclusion_file
+                    "${row.input_bam}.bai"
                     )
         }
+
+if (!params.reference_fasta) {
+    // error out - must provide a reference FASTA file
+    error "***Error: You must specify a reference FASTA file***"
+}
+
+if (!params.exclusion_file) {
+    // error out - must provide exclusion file
+    error "*** Error: You must provide an exclusion file***"
+}
+
+if (params.reference_fasta_index) {
+    reference_fasta_index = params.reference_fasta_index
+}
+else {
+    reference_fasta_index = "${params.reference_fasta}.fai"
+}
 
 // Create channel for validation
 validation_channel = Channel
@@ -71,11 +85,11 @@ validation_channel = Channel
 
 workflow {
     validate_file(validation_channel)
-    delly_call_sv(delly_bam_ch)
-    bcftools_vcf(delly_bam_ch, delly_call_sv.out.bcf_sv_file)
+    delly_call_sv(input_bam_ch, params.reference_fasta, reference_fasta_index, params.exclusion_file)
+    bcftools_vcf(delly_call_sv.out.bcf_sv_file, delly_call_sv.out.bam_sample_name)
     if (params.run_qc) {
-        rtgtools_vcfstats(delly_bam_ch, bcftools_vcf.out.vcf_sv_file)
-        vcftools_validator(delly_bam_ch, bcftools_vcf.out.vcf_sv_file)
+        rtgtools_vcfstats(bcftools_vcf.out.vcf_sv_file, delly_call_sv.out.bam_sample_name)
+        vcftools_validator(bcftools_vcf.out.vcf_sv_file, delly_call_sv.out.bam_sample_name)
     }
     generate_sha512(delly_call_sv.out.bcf_sv_file.mix(bcftools_vcf.out.vcf_sv_file))
 }
