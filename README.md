@@ -19,7 +19,7 @@
 
 ## Overview
 
-The call-gSV nextflow pipeline, calls structural variants utilizing [Delly](https://github.com/dellytools/delly). It is suitable for detecting copy-number variable deletion and tandem duplication events as well as balanced rearrangements such as inversions or reciprocal translocations and validates the output quality with [BCFtools](https://github.com/samtools/bcftools).  The pipeline has been engineered to run in a 4 layer stack in a cloud-based scalable environment of CycleCloud, Slurm, Nextflow and Docker.  Additionally it has been validated with the SMC-HET dataset and reference GRCh38, where paired-end fastq's were created with BAM Surgeon.
+The call-gSV nextflow pipeline, calls structural variants utilizing [Delly](https://github.com/dellytools/delly). It is suitable for detecting copy-number variable deletion and tandem duplication events as well as balanced rearrangements such as inversions or reciprocal translocations and validates the output quality with [BCFtools](https://github.com/samtools/bcftools).  The pipeline has been engineered to run in a 4 layer stack in a cloud-based scalable environment of CycleCloud, Slurm, Nextflow and Docker.  Additionally it has been validated with the SMC-HET dataset and reference GRCh38 reference genome, where paired-end FASTQ's were created with BAM Surgeon.
 
 <b><i>Developer's Notes:</i></b>
 
