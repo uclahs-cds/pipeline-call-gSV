@@ -19,15 +19,13 @@
 
 ## Overview
 
-The call-gSV nextflow pipeline, calls structural variants utilizing [Delly](https://github.com/dellytools/delly), suitable for detecting copy-number variable deletion and tandem duplication events as well as balanced rearrangements such as inversions or reciprocal translocations and validates the output quality with [BCFtools](https://github.com/samtools/bcftools).  The pipeline has been engineered to run in a 4 layer stack in a cloud-based scalable environment of CycleCloud, Slurm, Nextflow and Docker.  Additionally it has been validated with the SMC-HET dataset and reference GRCh38, where paired-end fastq's were created with BAM Surgeon.
-
-The pipeline should be run **WITH A SINGLE SAMPLE AT A TIME.**  Otherwise resource allocation and Nextflow errors could cause the pipeline to fail.
+The call-gSV nextflow pipeline, calls structural variants utilizing [Delly](https://github.com/dellytools/delly). It is suitable for detecting copy-number variable deletion and tandem duplication events as well as balanced rearrangements such as inversions or reciprocal translocations and validates the output quality with [BCFtools](https://github.com/samtools/bcftools).  The pipeline has been engineered to run in a 4 layer stack in a cloud-based scalable environment of CycleCloud, Slurm, Nextflow and Docker.  Additionally it has been validated with the SMC-HET dataset and reference GRCh38, where paired-end fastq's were created with BAM Surgeon.
 
 <b><i>Developer's Notes:</i></b>
 
 > We will be performing benchmarking on our SLURM cluster.  Currently using 71 CPUs for structural variant calling gives the best performance, running in 3-8 hours per sample with ~10GB of memory.  <i>...Stay tuned for updates from further testing.</i>
 
-### Execute Config File Settings
+### Node Specific Config File Settings
 
 | Config File | Available Node cpus / memory | Designated Process 1; cpus / memory | Designated Process 2; cpus / memory |
 |:------------|:---------|:-------------------------|:-------------------------|
@@ -44,7 +42,7 @@ Pipelines should be run **WITH A SINGLE SAMPLE AT TIME**. Otherwise resource all
 
 2. Update the nextflow.config file for input, output, and parameters. An example can be found [here](pipeline/config/nextflow.config). See [Inputs](#Inputs) for description of each variables in the config file.
 
-3. Update the input csv. See [Inputs](#Inputs) for the columns needed. All columns must exist in order to run the pipeline. An example can be found [here](pipeline/inputs/call-gSV.inputs.csv). The example csv is a single-lane sample. All records must have the same value in the **sample** column.
+3. Update the input csv. See [Inputs](#Inputs) for the columns needed. All columns must exist in order to run the pipeline. An example can be found [here](pipeline/inputs/call-gSV.inputs.csv). The example csv is a single germline sample.
  
 4. See the submission script, [here](https://github.com/uclahs-cds/tool-submit-nf), to submit your pipeline
 
@@ -62,17 +60,17 @@ A directed acyclic graph of your pipeline.
 
 ### 1. Calling Structural Variants
 
-The first step of the pipeline requires an aligned and sorted BAM file and BAM index as an input for variant calling with [Delly.](https://github.com/dellytools/delly) Delly combines short-range and long-range paired-end mapping and split-read analysis for the discovery of balanced and unbalanced structural variants at single-nucleotide breakpoint resolution (deletions, tandem duplications, inversions and translocations.) Structural variants are called, annotated and merged into a single bcf file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
+The first step of the pipeline requires an aligned and sorted BAM file and BAM index as an input for variant calling with [Delly.](https://github.com/dellytools/delly) Delly combines short-range and long-range paired-end mapping and split-read analysis for the discovery of balanced and unbalanced structural variants at single-nucleotide breakpoint resolution (deletions, tandem duplications, inversions and translocations.) Structural variants are called, annotated and merged into a single BCF file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
 
 Currently the following filters are applied and or considered for application and parameterization in subsequent releases:
-* **map-qual:** = 20 (Applied / Parameterized)    
+* **map-qual:** >= 20 (Applied / Parameterized)    
 * **pe:** >= 5 (Not yet Applied / Non-parameterized)
 * **sr:** >= 5 (Not yet Applied / Non-parameterized)
 * **keep_imprecise:** >= true (Not yet Applied / Non-parameterized)
 
 ### 2. Check Output Quality
 
-Running vcf-validate from [VCFTools](https://vcftools.github.io/perl_module.html#vcf-validator) and vcfstats from [RTGtools](https://cdn.rawgit.com/RealTimeGenomics/rtg-tools/master/installer/resources/tools/RTGOperationsManual/rtg_command_reference.html#vcfstats) generates summary statistics that can be viewed and evaluated in preparation for downstream cohort-wide re-calling and re-genotyping.
+A VCF file is generated from the BCF to run the vcf-validate command from [VCFTools](https://vcftools.github.io/perl_module.html#vcf-validator) and vcfstats from [RTGTools](https://cdn.rawgit.com/RealTimeGenomics/rtg-tools/master/installer/resources/tools/RTGOperationsManual/rtg_command_reference.html#vcfstats).  Outputs from both provide preliminary summary statistics that can be viewed and evaluated in preparation for downstream cohort-wide re-calling and re-genotyping.
 
 ---
 
@@ -93,16 +91,17 @@ Running vcf-validate from [VCFTools](https://vcftools.github.io/perl_module.html
 | Input Parameter | Required | Type | Description |
 |:----------------|:---------|:-----|:------------|
 | `dataset_id` | yes | string | Boutros lab dataset id. |
-| `blcds_registered_dataset` | yes | boolean | Affirms if dataset is registered in the Boutros Lab Data registry. Default value is false. |
+| `blcds_registered_dataset` | yes | boolean | Affirms if dataset should be registered in the Boutros Lab Data registry. Default value is false. |
 | `sge_scheduler` | yes | boolean | Affirms whether job will be executed on the SGE cluster. Default value is false. |
 | `input_csv` | yes | string | Absolute path to the input csv file for the pipeline. |
 | `reference_fasta` | yes | path | Absolute path to the reference genome `fasta` file. The reference genome is used by Delly for structural variant calling. |
+| `reference_fasta_index` | yes | path | Absolute path to the reference genome `fasta` index file. The reference genome is used by Delly for structural variant calling. |
+| `reference_prefix` | yes | path | Absolute path to the reference genome `fasta` prefix. The reference genome is used by Delly for structural variant calling. |
 | `exclusion_file` | yes | path | Absolute path to the delly reference genome `exclusion` file utilized to remove suggested regions for structural variant calling. |
 | `map_qual` | no | path | minimum paired-end (PE) mapping quaility threshold for Delly). |
 | `run_qc` | no | boolean | Optional parameter to indicate whether subsequent quality checks should be run. Default value is false. |
 | `save_intermediate_files` | yes | boolean | Optional parameter to indicate whether intermediate files will be saved. Default value is true. |
-| `output_dir` | yes | path | Absolute path to the directory where the output files to be saved. |
-| `output_log_dir` | yes | path | Absolute path to the directory where the output log files to be saved. |
+| `output_dir` | yes | path | Absolute path to the directory where the output files to be saved. 
 | `temp_dir` | yes | path | Absolute path to the directory where the nextflow's intermediate files are saved. |
 
 ---
@@ -112,13 +111,13 @@ Running vcf-validate from [VCFTools](https://vcftools.github.io/perl_module.html
 | Output | Output Type | Description |
 |:-------|:---------|:------------|
 | `.bcf` | final | Binary VCF output format with structural variants if found. |
-| `.vcf` | intermediate | VCF output format with structural variants if found. |
+| `.vcf` | intermediate | VCF output format with structural variants if found.|
 | `.bcf.csi` | final | CSI-format index for BAM files. |
 | `.validate.txt` | final | output file from vcf-validator. |
-| `.stats.txt` | final | output file from rtgtools. |
-| `report.html`, `timeline.html` and `trace.txt` | logs | A Nextflowreport, timeline and trace files. |
-| `log.command.*` | logs | Process specific logging files created by nextflow. |
-
+| `.stats.txt` | final | output file from RTG Tools. |
+| `report.html`, `timeline.html` and `trace.txt` | log | A Nextflow report, timeline and trace files. |
+| `log.command.*` | log | Process specific logging files created by nextflow. |
+| `*.sha512` | checksum| generates SHA-512 hash to validate file integrity. |
 ---
 
 ## Testing and Validation
@@ -133,6 +132,8 @@ Testing was performed leveraging aligned and sorted bams generated using bwa-mem
 * **SMC-HET:**    HG002.N.bam and bai
 
 ### Performance Validation
+
+Testing was performed primarily in the Boutros Lab SLURM Development cluster but additional functional tests were performed on the SGE cluster on 2/26/2021 and the SLURM Covid cluster.  Metrics below will be updated where relevant with additional testing and tuning outputs.
 
 |Test Case | Test Date | Node Type | Duration | CPU Hours | Virtual Memory Usage (RAM) -peak rss |
 |:---------|:----------|:----------|:---------|:----------|:---------------------------|
