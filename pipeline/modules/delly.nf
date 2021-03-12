@@ -22,7 +22,7 @@ process delly_call_sv {
     publishDir params.output_log_dir,
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "delly_call_sv/log${file(it).getName()}" }
+        saveAs: { "delly_call_sv/${bam_sample_name}.log${file(it).getName()}" }
 
     input:
     tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
