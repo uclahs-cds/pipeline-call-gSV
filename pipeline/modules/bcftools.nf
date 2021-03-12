@@ -21,7 +21,7 @@ process bcftools_vcf {
     publishDir params.output_log_dir,
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "bcftools_vcf/log${file(it).getName()}" }
+        saveAs: { "bcftools_vcf/${bam_sample_name}.log${file(it).getName()}" }
 
     input:
     path bcf_sv_file
