@@ -21,7 +21,7 @@ process rtgtools_vcfstats {
     publishDir params.output_log_dir,
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "rtgtools_vcfstats/log${file(it).getName()}" }
+        saveAs: { "rtgtools_vcfstats/${bam_sample_name}.log${file(it).getName()}" }
 
     input:
     path vcf_sv_file
