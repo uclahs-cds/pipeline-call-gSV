@@ -21,7 +21,7 @@ process vcftools_validator {
     publishDir params.output_log_dir,
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "vcftools_validator/log${file(it).getName()}" }
+        saveAs: { "vcftools_validator/${bam_sample_name}.log${file(it).getName()}" }
 
     input:
     path vcf_sv_file
