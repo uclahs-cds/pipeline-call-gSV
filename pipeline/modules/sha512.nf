@@ -26,7 +26,7 @@ process generate_sha512 {
     publishDir params.output_log_dir,
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "generate_sha512/${bam_sample_name}.log${file(it).getName()}" }
+        saveAs: { "generate_sha512/${input_checksum_file}.log${file(it).getName()}" }
 
     input:
     path input_checksum_file
