@@ -116,7 +116,7 @@ A VCF file is generated from the BCF to run the vcf-validate command from [VCFTo
 | `.validate.txt` | final | output file from vcf-validator. |
 | `.stats.txt` | final | output file from RTG Tools. |
 | `report.html`, `timeline.html` and `trace.txt` | log | A Nextflow report, timeline and trace files. |
-| `log.command.*` | log | Process specific logging files created by nextflow. |
+| `*.log.command.*` | log | Process and sample specific logging files created by nextflow. |
 | `*.sha512` | checksum| generates SHA-512 hash to validate file integrity. |
 ---
 
