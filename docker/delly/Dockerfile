@@ -31,7 +31,7 @@ ENV BOOST_ROOT /usr
 
 # install delly
 RUN cd /opt \
-    && git clone --recursive https://github.com/dellytools/delly.git --branch v0.8.6 \
+    && git clone --recursive https://github.com/dellytools/delly.git --branch v0.8.7 \
     && cd /opt/delly/ \
     && make STATIC=1 all \
     && make install
