@@ -4,9 +4,10 @@ FROM ubuntu:20.04
 LABEL maintainer="Tim Sanders <tsanders@mednet.ucla.edu>"
 
 # install required packages
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
     autoconf \
     build-essential \
+    ca-certificates \
     cmake \
     g++ \
     gfortran \
