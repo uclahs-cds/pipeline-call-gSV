@@ -97,7 +97,7 @@ A VCF file is generated from the BCF to run the vcf-validate command from [VCFTo
 | `reference_fasta` | yes | path | Absolute path to the reference genome `fasta` file. The reference genome is used by Delly for structural variant calling. |
 | `reference_fasta_index` | yes | path | Absolute path to the reference genome `fasta` index file. The reference genome is used by Delly for structural variant calling. |
 | `reference_prefix` | yes | path | Absolute path to the reference genome `fasta` prefix. The reference genome is used by Delly for structural variant calling. |
-| `exclusion_file` | yes | path | Absolute path to the delly reference genome `exclusion` file utilized to remove suggested regions for structural variant calling. |
+| `exclusion_file` | yes | path | Absolute path to the delly reference genome `exclusion` file utilized to remove suggested regions for structural variant calling. On Slurm/SGE, an HG38 exclusion file is located at /[hot|data]/ref/hg38/delly/human.hg38.excl.tsv |
 | `map_qual` | no | path | minimum paired-end (PE) mapping quaility threshold for Delly). |
 | `run_qc` | no | boolean | Optional parameter to indicate whether subsequent quality checks should be run. Default value is false. |
 | `save_intermediate_files` | yes | boolean | Optional parameter to indicate whether intermediate files will be saved. Default value is true. |
