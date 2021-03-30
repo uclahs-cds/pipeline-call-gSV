@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to the call-gSV pipeline.
 
+## [2.0.0] - 2021-03-30
+### Added
+- Implementation of Delly CNV, with output file conversions and SHA512s
+- Added mappability map to config inputs
+
+### Changed
+- Updated Delly dockerfile to use bl-base
+- Output files now include a tag of "SV" or "CNV", as appropriate
+
 ## [1.0.1] - 2021-03-04
 ### Changed
 - Changed Docker run permissions (docker.sudo and docker.runOptions)
