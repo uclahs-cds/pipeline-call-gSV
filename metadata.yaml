@@ -1,11 +1,11 @@
 ---
 Category: "pipeline"
-Description: "a template nf pipeline for styling and standardization"
+Description: "a pipeline for calling structural variants and copy number variants utilizing Delly"
 Maintainers: "Boutros Lab Infrastructure BoutrosLabInfrastructure@mednet.ucla.edu"
-Contributors: ["Ben Carlin", "Gina Kim"]
+Contributors: ["Yael Berkovich", "Tim Sanders"]
 Languages: ["Nextflow", "Docker"]
 Dependencies: ["Java", "Nextflow", "Docker", "Slurm"]
-References: "https://uclahs.box.com/s/qfzr99sc8ntmfddn30ii62wx4273utoz"
-Tools: ["tool_a:v1.1.0", "tool_b:v1.1.0"]
+References: "https://confluence.mednet.ucla.edu/display/BOUTROSLAB/Guide+to+Nextflow"
+Tools: ["Delly:v0.8.7", "BCFtools:v1.11", "VCFtools:v0.1.16", "RTG-tools:v3.11"]
 Engineering_Owner: []
 Scientific_Owner: []

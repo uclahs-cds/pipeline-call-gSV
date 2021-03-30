@@ -43,8 +43,8 @@ Starting workflow...
 .stripIndent()
 
 include { validate_file } from './modules/validation'
-include { delly_call_sv } from './modules/delly'
-include { bcftools_vcf } from './modules/bcftools'
+include { delly_call_sv; delly_call_cnv } from './modules/delly'
+include { bcftools_sv_vcf; bcftools_cnv_vcf } from './modules/bcftools'
 include { rtgtools_vcfstats } from './modules/rtgtools'
 include { vcftools_validator } from './modules/vcftools'
 include { generate_sha512 } from './modules/sha512'
@@ -67,7 +67,7 @@ if (!params.reference_fasta) {
 
 if (!params.exclusion_file) {
     // error out - must provide exclusion file
-    error "*** Error: You must provide an exclusion file***"
+    error "***Error: You must provide an exclusion file***"
 }
 
 if (params.reference_fasta_index) {
@@ -91,10 +91,12 @@ validation_channel = Channel
 workflow {
     validate_file(validation_channel)
     delly_call_sv(input_bam_ch, params.reference_fasta, reference_fasta_index, params.exclusion_file)
-    bcftools_vcf(delly_call_sv.out.bcf_sv_file, delly_call_sv.out.bam_sample_name)
+    delly_call_cnv(input_bam_ch, delly_call_sv.out.bcf_sv_file, params.reference_fasta, reference_fasta_index, params.mappability_map)
+    bcftools_sv_vcf(delly_call_sv.out.bcf_sv_file, delly_call_sv.out.bam_sample_name)
+    bcftools_cnv_vcf(delly_call_cnv.out.bcf_cnv_file, delly_call_cnv.out.bam_sample_name)
     if (params.run_qc) {
-        rtgtools_vcfstats(bcftools_vcf.out.vcf_sv_file, delly_call_sv.out.bam_sample_name)
-        vcftools_validator(bcftools_vcf.out.vcf_sv_file, delly_call_sv.out.bam_sample_name)
+        rtgtools_vcfstats(bcftools_sv_vcf.out.vcf_sv_file, delly_call_sv.out.bam_sample_name)
+        vcftools_validator(bcftools_sv_vcf.out.vcf_sv_file, delly_call_sv.out.bam_sample_name)
     }
-    generate_sha512(delly_call_sv.out.bcf_sv_file.mix(bcftools_vcf.out.vcf_sv_file))
+    generate_sha512(delly_call_sv.out.bcf_sv_file.mix(bcftools_sv_vcf.out.vcf_sv_file,delly_call_cnv.out.bcf_cnv_file,bcftools_cnv_vcf.out.vcf_cnv_file))
 }

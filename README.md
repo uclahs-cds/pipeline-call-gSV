@@ -6,7 +6,8 @@
   - [Flow Diagram](#flow-diagram)
   - [Pipeline Steps](#pipeline-steps)
     - [1. Calling Structural Variants](#1-calling-structural-variants)
-    - [2. Check Output Quality](#2-check-output-quality)
+    - [2. Calling Copy Number Variants](#2-calling-copy-number-variants)
+    - [3. Check Output Quality](#3-check-output-quality)
   - [Inputs](#inputs)
   - [Outputs](#outputs)
   - [Testing and Validation](#testing-and-validation)
@@ -19,7 +20,7 @@
 
 ## Overview
 
-The call-gSV nextflow pipeline, calls structural variants utilizing [Delly](https://github.com/dellytools/delly). It is suitable for detecting copy-number variable deletion and tandem duplication events as well as balanced rearrangements such as inversions or reciprocal translocations and validates the output quality with [BCFtools](https://github.com/samtools/bcftools).  The pipeline has been engineered to run in a 4 layer stack in a cloud-based scalable environment of CycleCloud, Slurm, Nextflow and Docker.  Additionally it has been validated with the SMC-HET dataset and reference GRCh38 reference genome, where paired-end FASTQ's were created with BAM Surgeon.
+The call-gSV nextflow pipeline, calls structural variants and copy number variants utilizing [Delly](https://github.com/dellytools/delly). It is suitable for detecting copy-number variable deletion and tandem duplication events as well as balanced rearrangements such as inversions or reciprocal translocations and validates the output quality with [BCFtools](https://github.com/samtools/bcftools).  The pipeline has been engineered to run in a 4 layer stack in a cloud-based scalable environment of CycleCloud, Slurm, Nextflow and Docker.  Additionally it has been validated with the SMC-HET dataset and reference GRCh38 reference genome, where paired-end FASTQ's were created with BAM Surgeon.
 
 <b><i>Developer's Notes:</i></b>
 
@@ -68,9 +69,27 @@ Currently the following filters are applied and or considered for application an
 * **sr:** >= 5 (Not yet Applied / Non-parameterized)
 * **keep_imprecise:** >= true (Not yet Applied / Non-parameterized)
 
-### 2. Check Output Quality
+### 2. Calling Copy Number Variants
 
-A VCF file is generated from the BCF to run the vcf-validate command from [VCFTools](https://vcftools.github.io/perl_module.html#vcf-validator) and vcfstats from [RTGTools](https://cdn.rawgit.com/RealTimeGenomics/rtg-tools/master/installer/resources/tools/RTGOperationsManual/rtg_command_reference.html#vcfstats).  Outputs from both provide preliminary summary statistics that can be viewed and evaluated in preparation for downstream cohort-wide re-calling and re-genotyping.
+The second step of the pipeline identifies any found copy number variants (CNVs). To do this, Delly requires an aligned and sorted BAM file and BAM index as an input, as well as the BCF output from the initial structural variant calling (to refine breakpoints) and a mappability map. Any CNVs identified are annotated and output as a single BCF file. 
+
+Currently the following filters are applied and or considered for application and parameterization in subsequent releases:
+* **quality:** = 10 (Applied / Non-parameterized)
+* **ploidy:** = 2 (Applied / Non-parameterized)
+* **sdrd:** = 2 (Applied / Non-parameterized)
+* **cn-offset** = 0.100000001 (Applied / Non-parameterized)
+* **cnv-size** = 1000 (Applied / Non-parameterized)
+* **window-size** = 10000 (Applied / Non-parameterized)
+* **window-offset** = 10000 (Applied / Non-parameterized)
+* **fraction-window** = 0.25 (Applied / Non-parameterized)
+* **scan-window** = 10000 (Applied / Non-parameterized)
+* **fraction-unique** = 0.800000012 (Applied / Non-parameterized)
+* **mad-cutoff** = 3 (Applied / Non-parameterized)
+* **percentile** = 0.000500000024 (Applied / Non-parameterized)
+
+### 3. Check Output Quality
+
+VCF files are generated from the BCFs to run the vcf-validate command from [VCFTools](https://vcftools.github.io/perl_module.html#vcf-validator) and vcfstats from [RTGTools](https://cdn.rawgit.com/RealTimeGenomics/rtg-tools/master/installer/resources/tools/RTGOperationsManual/rtg_command_reference.html#vcfstats).  Outputs from both provide preliminary summary statistics that can be viewed and evaluated in preparation for downstream cohort-wide re-calling and re-genotyping.
 
 ---
 
@@ -82,8 +101,8 @@ A VCF file is generated from the BCF to run the vcf-validate command from [VCFTo
 
 | Field | Type | Description |
 |:------|:-----|:------------|
-| patient-name | string | The patient name to be passed to final BCF. No white space is allowed. |
-| sample-name | string | The sample name to be passed to final BCF. No white space is allowed. |
+| patient | string | The patient name to be passed to final BCF/VCF. No white space is allowed. |
+| sample | string | The sample name to be passed to final BCF/VCF. No white space is allowed. |
 | input_bam | path | Absolute path to the BAM file for the sample. |
 
 ### Nextflow Config File Parameters
@@ -95,9 +114,10 @@ A VCF file is generated from the BCF to run the vcf-validate command from [VCFTo
 | `sge_scheduler` | yes | boolean | Affirms whether job will be executed on the SGE cluster. Default value is false. |
 | `input_csv` | yes | string | Absolute path to the input csv file for the pipeline. |
 | `reference_fasta` | yes | path | Absolute path to the reference genome `fasta` file. The reference genome is used by Delly for structural variant calling. |
-| `reference_fasta_index` | yes | path | Absolute path to the reference genome `fasta` index file. The reference genome is used by Delly for structural variant calling. |
+| `reference_fasta_index` | no | path | Absolute path to the reference genome `fasta` index file. The reference genome is used by Delly for structural variant calling. If this path is not specified, call-gSV will assume the index file exists in the same directory as the `reference_fasta` |
 | `reference_prefix` | yes | path | Absolute path to the reference genome `fasta` prefix. The reference genome is used by Delly for structural variant calling. |
-| `exclusion_file` | yes | path | Absolute path to the delly reference genome `exclusion` file utilized to remove suggested regions for structural variant calling. |
+| `exclusion_file` | yes | path | Absolute path to the delly reference genome `exclusion` file utilized to remove suggested regions for structural variant calling. On Slurm/SGE, an HG38 exclusion file is located at /[hot\|data]/ref/hg38/delly/human.hg38.excl.tsv |
+| `mappability_map` | yes | path | Absolute path to the delly mappability map to support GC and mappability fragment correction in CNV calling |
 | `map_qual` | no | path | minimum paired-end (PE) mapping quaility threshold for Delly). |
 | `run_qc` | no | boolean | Optional parameter to indicate whether subsequent quality checks should be run. Default value is false. |
 | `save_intermediate_files` | yes | boolean | Optional parameter to indicate whether intermediate files will be saved. Default value is true. |
@@ -130,6 +150,13 @@ Testing was performed leveraging aligned and sorted bams generated using bwa-mem
 * **A-partial:** BWA-MEM2-2.1_TEST0000000_TWGSAPRT000001-T001-S01-F.bam and bai
 * **A-full:**    a-full-CPCG0196-B1.bam and bai
 * **SMC-HET:**    HG002.N.bam and bai
+
+Test runs for the A-mini/partial/full samples were performed using the following reference files
+
+* **reference_fasta:** /hot/ref/hg38/genome/genome.fa
+* **reference_fasta_index:** /hot/ref/hg38/genome/genome.fa.fai
+* **exclusion_file:** /hot/ref/hg38/delly/human.hg38.excl.tsv
+* **mappability_map:** /hot/ref/hg38/delly/Homo_sapiens.GRCh38.dna.primary_assembly.fa.r101.s501.blacklist.gz
 
 ### Performance Validation
 
