@@ -29,7 +29,6 @@ process bcftools_sv_vcf {
 
     output:
     path "DELLY-${params.delly_version}_SV_${params.dataset_id}_${bam_sample_name}.vcf", emit: vcf_sv_file
-    //path "${file(it).getName()}", emit: vcf_sv_file
     path ".command.*"
 
     """
@@ -60,7 +59,6 @@ process bcftools_cnv_vcf {
 
     output:
     path "DELLY-${params.delly_version}_CNV_${params.dataset_id}_${bam_sample_name}.vcf", emit: vcf_cnv_file
-    //path "${file(it).getName()}", emit: vcf_sv_file
     path ".command.*"
 
     """
