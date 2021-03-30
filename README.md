@@ -19,7 +19,7 @@
 
 ## Overview
 
-The call-gSV nextflow pipeline, calls structural variants utilizing [Delly](https://github.com/dellytools/delly). It is suitable for detecting copy-number variable deletion and tandem duplication events as well as balanced rearrangements such as inversions or reciprocal translocations and validates the output quality with [BCFtools](https://github.com/samtools/bcftools).  The pipeline has been engineered to run in a 4 layer stack in a cloud-based scalable environment of CycleCloud, Slurm, Nextflow and Docker.  Additionally it has been validated with the SMC-HET dataset and reference GRCh38 reference genome, where paired-end FASTQ's were created with BAM Surgeon.
+The call-gSV nextflow pipeline, calls structural variants and copy number variants utilizing [Delly](https://github.com/dellytools/delly). It is suitable for detecting copy-number variable deletion and tandem duplication events as well as balanced rearrangements such as inversions or reciprocal translocations and validates the output quality with [BCFtools](https://github.com/samtools/bcftools).  The pipeline has been engineered to run in a 4 layer stack in a cloud-based scalable environment of CycleCloud, Slurm, Nextflow and Docker.  Additionally it has been validated with the SMC-HET dataset and reference GRCh38 reference genome, where paired-end FASTQ's were created with BAM Surgeon.
 
 <b><i>Developer's Notes:</i></b>
 
@@ -149,6 +149,13 @@ Testing was performed leveraging aligned and sorted bams generated using bwa-mem
 * **A-partial:** BWA-MEM2-2.1_TEST0000000_TWGSAPRT000001-T001-S01-F.bam and bai
 * **A-full:**    a-full-CPCG0196-B1.bam and bai
 * **SMC-HET:**    HG002.N.bam and bai
+
+Test runs for the A-mini/partial/full samples were performed using the following reference files
+
+* **reference_fasta:** /hot/ref/hg38/genome/genome.fa
+* **reference_fasta_index:** /hot/ref/hg38/genome/genome.fa.fai
+* **exclusion_file:** /hot/ref/hg38/delly/human.hg38.excl.tsv
+* **mappability_map:** /hot/ref/hg38/delly/Homo_sapiens.GRCh38.dna.primary_assembly.fa.r101.s501.blacklist.gz
 
 ### Performance Validation
 
