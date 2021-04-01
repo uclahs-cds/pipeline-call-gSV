@@ -17,6 +17,7 @@ Current Configuration:
     reference_fasta_index: ${params.reference_fasta_index}
     reference_prefix: ${params.reference_prefix}
     exclusion_file: ${params.exclusion_file}
+    mappability_map: ${params.mappability_map}
 
 - output:
     output_dir: ${params.output_dir}
