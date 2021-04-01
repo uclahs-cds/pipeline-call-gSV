@@ -13,8 +13,16 @@ Docker Images:
 process validate_file {
     container docker_image_validation
 
+    publishDir params.output_log_dir,
+        pattern: ".command.*",
+        mode: "copy",
+        saveAs: { "validate_file/${file_to_validate}.log${file(it).getName()}" }
+
     input:
     path(file_to_validate)
+
+    output:
+    path ".command.*"
 
     """
     set -euo pipefail
