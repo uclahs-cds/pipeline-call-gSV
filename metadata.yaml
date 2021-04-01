@@ -6,6 +6,6 @@ Contributors: ["Yael Berkovich", "Tim Sanders"]
 Languages: ["Nextflow", "Docker"]
 Dependencies: ["Java", "Nextflow", "Docker", "Slurm"]
 References: "https://confluence.mednet.ucla.edu/display/BOUTROSLAB/Guide+to+Nextflow"
-Tools: ["Delly:v0.8.7", "BCFtools:v1.11", "VCFtools:v0.1.16", "RTG-tools:v3.11"]
+Tools: ["Delly:v0.8.7", "BCFtools:v1.11", "VCFtools:v0.1.16", "RTG-tools:v3.11", "Validate-nf:v2.1.0"]
 Engineering_Owner: []
 Scientific_Owner: []
