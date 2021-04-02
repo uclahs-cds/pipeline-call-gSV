@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to the call-gSV pipeline.
 
+## [2.1.0] - 2021-04-01
+### Added
+- Added Validate-nf logging outputs to output logging directory
+
+### Changed
+- Updated Validate-nf tool version from 1.0.0 to 2.1.0 (Resolves issue #18)
+
 ## [2.0.0] - 2021-03-30
 ### Added
 - Implementation of Delly CNV, with output file conversions and SHA512s
