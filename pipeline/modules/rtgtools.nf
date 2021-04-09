@@ -1,6 +1,6 @@
 #!/usr/bin/env nextflow
 
-def docker_image_rtgtools = "blcdsdockerregistry/call-gsv:rtgtools-${params.rtgtools_version}"
+def docker_image_rtgtools = "blcdsdockerregistry/rtg-tools:${params.rtgtools_version}"
 
 log.info """\
 ------------------------------------
