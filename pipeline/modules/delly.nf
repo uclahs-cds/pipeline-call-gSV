@@ -1,6 +1,6 @@
 #!/usr/bin/env nextflow
 
-def docker_image_delly = "blcdsdockerregistry/call-gsv:delly-${params.delly_version}"
+def docker_image_delly = "blcdsdockerregistry/delly:${params.delly_version}"
 
 log.info """\
 ------------------------------------
