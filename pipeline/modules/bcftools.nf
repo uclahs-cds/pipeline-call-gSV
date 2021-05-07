@@ -1,6 +1,6 @@
 #!/usr/bin/env nextflow
 
-def docker_image_bcftools = "blcdsdockerregistry/call-gsv:bcftools-${params.bcftools_version}"
+def docker_image_bcftools = "blcdsdockerregistry/bcftools:${params.bcftools_version}"
 
 log.info """\
 ------------------------------------
