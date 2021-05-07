@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to the call-gSV pipeline.
 
+## [2.2.0] - 2021-05-07
+### Changed
+- Updated modules to point to tool specific Docker Hub repos
+- Update of BCFtools from 1.11 to 1.12
+- Update of RTG-tools from 3.11 to 3.12
+
 ## [2.1.0] - 2021-04-01
 ### Added
 - Added Validate-nf logging outputs to output logging directory
