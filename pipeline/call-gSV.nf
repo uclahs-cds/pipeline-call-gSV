@@ -4,9 +4,10 @@ nextflow.enable.dsl=2
 
 
 log.info """\
-======================================
-C A L L - G S V   N F  P I P E L I N E
-======================================
+=======================================
+C A L L - G S V   N F   P I P E L I N E
+            version: ${workflow.manifest.version}
+=======================================
 Boutros Lab
 
 
@@ -45,7 +46,7 @@ Starting workflow...
 
 include { run_validate } from './modules/validation'
 include { call_gSV_Delly; call_gCNV_Delly } from './modules/delly'
-include { convert_gSV_BCF2VCF_BCFtools; convert_gCNV_BCF2VCF_BCFtools } from './modules/bcftools'
+include { convert_BCF2VCF_BCFtools as convert_gSV_BCF2VCF_BCFtools; convert_BCF2VCF_BCFtools as convert_gCNV_BCF2VCF_BCFtools } from './modules/bcftools'
 include { run_vcfstats_RTGTools } from './modules/rtgtools'
 include { run_vcf_validator_VCFtools } from './modules/vcftools'
 include { run_sha512sum } from './modules/sha512'
@@ -93,11 +94,11 @@ workflow {
     run_validate(validation_channel)
     call_gSV_Delly(input_bam_ch, params.reference_fasta, reference_fasta_index, params.exclusion_file)
     call_gCNV_Delly(input_bam_ch, call_gSV_Delly.out.bcf_sv_file, params.reference_fasta, reference_fasta_index, params.mappability_map)
-    convert_gSV_BCF2VCF_BCFtools(call_gSV_Delly.out.bcf_sv_file, call_gSV_Delly.out.bam_sample_name)
-    convert_gCNV_BCF2VCF_BCFtools(call_gCNV_Delly.out.bcf_cnv_file, call_gCNV_Delly.out.bam_sample_name)
+    convert_gSV_BCF2VCF_BCFtools(call_gSV_Delly.out.bcf_sv_file, call_gSV_Delly.out.bam_sample_name, 'SV')
+    convert_gCNV_BCF2VCF_BCFtools(call_gCNV_Delly.out.bcf_cnv_file, call_gCNV_Delly.out.bam_sample_name, 'CNV')
     if (params.run_qc) {
-        run_vcfstats_RTGTools(convert_gSV_BCF2VCF_BCFtools.out.vcf_sv_file, call_gSV_Delly.out.bam_sample_name)
-        run_vcf_validator_VCFtools(convert_gSV_BCF2VCF_BCFtools.out.vcf_sv_file, call_gSV_Delly.out.bam_sample_name)
+        run_vcfstats_RTGTools(convert_gSV_BCF2VCF_BCFtools.out.vcf_file, call_gSV_Delly.out.bam_sample_name)
+        run_vcf_validator_VCFtools(convert_gSV_BCF2VCF_BCFtools.out.vcf_file, call_gSV_Delly.out.bam_sample_name)
     }
-    run_sha512sum(call_gSV_Delly.out.bcf_sv_file.mix(convert_gSV_BCF2VCF_BCFtools.out.vcf_sv_file,call_gCNV_Delly.out.bcf_cnv_file,convert_gCNV_BCF2VCF_BCFtools.out.vcf_cnv_file))
+    run_sha512sum(call_gSV_Delly.out.bcf_sv_file.mix(convert_gSV_BCF2VCF_BCFtools.out.vcf_file,call_gCNV_Delly.out.bcf_cnv_file,convert_gCNV_BCF2VCF_BCFtools.out.vcf_file))
 }
