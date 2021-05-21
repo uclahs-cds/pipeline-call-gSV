@@ -6,10 +6,11 @@ nextflow.enable.dsl=2
 log.info """\
 =======================================
 C A L L - G S V   N F   P I P E L I N E
-            version: ${workflow.manifest.version}
 =======================================
 Boutros Lab
 
+Pipeline:
+- version: ${workflow.manifest.version}
 
 Current Configuration:
 - input:
