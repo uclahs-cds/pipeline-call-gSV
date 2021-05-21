@@ -10,7 +10,7 @@ Docker Images:
 - docker_image_bcftools:   ${docker_image_bcftools}
 """
 
-process bcftools_sv_vcf {
+process convert_gSV_BCF2VCF_BCFtools {
     container docker_image_bcftools
 
     publishDir params.output_dir,
@@ -21,7 +21,7 @@ process bcftools_sv_vcf {
     publishDir params.output_log_dir,
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "bcftools_sv_vcf/${bam_sample_name}.log${file(it).getName()}" }
+        saveAs: { "convert_gSV_BCF2VCF_BCFtools/${bam_sample_name}.log${file(it).getName()}" }
 
     input:
     path bcf_sv_file
@@ -40,7 +40,7 @@ process bcftools_sv_vcf {
     """
 }
 
-process bcftools_cnv_vcf {
+process convert_gCNV_BCF2VCF_BCFtools {
     container docker_image_bcftools
 
     publishDir params.output_dir,
@@ -51,7 +51,7 @@ process bcftools_cnv_vcf {
     publishDir params.output_log_dir,
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "bcftools_cnv_vcf/${bam_sample_name}.log${file(it).getName()}" }
+        saveAs: { "convert_gCNV_BCF2VCF_BCFtools/${bam_sample_name}.log${file(it).getName()}" }
 
     input:
     path bcf_cnv_file

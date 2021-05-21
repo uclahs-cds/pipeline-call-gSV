@@ -10,7 +10,7 @@ Docker Images:
 - docker_image_sha512:   ${docker_image_sha512}
 """
 
-process generate_sha512 {
+process run_sha512sum {
     container docker_image_sha512
 
     publishDir params.output_dir,
@@ -26,7 +26,7 @@ process generate_sha512 {
     publishDir params.output_log_dir,
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "generate_sha512/${input_checksum_file}.log${file(it).getName()}" }
+        saveAs: { "run_sha512sum/${input_checksum_file}.log${file(it).getName()}" }
 
     input:
     path input_checksum_file
