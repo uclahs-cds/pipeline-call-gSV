@@ -4,13 +4,16 @@ nextflow.enable.dsl=2
 
 
 log.info """\
-======================================
-C A L L - G S V   N F  P I P E L I N E
-======================================
+=======================================
+C A L L - G S V   N F   P I P E L I N E
+=======================================
 Boutros Lab
 
 
 Current Configuration:
+- pipeline:
+    version: ${workflow.manifest.version}
+
 - input:
     input_csv: ${params.input_csv}
     reference_fasta: ${params.reference_fasta}
@@ -43,12 +46,12 @@ Starting workflow...
 """
 .stripIndent()
 
-include { validate_file } from './modules/validation'
-include { delly_call_sv; delly_call_cnv } from './modules/delly'
-include { bcftools_sv_vcf; bcftools_cnv_vcf } from './modules/bcftools'
-include { rtgtools_vcfstats } from './modules/rtgtools'
-include { vcftools_validator } from './modules/vcftools'
-include { generate_sha512 } from './modules/sha512'
+include { run_validate } from './modules/validation'
+include { call_gSV_Delly; call_gCNV_Delly } from './modules/delly'
+include { convert_BCF2VCF_BCFtools as convert_gSV_BCF2VCF_BCFtools; convert_BCF2VCF_BCFtools as convert_gCNV_BCF2VCF_BCFtools } from './modules/bcftools'
+include { run_vcfstats_RTGTools } from './modules/rtgtools'
+include { run_vcf_validator_VCFtools } from './modules/vcftools'
+include { run_sha512sum } from './modules/sha512'
 
 input_bam_ch = Channel
     .fromPath(params.input_csv, checkIfExists:true)
@@ -90,14 +93,14 @@ validation_channel = Channel
     .flatten()
 
 workflow {
-    validate_file(validation_channel)
-    delly_call_sv(input_bam_ch, params.reference_fasta, reference_fasta_index, params.exclusion_file)
-    delly_call_cnv(input_bam_ch, delly_call_sv.out.bcf_sv_file, params.reference_fasta, reference_fasta_index, params.mappability_map)
-    bcftools_sv_vcf(delly_call_sv.out.bcf_sv_file, delly_call_sv.out.bam_sample_name)
-    bcftools_cnv_vcf(delly_call_cnv.out.bcf_cnv_file, delly_call_cnv.out.bam_sample_name)
+    run_validate(validation_channel)
+    call_gSV_Delly(input_bam_ch, params.reference_fasta, reference_fasta_index, params.exclusion_file)
+    call_gCNV_Delly(input_bam_ch, call_gSV_Delly.out.bcf_sv_file, params.reference_fasta, reference_fasta_index, params.mappability_map)
+    convert_gSV_BCF2VCF_BCFtools(call_gSV_Delly.out.bcf_sv_file, call_gSV_Delly.out.bam_sample_name, 'SV')
+    convert_gCNV_BCF2VCF_BCFtools(call_gCNV_Delly.out.bcf_cnv_file, call_gCNV_Delly.out.bam_sample_name, 'CNV')
     if (params.run_qc) {
-        rtgtools_vcfstats(bcftools_sv_vcf.out.vcf_sv_file, delly_call_sv.out.bam_sample_name)
-        vcftools_validator(bcftools_sv_vcf.out.vcf_sv_file, delly_call_sv.out.bam_sample_name)
+        run_vcfstats_RTGTools(convert_gSV_BCF2VCF_BCFtools.out.vcf_file, call_gSV_Delly.out.bam_sample_name)
+        run_vcf_validator_VCFtools(convert_gSV_BCF2VCF_BCFtools.out.vcf_file, call_gSV_Delly.out.bam_sample_name)
     }
-    generate_sha512(delly_call_sv.out.bcf_sv_file.mix(bcftools_sv_vcf.out.vcf_sv_file,delly_call_cnv.out.bcf_cnv_file,bcftools_cnv_vcf.out.vcf_cnv_file))
+    run_sha512sum(call_gSV_Delly.out.bcf_sv_file.mix(convert_gSV_BCF2VCF_BCFtools.out.vcf_file,call_gCNV_Delly.out.bcf_cnv_file,convert_gCNV_BCF2VCF_BCFtools.out.vcf_file))
 }

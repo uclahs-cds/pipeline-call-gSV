@@ -10,7 +10,7 @@ Docker Images:
 - docker_image_vcftools:   ${docker_image_vcftools}
 """
 
-process vcftools_validator {
+process run_vcf_validator_VCFtools {
     container docker_image_vcftools
 
     publishDir params.output_dir,
@@ -21,7 +21,7 @@ process vcftools_validator {
     publishDir params.output_log_dir,
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "vcftools_validator/${bam_sample_name}.log${file(it).getName()}" }
+        saveAs: { "run_vcf_validator_VCFtools/${bam_sample_name}.log${file(it).getName()}" }
 
     input:
     path vcf_sv_file

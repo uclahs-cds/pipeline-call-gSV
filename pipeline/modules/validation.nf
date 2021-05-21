@@ -10,13 +10,13 @@ Docker Images:
 - docker_image_validation: ${docker_image_validation}
 """
 
-process validate_file {
+process run_validate {
     container docker_image_validation
 
     publishDir params.output_log_dir,
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "validate_file/${file_to_validate}.log${file(it).getName()}" }
+        saveAs: { "run_validate/${file_to_validate}.log${file(it).getName()}" }
 
     input:
     path(file_to_validate)

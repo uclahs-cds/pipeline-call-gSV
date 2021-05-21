@@ -10,7 +10,7 @@ Docker Images:
 - docker_image_delly:   ${docker_image_delly}
 """
 
-process delly_call_sv {
+process call_gSV_Delly {
     container docker_image_delly
 
     publishDir params.output_dir,
@@ -22,7 +22,7 @@ process delly_call_sv {
     publishDir params.output_log_dir,
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "delly_call_sv/${bam_sample_name}.log${file(it).getName()}" }
+        saveAs: { "call_gSV_Delly/${bam_sample_name}.log${file(it).getName()}" }
 
     input:
     tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
@@ -49,7 +49,7 @@ process delly_call_sv {
     """
 }
 
-process delly_call_cnv {
+process call_gCNV_Delly {
     container docker_image_delly
 
     publishDir params.output_dir,
@@ -61,7 +61,7 @@ process delly_call_cnv {
     publishDir params.output_log_dir,
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "delly_call_cnv/${bam_sample_name}.log${file(it).getName()}" }
+        saveAs: { "call_gCNV_Delly/${bam_sample_name}.log${file(it).getName()}" }
 
     input:
     tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
