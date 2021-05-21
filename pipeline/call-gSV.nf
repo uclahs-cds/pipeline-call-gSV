@@ -9,10 +9,11 @@ C A L L - G S V   N F   P I P E L I N E
 =======================================
 Boutros Lab
 
-Pipeline:
-- version: ${workflow.manifest.version}
 
 Current Configuration:
+- pipeline:
+    version: ${workflow.manifest.version}
+
 - input:
     input_csv: ${params.input_csv}
     reference_fasta: ${params.reference_fasta}
