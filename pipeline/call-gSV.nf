@@ -34,6 +34,7 @@ Current Configuration:
 
 - tools:
     delly: ${params.delly_version}
+    manta: ${params.manta_version}
     bcftools: ${params.bcftools_version}
     vcftools: ${params.vcftools_version}
     rtgtools: ${params.rtgtools_version}
@@ -48,6 +49,7 @@ Starting workflow...
 
 include { run_validate } from './modules/validation'
 include { call_gSV_Delly; call_gCNV_Delly } from './modules/delly'
+include { call_gSV_Manta } from './modules/manta'
 include { convert_BCF2VCF_BCFtools as convert_gSV_BCF2VCF_BCFtools; convert_BCF2VCF_BCFtools as convert_gCNV_BCF2VCF_BCFtools } from './modules/bcftools'
 include { run_vcfstats_RTGTools } from './modules/rtgtools'
 include { run_vcf_validator_VCFtools } from './modules/vcftools'
@@ -94,6 +96,7 @@ validation_channel = Channel
 
 workflow {
     run_validate(validation_channel)
+    call_gSV_Manta(input_bam_ch, params.reference_fasta, reference_fasta_index)
     call_gSV_Delly(input_bam_ch, params.reference_fasta, reference_fasta_index, params.exclusion_file)
     call_gCNV_Delly(input_bam_ch, call_gSV_Delly.out.bcf_sv_file, params.reference_fasta, reference_fasta_index, params.mappability_map)
     convert_gSV_BCF2VCF_BCFtools(call_gSV_Delly.out.bcf_sv_file, call_gSV_Delly.out.bam_sample_name, 'SV')
@@ -102,5 +105,6 @@ workflow {
         run_vcfstats_RTGTools(convert_gSV_BCF2VCF_BCFtools.out.vcf_file, call_gSV_Delly.out.bam_sample_name)
         run_vcf_validator_VCFtools(convert_gSV_BCF2VCF_BCFtools.out.vcf_file, call_gSV_Delly.out.bam_sample_name)
     }
-    run_sha512sum(call_gSV_Delly.out.bcf_sv_file.mix(convert_gSV_BCF2VCF_BCFtools.out.vcf_file,call_gCNV_Delly.out.bcf_cnv_file,convert_gCNV_BCF2VCF_BCFtools.out.vcf_file))
+    run_sha512sum(call_gSV_Delly.out.bcf_sv_file.mix(convert_gSV_BCF2VCF_BCFtools.out.vcf_file, call_gCNV_Delly.out.bcf_cnv_file, convert_gCNV_BCF2VCF_BCFtools.out.vcf_file,
+                call_gSV_Manta.out.vcf_small_indel_sv_file, call_gSV_Manta.out.vcf_diploid_sv_file, call_gSV_Manta.out.vcf_candidate_sv_file))
 }

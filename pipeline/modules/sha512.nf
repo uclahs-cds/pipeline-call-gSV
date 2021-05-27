@@ -23,6 +23,11 @@ process run_sha512sum {
         mode: "copy",
         saveAs: { "delly-${params.delly_version}/${file(it).getName()}" }
 
+    publishDir params.output_dir,
+        pattern: "*.vcf.gz*.sha512",
+        mode: "copy",
+        saveAs: { "manta-${params.manta_version}/results/variants/${file(it).getName()}" }
+
     publishDir params.output_log_dir,
         pattern: ".command.*",
         mode: "copy",
