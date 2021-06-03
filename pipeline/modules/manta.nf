@@ -16,7 +16,7 @@ process call_gSV_Manta {
     publishDir params.output_dir,
         pattern: "MantaWorkflow/results",
         mode: "copy",
-        saveAs: { "manta-${params.manta_version}/${file(it).getName()}" }
+        saveAs: { "Manta-${params.manta_version}/${file(it).getName()}" }
 
     publishDir params.output_log_dir,
         pattern: ".command.*",
