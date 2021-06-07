@@ -56,7 +56,7 @@ process call_gCNV_Delly {
         enabled: params.save_intermediate_files,
         pattern: "*.bcf*",
         mode: "copy",
-        saveAs: { "delly-${params.delly_version}/${file(it).getName()}" }
+        saveAs: { "Delly-${params.delly_version}/${file(it).getName()}" }
 
     publishDir params.output_log_dir,
         pattern: ".command.*",
