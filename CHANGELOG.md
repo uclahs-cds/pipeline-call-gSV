@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to the call-gSV pipeline.
 
-## [3.0.0] - 2021-06-08
+## [Unreleased]
 ### Added
 - Added ability to call germline SVs with Manta
 - Added parameters to control which SV caller is used (run_delly & run_manta)
