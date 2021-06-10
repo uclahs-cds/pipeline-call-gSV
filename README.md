@@ -93,7 +93,7 @@ Currently the following filters are applied by Delly when calling copy  number v
 | `cnv-size` | 1000 | | Minimum CNV size |
 | `window-size` | 10000 | | Window size |
 | `window-offset` | 10000 | | Window offset |
-| `fraction-window` | 0.25 | | Minimum callable window fraction [0.1] |
+| `fraction-window` | 0.25 | | Minimum callable window fraction [0,1] |
 | `scan-window` | 10000 | | Scanning window size |
 | `fraction-unique` | 0.800000012 | | Uniqueness filter for scan windows [0,1] |
 | `mad-cutoff` | 3 | | Median + 3 * mad count cutoff |
