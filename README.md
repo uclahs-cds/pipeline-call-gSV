@@ -64,7 +64,7 @@ A directed acyclic graph of your pipeline.
 The first step of the pipeline requires an aligned and sorted BAM file and BAM index as an input for variant calling with [Delly](https://github.com/dellytools/delly) or [Manta](https://github.com/Illumina/manta). Delly combines short-range and long-range paired-end mapping and split-read analysis for the discovery of balanced and unbalanced structural variants at single-nucleotide breakpoint resolution (deletions, tandem duplications, inversions and translocations.) Structural variants are called, annotated and merged into a single BCF file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
 Manta calls structural variants (SVs) and indels from mapped paired-end sequencing reads. It is optimized for analysis of germline variation in small sets of individuals and somatic variation in tumor/normal sample pairs. Manta discovers, assembles and scores large-scale SVs, medium-sized indels and large insertions within a single efficient workflow.
 
-Currently the following filters are applied by Delly. Parameters with a "call-gSV default" can be updated in the nextflow.config file.
+Currently the following filters are applied by Delly when calling structural variants. Parameters with a "call-gSV default" can be updated in the nextflow.config file.
 <br>
 | Parameter | Delly default | call-gSV default | Description |
 |:------------|:----------|:-------------------------|-------------|
@@ -82,19 +82,23 @@ Currently the following filters are applied by Delly. Parameters with a "call-gS
 
 The second step of the pipeline identifies any found copy number variants (CNVs). To do this, Delly requires an aligned and sorted BAM file and BAM index as an input, as well as the BCF output from the initial structural variant calling (to refine breakpoints) and a mappability map. Any CNVs identified are annotated and output as a single BCF file. 
 
-Currently the following filters are applied and or considered for application and parameterization in subsequent releases:
-* **quality:** = 10 (Applied / Non-parameterized)
-* **ploidy:** = 2 (Applied / Non-parameterized)
-* **sdrd:** = 2 (Applied / Non-parameterized)
-* **cn-offset** = 0.100000001 (Applied / Non-parameterized)
-* **cnv-size** = 1000 (Applied / Non-parameterized)
-* **window-size** = 10000 (Applied / Non-parameterized)
-* **window-offset** = 10000 (Applied / Non-parameterized)
-* **fraction-window** = 0.25 (Applied / Non-parameterized)
-* **scan-window** = 10000 (Applied / Non-parameterized)
-* **fraction-unique** = 0.800000012 (Applied / Non-parameterized)
-* **mad-cutoff** = 3 (Applied / Non-parameterized)
-* **percentile** = 0.000500000024 (Applied / Non-parameterized)
+Currently the following filters are applied by Delly when calling copy  number variants. Parameters with a "call-gSV default" can be updated in the nextflow.config file.
+<br>
+| Parameter | Delly default | call-gSV default | Description |
+|:------------|:----------|:-------------------------|-------------|
+| `quality` | 10 |  | Minimum mapping quality |
+| `ploidy` | 2 | | Baseline ploidy |
+| `sdrd` | 2 | | Minimum SD read-depth shift |
+| `cn-offset` | 0.100000001 | | Minimum CN offset |
+| `cnv-size` | 1000 | | Minimum CNV size |
+| `window-size` | 10000 | | Window size |
+| `window-offset` | 10000 | | Window offset |
+| `fraction-window` | 0.25 | | Minimum callable window fraction [0.1] |
+| `scan-window` | 10000 | | Scanning window size |
+| `fraction-unique` | 0.800000012 | | Uniqueness filter for scan windows [0,1] |
+| `mad-cutoff` | 3 | | Median + 3 * mad count cutoff |
+| `percentile` | 0.000500000024 | | Excl. extreme GC fraction |
+<br>
 
 ### 3. Check Output Quality
 
