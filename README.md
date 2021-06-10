@@ -20,7 +20,7 @@
 
 ## Overview
 
-The call-gSV nextflow pipeline, calls structural variants and copy number variants utilizing [Delly](https://github.com/dellytools/delly). It is suitable for detecting copy-number variable deletion and tandem duplication events as well as balanced rearrangements such as inversions or reciprocal translocations and validates the output quality with [BCFtools](https://github.com/samtools/bcftools).  The pipeline has been engineered to run in a 4 layer stack in a cloud-based scalable environment of CycleCloud, Slurm, Nextflow and Docker.  Additionally it has been validated with the SMC-HET dataset and reference GRCh38 reference genome, where paired-end FASTQ's were created with BAM Surgeon.
+The call-gSV nextflow pipeline, calls structural variants and copy number variants utilizing [Delly](https://github.com/dellytools/delly) and [Manta](https://github.com/Illumina/manta). It is suitable for detecting copy-number variable deletion and tandem duplication events as well as balanced rearrangements such as inversions or reciprocal translocations and validates the output quality with [BCFtools](https://github.com/samtools/bcftools).  The pipeline has been engineered to run in a 4 layer stack in a cloud-based scalable environment of CycleCloud, Slurm, Nextflow and Docker.  Additionally it has been validated with the SMC-HET dataset and reference GRCh38 reference genome, where paired-end FASTQ's were created with BAM Surgeon.
 
 <b><i>Developer's Notes:</i></b>
 
@@ -28,11 +28,11 @@ The call-gSV nextflow pipeline, calls structural variants and copy number varian
 
 ### Node Specific Config File Settings
 
-| Config File | Available Node cpus / memory | Designated Process 1; cpus / memory | Designated Process 2; cpus / memory |
-|:------------|:---------|:-------------------------|:-------------------------|
-| `lowmem.config` | 2 / 3 GB | delly_call_sv; 1 / 3 GB | validate_file; 1 / 1 GB |
-| `midmem.config` | 72 / 136.8 GB | delly_call_sv; 71 / 130 GB | validate_file; 1 / 1 GB |
-| `execute.config` | 64 / 950 GB | delly_call_sv; 63 / 940 GB | validate_file; 1 / 1 GB |
+| Config File | Available Node cpus / memory | Designated Process 1; cpus / memory | Designated Process 2; cpus / memory | Designated Process 3; cpus / memory |
+|:------------|:---------|:-------------------------|:-------------------------|:-------------------------|
+| `lowmem.config` | 2 / 3 GB | call_gSV_Delly; 1 / 2 GB | call_gSV_Manta; 1 / 2 GB | validate_file; 1 / 1 GB |
+| `midmem.config` | 72 / 136.8 GB | call_gSV_Delly; 35 / 65 GB | call_gSV_Manta; 35 / 65 GB | validate_file; 1 / 1 GB |
+| `execute.config` | 64 / 950 GB | call_gSV_Delly; 31 / 470 GB | call_gSV_Manta; 31 / 470 GB | validate_file; 1 / 1 GB |
 ---
 
 ## How To Run
@@ -61,35 +61,48 @@ A directed acyclic graph of your pipeline.
 
 ### 1. Calling Structural Variants
 
-The first step of the pipeline requires an aligned and sorted BAM file and BAM index as an input for variant calling with [Delly.](https://github.com/dellytools/delly) Delly combines short-range and long-range paired-end mapping and split-read analysis for the discovery of balanced and unbalanced structural variants at single-nucleotide breakpoint resolution (deletions, tandem duplications, inversions and translocations.) Structural variants are called, annotated and merged into a single BCF file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
+The first step of the pipeline requires an aligned and sorted BAM file and BAM index as an input for variant calling with [Delly](https://github.com/dellytools/delly) or [Manta](https://github.com/Illumina/manta). Delly combines short-range and long-range paired-end mapping and split-read analysis for the discovery of balanced and unbalanced structural variants at single-nucleotide breakpoint resolution (deletions, tandem duplications, inversions and translocations.) Structural variants are called, annotated and merged into a single BCF file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
+Manta calls structural variants (SVs) and indels from mapped paired-end sequencing reads. It is optimized for analysis of germline variation in small sets of individuals and somatic variation in tumor/normal sample pairs. Manta discovers, assembles and scores large-scale SVs, medium-sized indels and large insertions within a single efficient workflow.
 
-Currently the following filters are applied and or considered for application and parameterization in subsequent releases:
-* **map-qual:** >= 20 (Applied / Parameterized)    
-* **pe:** >= 5 (Not yet Applied / Non-parameterized)
-* **sr:** >= 5 (Not yet Applied / Non-parameterized)
-* **keep_imprecise:** >= true (Not yet Applied / Non-parameterized)
+Currently the following filters are applied by Delly when calling structural variants. Parameters with a "call-gSV default" can be updated in the nextflow.config file.
+<br>
+| Parameter | Delly default | call-gSV default | Description |
+|:------------|:----------|:-------------------------|-------------|
+| `svtype` | ALL | | SV type to compute (DEL, INS, DUP, INV, BND, ALL) |
+| `map-qual` | 1 | 20 | Minimum paired-end (PE) mapping quality |
+| `qual-tra` | 20 |  | Minimum PE quality for translocation |
+| `mad-cutoff` | 9 |  | Insert size cutoff, median+s*MAD (deletions only) |
+| `minclip` | 25 |  | Minimum clipping length |
+| `min-clique-size` | 2 |  | Minimum PE/SR clique size |
+| `minrefsep` | 25 |  | Minimum reference separation |
+| `maxreadsep` | 40 |  | Maximum read separation |
+<br>
 
 ### 2. Calling Copy Number Variants
 
 The second step of the pipeline identifies any found copy number variants (CNVs). To do this, Delly requires an aligned and sorted BAM file and BAM index as an input, as well as the BCF output from the initial structural variant calling (to refine breakpoints) and a mappability map. Any CNVs identified are annotated and output as a single BCF file. 
 
-Currently the following filters are applied and or considered for application and parameterization in subsequent releases:
-* **quality:** = 10 (Applied / Non-parameterized)
-* **ploidy:** = 2 (Applied / Non-parameterized)
-* **sdrd:** = 2 (Applied / Non-parameterized)
-* **cn-offset** = 0.100000001 (Applied / Non-parameterized)
-* **cnv-size** = 1000 (Applied / Non-parameterized)
-* **window-size** = 10000 (Applied / Non-parameterized)
-* **window-offset** = 10000 (Applied / Non-parameterized)
-* **fraction-window** = 0.25 (Applied / Non-parameterized)
-* **scan-window** = 10000 (Applied / Non-parameterized)
-* **fraction-unique** = 0.800000012 (Applied / Non-parameterized)
-* **mad-cutoff** = 3 (Applied / Non-parameterized)
-* **percentile** = 0.000500000024 (Applied / Non-parameterized)
+Currently the following filters are applied by Delly when calling copy  number variants. Parameters with a "call-gSV default" can be updated in the nextflow.config file.
+<br>
+| Parameter | Delly default | call-gSV default | Description |
+|:------------|:----------|:-------------------------|-------------|
+| `quality` | 10 |  | Minimum mapping quality |
+| `ploidy` | 2 | | Baseline ploidy |
+| `sdrd` | 2 | | Minimum SD read-depth shift |
+| `cn-offset` | 0.100000001 | | Minimum CN offset |
+| `cnv-size` | 1000 | | Minimum CNV size |
+| `window-size` | 10000 | | Window size |
+| `window-offset` | 10000 | | Window offset |
+| `fraction-window` | 0.25 | | Minimum callable window fraction [0,1] |
+| `scan-window` | 10000 | | Scanning window size |
+| `fraction-unique` | 0.800000012 | | Uniqueness filter for scan windows [0,1] |
+| `mad-cutoff` | 3 | | Median + 3 * mad count cutoff |
+| `percentile` | 0.000500000024 | | Excl. extreme GC fraction |
+<br>
 
 ### 3. Check Output Quality
 
-VCF files are generated from the BCFs to run the vcf-validate command from [VCFTools](https://vcftools.github.io/perl_module.html#vcf-validator) and vcfstats from [RTGTools](https://cdn.rawgit.com/RealTimeGenomics/rtg-tools/master/installer/resources/tools/RTGOperationsManual/rtg_command_reference.html#vcfstats).  Outputs from both provide preliminary summary statistics that can be viewed and evaluated in preparation for downstream cohort-wide re-calling and re-genotyping.
+For Delly, VCF files are generated from the BCFs to run the vcf-validate command from [VCFTools](https://vcftools.github.io/perl_module.html#vcf-validator) and vcfstats from [RTGTools](https://cdn.rawgit.com/RealTimeGenomics/rtg-tools/master/installer/resources/tools/RTGOperationsManual/rtg_command_reference.html#vcfstats).  Outputs from both provide preliminary summary statistics that can be viewed and evaluated in preparation for downstream cohort-wide re-calling and re-genotyping. In the Manta branch of the pipeline, a stats directory is generated under the specific output directory <outputDirectory>/Manta-<version number>/results/stats where information can be found regarding the SVs identified.
 
 ---
 
@@ -119,7 +132,9 @@ VCF files are generated from the BCFs to run the vcf-validate command from [VCFT
 | `exclusion_file` | yes | path | Absolute path to the delly reference genome `exclusion` file utilized to remove suggested regions for structural variant calling. On Slurm/SGE, an HG38 exclusion file is located at /[hot\|data]/ref/hg38/delly/human.hg38.excl.tsv |
 | `mappability_map` | yes | path | Absolute path to the delly mappability map to support GC and mappability fragment correction in CNV calling |
 | `map_qual` | no | path | minimum paired-end (PE) mapping quaility threshold for Delly). |
-| `run_qc` | no | boolean | Optional parameter to indicate whether subsequent quality checks should be run. Default value is false. |
+| `run_delly` | true | boolean | Whether or not the workflow should run Delly (either run_delly or run_manta must be set to true) |
+| `run_manta` | true | boolean | Whether or not the workflow should run Manta (either run_delly or run_manta must be set to true) |
+| `run_qc` | no | boolean | Optional parameter to indicate whether subsequent quality checks should be run on Delly outputs. Default value is false. |
 | `save_intermediate_files` | yes | boolean | Optional parameter to indicate whether intermediate files will be saved. Default value is true. |
 | `output_dir` | yes | path | Absolute path to the directory where the output files to be saved. 
 | `temp_dir` | yes | path | Absolute path to the directory where the nextflow's intermediate files are saved. |
@@ -131,7 +146,7 @@ VCF files are generated from the BCFs to run the vcf-validate command from [VCFT
 | Output | Output Type | Description |
 |:-------|:---------|:------------|
 | `.bcf` | final | Binary VCF output format with structural variants if found. |
-| `.vcf` | intermediate | VCF output format with structural variants if found.|
+| `.vcf` | intermediate | VCF output format with structural variants if found. If output by Manta, these VCFs will be compressed. |
 | `.bcf.csi` | final | CSI-format index for BAM files. |
 | `.validate.txt` | final | output file from vcf-validator. |
 | `.stats.txt` | final | output file from RTG Tools. |
@@ -205,7 +220,8 @@ Included is a template for validating your input files. For more information on 
 ## References
 
 1. [Rausch T, Zichner T, Schlattl A, Stütz AM, Benes V, Korbel JO. DELLY: structural variant discovery by integrated paired-end and split-read analysis. Bioinformatics. 2012;28(18):i333-i339. doi:10.1093/bioinformatics/bts378](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3436805/)
-2. [VCFtools - vcf-validator](https://vcftools.github.io/perl_module.html#vcf-validator)
-3. [Real Time Genomics RTG Tools Operations Manual - vcfstats](https://cdn.rawgit.com/RealTimeGenomics/rtg-tools/master/installer/resources/tools/RTGOperationsManual/rtg_command_reference.html#vcfstats)
-4. [Boutros Lab -CallSV Quality Control pipeline]()
-5. [The 1000 Genomes Project Consortium., Corresponding authors., Auton, A. et al. A global reference for human genetic variation. Nature 526, 68–74 (2015). https://doi.org/10.1038/nature15393](https://www.nature.com/articles/nature15393)
+2. Chen, X. et al. (2016) Manta: rapid detection of structural variants and indels for germline and cancer sequencing applications. Bioinformatics, 32, 1220-1222. [doi:10.1093/bioinformatics/btv710](https://academic.oup.com/bioinformatics/article/32/8/1220/1743909)
+3. [VCFtools - vcf-validator](https://vcftools.github.io/perl_module.html#vcf-validator)
+4. [Real Time Genomics RTG Tools Operations Manual - vcfstats](https://cdn.rawgit.com/RealTimeGenomics/rtg-tools/master/installer/resources/tools/RTGOperationsManual/rtg_command_reference.html#vcfstats)
+5. [Boutros Lab -CallSV Quality Control pipeline]()
+6. [The 1000 Genomes Project Consortium., Corresponding authors., Auton, A. et al. A global reference for human genetic variation. Nature 526, 68–74 (2015). https://doi.org/10.1038/nature15393](https://www.nature.com/articles/nature15393)

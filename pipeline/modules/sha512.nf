@@ -16,12 +16,17 @@ process run_sha512sum {
     publishDir params.output_dir,
         pattern: "*.vcf.sha512",
         mode: "copy",
-        saveAs: { "bcftools-${params.bcftools_version}/${file(it).getName()}" }
+        saveAs: { "BCFtools-${params.bcftools_version}/${file(it).getName()}" }
 
     publishDir params.output_dir,
         pattern: "*.bcf.sha512",
         mode: "copy",
-        saveAs: { "delly-${params.delly_version}/${file(it).getName()}" }
+        saveAs: { "Delly-${params.delly_version}/${file(it).getName()}" }
+
+    publishDir params.output_dir,
+        pattern: "*.vcf.gz*.sha512",
+        mode: "copy",
+        saveAs: { "Manta-${params.manta_version}/results/variants/${file(it).getName()}" }
 
     publishDir params.output_log_dir,
         pattern: ".command.*",

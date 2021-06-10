@@ -16,7 +16,7 @@ process convert_BCF2VCF_BCFtools {
     publishDir params.output_dir,
         pattern: "*.vcf",
         mode: "copy",
-        saveAs: { "bcftools-${params.bcftools_version}/${file(it).getName()}" }
+        saveAs: { "BCFtools-${params.bcftools_version}/${file(it).getName()}" }
 
     publishDir params.output_log_dir,
         pattern: ".command.*",
