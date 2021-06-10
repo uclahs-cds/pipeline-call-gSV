@@ -64,14 +64,19 @@ A directed acyclic graph of your pipeline.
 The first step of the pipeline requires an aligned and sorted BAM file and BAM index as an input for variant calling with [Delly](https://github.com/dellytools/delly) or [Manta](https://github.com/Illumina/manta). Delly combines short-range and long-range paired-end mapping and split-read analysis for the discovery of balanced and unbalanced structural variants at single-nucleotide breakpoint resolution (deletions, tandem duplications, inversions and translocations.) Structural variants are called, annotated and merged into a single BCF file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
 Manta calls structural variants (SVs) and indels from mapped paired-end sequencing reads. It is optimized for analysis of germline variation in small sets of individuals and somatic variation in tumor/normal sample pairs. Manta discovers, assembles and scores large-scale SVs, medium-sized indels and large insertions within a single efficient workflow.
 
-Currently the following filters are applied and or considered for application and parameterization in subsequent releases:
+Currently the following filters are applied by Delly. Parameters with a "call-gSV default" can be updated in the nextflow.config file.
 <br>
-**Delly**
-* **map-qual:** >= 20 (Applied / Parameterized)    
-* **pe:** >= 5 (Not yet Applied / Non-parameterized)
-* **sr:** >= 5 (Not yet Applied / Non-parameterized)
-* **keep_imprecise:** >= true (Not yet Applied / Non-parameterized)
-
+| Parameter | Delly default | call-gSV default | Description |
+|:------------|:----------|:-------------------------|-------------|
+| `svtype` | ALL | | SV type to compute (DEL, INS, DUP, INV, BND, ALL) |
+| `map-qual` | 20 | 20 | Minimum paired-end (PE) mapping quality |
+| `qual-tra` | 20 |  | Minimum PE quality for translocation |
+| `mad-cutoff` | 9 |  | Insert size cutoff, median+s*MAD (deletions only) |
+| `minclip` | 25 |  | Minimum clipping length |
+| `min-clique-size` | 2 |  | Minimum PE/SR clique size |
+| `minrefsep` | 25 |  | Minimum reference separation |
+| `maxreadsep` | 40 |  | Maximum read separation |
+<br>
 
 ### 2. Calling Copy Number Variants
 
