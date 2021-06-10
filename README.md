@@ -69,7 +69,7 @@ Currently the following filters are applied by Delly when calling structural var
 | Parameter | Delly default | call-gSV default | Description |
 |:------------|:----------|:-------------------------|-------------|
 | `svtype` | ALL | | SV type to compute (DEL, INS, DUP, INV, BND, ALL) |
-| `map-qual` | 20 | 20 | Minimum paired-end (PE) mapping quality |
+| `map-qual` | 1 | 20 | Minimum paired-end (PE) mapping quality |
 | `qual-tra` | 20 |  | Minimum PE quality for translocation |
 | `mad-cutoff` | 9 |  | Insert size cutoff, median+s*MAD (deletions only) |
 | `minclip` | 25 |  | Minimum clipping length |
