@@ -6,6 +6,7 @@ All notable changes to the call-gSV pipeline.
 - Added ability to call germline SVs with Manta
 - Added parameters to control which SV caller is used (run_delly & run_manta)
 - Added pipeline version from manifest to pipeline logging output
+- Added CNV VCF outputs to QC processes
 
 ### Changed
 - Changed output directories to correspond with tool name casing
