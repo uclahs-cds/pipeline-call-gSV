@@ -26,14 +26,15 @@ process run_vcf_validator_VCFtools {
     input:
     path vcf_sv_file
     val bam_sample_name
+    val variant_type
 
     output:
-    path "DELLY-${params.delly_version}_${params.dataset_id}_${bam_sample_name}_validation.txt"
+    path "DELLY-${params.delly_version}_${variant_type}_${params.dataset_id}_${bam_sample_name}_validation.txt"
     path ".command.*"
 
     """
     set -euo pipefail
 
-    vcf-validator -d -u $vcf_sv_file > DELLY-${params.delly_version}_${params.dataset_id}_${bam_sample_name}_validation.txt;
+    vcf-validator -d -u $vcf_sv_file > DELLY-${params.delly_version}_${variant_type}_${params.dataset_id}_${bam_sample_name}_validation.txt;
     """
 }

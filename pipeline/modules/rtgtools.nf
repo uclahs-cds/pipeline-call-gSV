@@ -26,14 +26,15 @@ process run_vcfstats_RTGTools {
     input:
     path vcf_sv_file
     val bam_sample_name
+    val variant_type
 
     output:
-    path "DELLY-${params.delly_version}_${params.dataset_id}_${bam_sample_name}_stats.txt"
+    path "DELLY-${params.delly_version}_${variant_type}_${params.dataset_id}_${bam_sample_name}_stats.txt"
     path ".command.*"
 
     """
     set -euo pipefail
 
-    rtg vcfstats $vcf_sv_file > DELLY-${params.delly_version}_${params.dataset_id}_${bam_sample_name}_stats.txt
+    rtg vcfstats $vcf_sv_file > DELLY-${params.delly_version}_${variant_type}_${params.dataset_id}_${bam_sample_name}_stats.txt
     """
 }
