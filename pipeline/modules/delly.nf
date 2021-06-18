@@ -49,6 +49,47 @@ process call_gSV_Delly {
     """
 }
 
+process regenotype_gSV_Delly {
+    container docker_image_delly
+
+    publishDir params.output_dir,
+        enabled: params.save_intermediate_files,
+        pattern: "*.bcf*",
+        mode: "copy",
+        saveAs: { "Delly-${params.delly_version}/${file(it).getName()}" }
+
+    publishDir params.output_log_dir,
+        pattern: ".command.*",
+        mode: "copy",
+        saveAs: { "regenotype_gSV_Delly/${bam_sample_name}.log${file(it).getName()}" }
+
+    input:
+        tuple val(bam_sample_name), path(input_bam), path(input_bam_bai)
+        path(reference_fasta)
+        path(reference_fasta_fai)
+        path(exclusion_file_or_mappability_map)
+        path(sites)
+        val mode
+
+    output:
+        path "DELLY-${params.delly_version}_RGSV_${params.dataset_id}_${bam_sample_name}.bcf", emit: regenotyped_sv_bcf
+        path "DELLY-${params.delly_version}_RGSV_${params.dataset_id}_${bam_sample_name}.bcf.csi", emit: regenotyped_sv_bcf_csi
+        path ".command.*"
+
+    script:
+    """
+    set -euo pipefail
+    delly \
+        call \
+        --vcffile $sites \
+        --exclude $exclusion_file_or_mappability_map \
+        --genome $reference_fasta \
+        --outfile "DELLY-${params.delly_version}_RGSV_${params.dataset_id}_${bam_sample_name}.bcf" \
+        --map-qual ${params.map_qual} \
+        "$input_bam"
+    """
+}
+
 process call_gCNV_Delly {
     container docker_image_delly
 
@@ -85,5 +126,45 @@ process call_gCNV_Delly {
         --svfile        $delly_sv_file \
         --mappability   ${params.mappability_map} \
         $input_bam
+    """
+}
+
+process regenotype_gCNV_Delly {
+    container docker_image_delly
+
+    publishDir params.output_dir,
+        enabled: params.save_intermediate_files,
+        pattern: "*.bcf*",
+        mode: "copy",
+        saveAs: { "Delly-${params.delly_version}/${file(it).getName()}" }
+
+    publishDir params.output_log_dir,
+        pattern: ".command.*",
+        mode: "copy",
+        saveAs: { "regenotype_gCNV_Delly/${bam_sample_name}.log${file(it).getName()}" }
+
+    input:
+        tuple val(bam_sample_name), path(input_bam), path(input_bam_bai)
+        path(reference_fasta)
+        path(reference_fasta_fai)
+        path(exclusion_file_or_mappability_map)
+        path(sites)
+
+    output:
+        path "DELLY-${params.delly_version}_RGCNV_${params.dataset_id}_${bam_sample_name}.bcf", emit: regenotyped_cnv_bcf
+        path "DELLY-${params.delly_version}_RGCNV_${params.dataset_id}_${bam_sample_name}.bcf.csi", emit: regenotyped_cnv_bcf_csi
+        path ".command.*"
+
+    script:
+    """
+    set -euo pipefail
+    delly \
+        cnv \
+        --segmentation \
+        --vcffile       $sites \
+        --exclude $exclusion_file_or_mappability_map \
+        --genome $reference_fasta \
+        --outfile "DELLY-${params.delly_version}_RGCNV_${params.dataset_id}_${bam_sample_name}.bcf" \
+        "$input_bam"
     """
 }
