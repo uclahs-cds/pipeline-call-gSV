@@ -64,12 +64,14 @@ process regenotype_gSV_Delly {
         saveAs: { "regenotype_gSV_Delly/${bam_sample_name}.log${file(it).getName()}" }
 
     input:
-        tuple val(bam_sample_name), path(input_bam), path(input_bam_bai)
+        tuple val(bam_sample_name), path(input_bam), path(input_bam_bai), val(mode)
         path(reference_fasta)
         path(reference_fasta_fai)
         path(exclusion_file_or_mappability_map)
         path(sites)
-        val mode
+
+    when:
+    mode == 'SV'
 
     output:
         path "DELLY-${params.delly_version}_RGSV_${params.dataset_id}_${bam_sample_name}.bcf", emit: regenotyped_sv_bcf
@@ -144,7 +146,7 @@ process regenotype_gCNV_Delly {
         saveAs: { "regenotype_gCNV_Delly/${bam_sample_name}.log${file(it).getName()}" }
 
     input:
-        tuple val(bam_sample_name), path(input_bam), path(input_bam_bai)
+        tuple val(bam_sample_name), path(input_bam), path(input_bam_bai), val(mode)
         path(reference_fasta)
         path(reference_fasta_fai)
         path(exclusion_file_or_mappability_map)
@@ -154,6 +156,9 @@ process regenotype_gCNV_Delly {
         path "DELLY-${params.delly_version}_RGCNV_${params.dataset_id}_${bam_sample_name}.bcf", emit: regenotyped_cnv_bcf
         path "DELLY-${params.delly_version}_RGCNV_${params.dataset_id}_${bam_sample_name}.bcf.csi", emit: regenotyped_cnv_bcf_csi
         path ".command.*"
+
+    when:
+    mode == 'CNV'
 
     script:
     """
