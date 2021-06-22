@@ -25,17 +25,17 @@ process call_gSV_Delly {
         saveAs: { "call_gSV_Delly/${bam_sample_name}.log${file(it).getName()}" }
 
     input:
-    tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
-    path(reference_fasta)
-    path(reference_fasta_fai)
-    path(exclusion_file)
+        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
+        path(reference_fasta)
+        path(reference_fasta_fai)
+        path(exclusion_file)
 
 
     output:
-    path "DELLY-${params.delly_version}_SV_${params.dataset_id}_${bam_sample_name}.bcf", emit: bcf_sv_file
-    path "DELLY-${params.delly_version}_SV_${params.dataset_id}_${bam_sample_name}.bcf.csi"
-    path ".command.*"
-    val bam_sample_name, emit: bam_sample_name
+        path "DELLY-${params.delly_version}_SV_${params.dataset_id}_${bam_sample_name}.bcf", emit: bcf_sv_file
+        path "DELLY-${params.delly_version}_SV_${params.dataset_id}_${bam_sample_name}.bcf.csi"
+        path ".command.*"
+        val bam_sample_name, emit: bam_sample_name
 
     """
     set -euo pipefail
@@ -71,7 +71,7 @@ process regenotype_gSV_Delly {
         path(sites)
 
     when:
-    mode == 'SV'
+        mode == 'SV'
 
     output:
         path "DELLY-${params.delly_version}_RGSV_${params.dataset_id}_${bam_sample_name}.bcf", emit: regenotyped_sv_bcf
@@ -107,17 +107,17 @@ process call_gCNV_Delly {
         saveAs: { "call_gCNV_Delly/${bam_sample_name}.log${file(it).getName()}" }
 
     input:
-    tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
-    path(delly_sv_file)
-    path(reference_fasta)
-    path(reference_fasta_fai)
-    path(mappability_file)
+        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
+        path(delly_sv_file)
+        path(reference_fasta)
+        path(reference_fasta_fai)
+        path(mappability_file)
 
     output:
-    path "DELLY-${params.delly_version}_CNV_${params.dataset_id}_${bam_sample_name}.bcf", emit: bcf_cnv_file
-    path "DELLY-${params.delly_version}_CNV_${params.dataset_id}_${bam_sample_name}.bcf.csi"
-    path ".command.*"
-    val bam_sample_name, emit: bam_sample_name
+        path "DELLY-${params.delly_version}_CNV_${params.dataset_id}_${bam_sample_name}.bcf", emit: bcf_cnv_file
+        path "DELLY-${params.delly_version}_CNV_${params.dataset_id}_${bam_sample_name}.bcf.csi"
+        path ".command.*"
+        val bam_sample_name, emit: bam_sample_name
 
     """
     set -euo pipefail
@@ -158,7 +158,7 @@ process regenotype_gCNV_Delly {
         path ".command.*"
 
     when:
-    mode == 'CNV'
+        mode == 'CNV'
 
     script:
     """
