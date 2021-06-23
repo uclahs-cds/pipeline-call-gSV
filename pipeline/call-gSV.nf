@@ -92,16 +92,19 @@ else {
     reference_fasta_index = "${params.reference_fasta}.fai"
     }
 
-// Create channel for validation
 validation_channel = Channel
     .fromPath(params.input_csv, checkIfExists:true)
     .splitCsv(header:true)
-    .map{ row -> [ 
-                row.input_bam,
-                params.reference_fasta
+    .map{ row -> [
+                'file-type',
+                row.input_bam
                 ]
         }
-    .flatten()
+
+Channel
+    .of(['file-fasta', params.reference_fasta])
+    .mix(validation_channel)
+    .set { validation_channel }
 
 workflow {
     if (params.run_discovery) {
