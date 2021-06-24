@@ -96,7 +96,7 @@ validation_channel = Channel
     .fromPath(params.input_csv, checkIfExists:true)
     .splitCsv(header:true)
     .map{ row -> [
-                'file-type',
+                'file-input',
                 row.input_bam
                 ]
         }
@@ -127,6 +127,8 @@ workflow {
             run_sha512sum_Delly(call_gSV_Delly.out.bcf_sv_file.mix(convert_gSV_BCF2VCF_BCFtools.out.vcf_file, call_gCNV_Delly.out.bcf_cnv_file, convert_gCNV_BCF2VCF_BCFtools.out.vcf_file))
             }
         }
+    // When 'run_regenotyping' is set to true, the mode specified in the input_csv will be used to determine which
+    // regenotyping process to run. For example, if the mode contains 'SV', regenotype_gSV_Delly will run, etc.
     if (params.run_regenotyping) {
         run_validate(validation_channel)
         regenotype_gSV_Delly(input_bam_ch, params.reference_fasta, reference_fasta_index, params.exclusion_file, params.merged_sites)
