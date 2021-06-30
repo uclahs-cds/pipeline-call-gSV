@@ -19,13 +19,14 @@ process run_validate {
         saveAs: { "run_validate/${file_to_validate}.log${file(it).getName()}" }
 
     input:
-    path(file_to_validate)
+    tuple val(mode), path(file_to_validate)
 
     output:
+    path("${file_to_validate}.temp")
     path ".command.*"
 
     """
     set -euo pipefail
-    python -m validate -t file-input ${file_to_validate}
+    python -m validate -t ${mode} ${file_to_validate} > "${file_to_validate}.temp"
     """
 }
