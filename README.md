@@ -119,7 +119,7 @@ The "regenotyping" branch of the call-gSV pipeline allows you to regenotype prev
 
 ### 1. Regenotyping Structural Variants
 
-Similar to the "discovery" process, the first step of the regenotyping pipeline requires an aligned and sorted BAM file, BAM index, and a merged sites BCF as inputs for structural variant regenotyping with [Delly](https://github.com/dellytools/delly). The provided sample is genotyped with the merged sites list. Structural variants are annotated and merged into a single BCF file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
+Similar to the "discovery" process, the first step of the regenotyping pipeline requires an aligned and sorted BAM file, BAM index, and a merged sites BCF (from the merge-SVsites pipeline) as inputs for structural variant regenotyping with [Delly](https://github.com/dellytools/delly). The provided sample is genotyped with the merged sites list. Structural variants are annotated and merged into a single BCF file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
 <br>
 
 ### 2. Regenotyping Copy Number Variants
