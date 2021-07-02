@@ -2,11 +2,16 @@
 All notable changes to the call-gSV pipeline.
 
 ## [Unreleased]
+---
+
+## [3.0.0] - 2021-07-01
 ### Added
 - Added ability to call germline SVs with Manta
 - Added parameters to control which SV caller is used (run_delly & run_manta)
 - Added pipeline version from manifest to pipeline logging output
 - Added CNV VCF outputs to QC processes
+- Added two new processes to regenotype SVs or CNVs with Delly (regenotype_gSV_Delly & regenotype_gCNV_Delly)
+- Added parameters and input mode to control which type of regenotyping is run (mode, run_regenotyping & run_discovery)
 
 ### Changed
 - Changed output directories to correspond with tool name casing
