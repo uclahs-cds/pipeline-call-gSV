@@ -115,20 +115,20 @@ workflow {
             }
         if (params.run_delly) {
             call_gSV_Delly(input_bam_ch, params.reference_fasta, reference_fasta_index, params.exclusion_file)
-            convert_gSV_BCF2VCF_BCFtools(call_gSV_Delly.out.bcf_sv_file, call_gSV_Delly.out.bam_sample_name, 'SV')
+            convert_gSV_BCF2VCF_BCFtools(call_gSV_Delly.out.bcf_sv_file, call_gSV_Delly.out.bam_sample_name, params.GSV)
 
-            if (params.modes.contains("GCNV")) {
+            if (params.modes.contains(params.GCNV)) {
                 call_gCNV_Delly(input_bam_ch, call_gSV_Delly.out.bcf_sv_file.toList(), params.reference_fasta, reference_fasta_index, params.mappability_map)
-                convert_gCNV_BCF2VCF_BCFtools(call_gCNV_Delly.out.bcf_cnv_file, call_gCNV_Delly.out.bam_sample_name, 'CNV')
+                convert_gCNV_BCF2VCF_BCFtools(call_gCNV_Delly.out.bcf_cnv_file, call_gCNV_Delly.out.bam_sample_name, params.GCNV)
                 }
 
             if (params.run_qc) {
-                run_gSV_vcfstats_RTGTools(convert_gSV_BCF2VCF_BCFtools.out.vcf_file, call_gSV_Delly.out.bam_sample_name, 'SV')
-                run_gSV_vcf_validator_VCFtools(convert_gSV_BCF2VCF_BCFtools.out.vcf_file, call_gSV_Delly.out.bam_sample_name, 'SV')
+                run_gSV_vcfstats_RTGTools(convert_gSV_BCF2VCF_BCFtools.out.vcf_file, call_gSV_Delly.out.bam_sample_name, params.GSV)
+                run_gSV_vcf_validator_VCFtools(convert_gSV_BCF2VCF_BCFtools.out.vcf_file, call_gSV_Delly.out.bam_sample_name, params.GSV)
 
-                if (params.modes.contains("GCNV")) {
-                    run_gCNV_vcfstats_RTGTools(convert_gCNV_BCF2VCF_BCFtools.out.vcf_file, call_gCNV_Delly.out.bam_sample_name, 'CNV')
-                    run_gCNV_vcf_validator_VCFtools(convert_gCNV_BCF2VCF_BCFtools.out.vcf_file, call_gCNV_Delly.out.bam_sample_name, 'CNV')
+                if (params.modes.contains(params.GCNV)) {
+                    run_gCNV_vcfstats_RTGTools(convert_gCNV_BCF2VCF_BCFtools.out.vcf_file, call_gCNV_Delly.out.bam_sample_name, params.GCNV)
+                    run_gCNV_vcf_validator_VCFtools(convert_gCNV_BCF2VCF_BCFtools.out.vcf_file, call_gCNV_Delly.out.bam_sample_name, params.GCNV)
                     }
                 }
             run_sha512sum_Delly(call_gSV_Delly.out.bcf_sv_file.mix(convert_gSV_BCF2VCF_BCFtools.out.vcf_file, call_gCNV_Delly.out.bcf_cnv_file, convert_gCNV_BCF2VCF_BCFtools.out.vcf_file))
@@ -137,11 +137,11 @@ workflow {
     // When 'run_regenotyping' is set to true, the mode specified in the input_csv will be used to determine which
     // regenotyping process to run. For example, if the mode contains 'SV', regenotype_gSV_Delly will run, etc.
     if (params.run_regenotyping) {
-        if (params.modes.contains("GSV")) {
+        if (params.modes.contains(params.GSV)) {
             regenotype_gSV_Delly(input_bam_ch, params.reference_fasta, reference_fasta_index, params.exclusion_file, params.merged_sites_gSV)
         }
 
-        if (params.modes.contains("GCNV")) {
+        if (params.modes.contains(params.GCNV)) {
             regenotype_gCNV_Delly(input_bam_ch, params.reference_fasta, reference_fasta_index, params.mappability_map, params.merged_sites_gCNV)
         }
     }
