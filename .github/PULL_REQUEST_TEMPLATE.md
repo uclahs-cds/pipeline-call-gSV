@@ -13,7 +13,7 @@ already, or do not wish to be listed. (*This acknowledgement is optional.*)
 
 - [ ] I have updated the version number in the `metadata.yaml` and config file following [semver](https://semver.org/), or the version number has already been updated. (*Leave it unchecked if you are unsure about new version number and discuss it with the infrastructure team in this PR.*)
 
-- [ ] I have tested the pipeline on at least one A-mini sample with modes setting to `gSV`, `gCNV`, and both. The paths to the test config files and output directories were attached below.
+- [ ] I have tested the pipeline on at least one A-mini sample with "run_delly = true", "run_manta = true", "run_qc = true". For run_delly = true, I have tested "modes" set to `gSV`, `gCNV`, and both. The paths to the test config files and output directories were attached below.
 
 <!--- Briefly describe the changes included in this pull request and the paths to the test cases below
  !--- starting with 'Closes #...' if appropriate --->
@@ -21,19 +21,23 @@ already, or do not wish to be listed. (*This acknowledgement is optional.*)
 Closes #...
 
 **Test Results**
-
-- gSV
+- Manta
 	- sample:    <!-- e.g. A-mini TWGSAMIN000001-T001-S01-F, TWGSAMIN000001-T002-S02-F -->
 	- input csv: <!-- /hot/pipelines/development/slurm/pipeline-call-gSV/input/call-gSV-inputs.csv -->
 	- config:    <!-- /hot/pipelines/development/slurm/pipeline-call-gSV/config/nextflow-test-amini.config -->
-	- output:    <!-- /hot/pipelines/development/slurm/pipeline-call-gSV/output -->
-- gCNV
+	- output:    <!-- /hot/pipelines/development/slurm/pipeline-call-gSV/output/Manta-1.6.0 -->
+- Delly - gSV
 	- sample:    <!-- e.g. A-mini TWGSAMIN000001-T001-S01-F, TWGSAMIN000001-T002-S02-F -->
 	- input csv: <!-- /hot/pipelines/development/slurm/pipeline-call-gSV/input/call-gSV-inputs.csv -->
 	- config:    <!-- /hot/pipelines/development/slurm/pipeline-call-gSV/config/nextflow-test-amini.config -->
-	- output:    <!-- /hot/pipelines/development/slurm/pipeline-call-gSV/output --> 
-- gSV & gCNV
+	- output:    <!-- /hot/pipelines/development/slurm/pipeline-call-gSV/output/Delly-0.8.7 -->
+- Delly - gCNV
 	- sample:    <!-- e.g. A-mini TWGSAMIN000001-T001-S01-F, TWGSAMIN000001-T002-S02-F -->
 	- input csv: <!-- /hot/pipelines/development/slurm/pipeline-call-gSV/input/call-gSV-inputs.csv -->
 	- config:    <!-- /hot/pipelines/development/slurm/pipeline-call-gSV/config/nextflow-test-amini.config -->
-	- output:    <!-- /hot/pipelines/development/slurm/pipeline-call-gSV/output -->
+	- output:    <!-- /hot/pipelines/development/slurm/pipeline-call-gSV/output/Delly-0.8.7 --> 
+- Delly - gSV & gCNV
+	- sample:    <!-- e.g. A-mini TWGSAMIN000001-T001-S01-F, TWGSAMIN000001-T002-S02-F -->
+	- input csv: <!-- /hot/pipelines/development/slurm/pipeline-call-gSV/input/call-gSV-inputs.csv -->
+	- config:    <!-- /hot/pipelines/development/slurm/pipeline-call-gSV/config/nextflow-test-amini.config -->
+	- output:    <!-- /hot/pipelines/development/slurm/pipeline-call-gSV/output/Delly-0.8.7 -->
