@@ -2,7 +2,7 @@
 Category: "pipeline"
 Description: "a pipeline for calling structural variants and copy number variants utilizing Delly and Manta"
 Maintainers: "Boutros Lab Infrastructure BoutrosLabInfrastructure@mednet.ucla.edu"
-Contributors: ["Yael Berkovich", "Tim Sanders"]
+Contributors: ["Yael Berkovich", "Tim Sanders", "Yu Pan"]
 Languages: ["Nextflow", "Docker"]
 Dependencies: ["Java", "Nextflow", "Docker"]
 References: "https://confluence.mednet.ucla.edu/display/BOUTROSLAB/Guide+to+Nextflow"

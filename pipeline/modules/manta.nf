@@ -24,23 +24,22 @@ process call_gSV_Manta {
         saveAs: { "call_gSV_Manta/${bam_sample_name}.log${file(it).getName()}" }
 
     input:
-    tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai), val(mode)
-    path(reference_fasta)
-    path(reference_fasta_fai)
-
+        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
+        path(reference_fasta)
+        path(reference_fasta_fai)
 
     output:
-    path("MantaWorkflow/results/variants/candidateSmallIndels.vcf.gz"), emit: vcf_small_indel_sv_file
-    path("MantaWorkflow/results/variants/candidateSmallIndels.vcf.gz.tbi")
-    path("MantaWorkflow/results/variants/diploidSV.vcf.gz"), emit: vcf_diploid_sv_file
-    path("MantaWorkflow/results/variants/diploidSV.vcf.gz.tbi")
-    path("MantaWorkflow/results/variants/candidateSV.vcf.gz"), emit: vcf_candidate_sv_file
-    path("MantaWorkflow/results/variants/candidateSV.vcf.gz.tbi")
-    //path "MANTA-${params.manta_version}_SV_${params.dataset_id}_${bam_sample_name}.vcf.gz", emit: vcf_sv_file
-    //path "MANTA-${params.manta_version}_SV_${params.dataset_id}_${bam_sample_name}.vcf.gz.tbi"
-    path "MantaWorkflow/results"
-    path ".command.*"
-    val bam_sample_name, emit: bam_sample_name
+        path("MantaWorkflow/results/variants/candidateSmallIndels.vcf.gz"), emit: vcf_small_indel_sv_file
+        path("MantaWorkflow/results/variants/candidateSmallIndels.vcf.gz.tbi")
+        path("MantaWorkflow/results/variants/diploidSV.vcf.gz"), emit: vcf_diploid_sv_file
+        path("MantaWorkflow/results/variants/diploidSV.vcf.gz.tbi")
+        path("MantaWorkflow/results/variants/candidateSV.vcf.gz"), emit: vcf_candidate_sv_file
+        path("MantaWorkflow/results/variants/candidateSV.vcf.gz.tbi")
+        //path "MANTA-${params.manta_version}_SV_${params.dataset_id}_${bam_sample_name}.vcf.gz", emit: vcf_sv_file
+        //path "MANTA-${params.manta_version}_SV_${params.dataset_id}_${bam_sample_name}.vcf.gz.tbi"
+        path "MantaWorkflow/results"
+        path ".command.*"
+        val bam_sample_name, emit: bam_sample_name
 
     """
     set -euo pipefail

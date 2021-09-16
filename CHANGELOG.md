@@ -2,6 +2,17 @@
 All notable changes to the call-gSV pipeline.
 
 ## [Unreleased]
+### Added
+- Added the Issue Report template
+- Added the Pull Request template
+
+### Fixed
+- Fixed Issue #32: remove option '--exclude' in delly cnv
+- Fixed Issue #33: should pass the mappability_map file instead of the exclusion file to regenotype_gCNV_Delly
+
+### Changed
+- Storing modes,reference_fasta,reference_fasta_index in the input file is rigid, also duplacating a same value many times. Now store these values in the nextflow.config. 
+
 ---
 
 ## [3.0.0] - 2021-07-01

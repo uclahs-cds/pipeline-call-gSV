@@ -142,7 +142,7 @@ process regenotype_gCNV_Delly {
         saveAs: { "regenotype_gCNV_Delly/${bam_sample_name}.log${file(it).getName()}" }
 
     input:
-        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai), val(mode)
+        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
         path(reference_fasta)
         path(reference_fasta_fai)
         path(mappability_file)

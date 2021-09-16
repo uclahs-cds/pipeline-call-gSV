@@ -65,8 +65,7 @@ input_bam_ch = Channel
                     row.patient,
                     row.sample,
                     row.input_bam,
-                    "${row.input_bam}.bai",
-                    row.mode
+                    "${row.input_bam}.bai"
                     )
         }
 
@@ -139,11 +138,11 @@ workflow {
     // regenotyping process to run. For example, if the mode contains 'SV', regenotype_gSV_Delly will run, etc.
     if (params.run_regenotyping) {
         if (params.modes.contains("GSV")) {
-            regenotype_gSV_Delly(input_bam_ch, params.reference_fasta, reference_fasta_index, params.exclusion_file, params.merged_sites)
+            regenotype_gSV_Delly(input_bam_ch, params.reference_fasta, reference_fasta_index, params.exclusion_file, params.merged_sites_gSV)
         }
 
         if (params.modes.contains("GCNV")) {
-            regenotype_gCNV_Delly(input_bam_ch, params.reference_fasta, reference_fasta_index, params.exclusion_file, params.merged_sites)
+            regenotype_gCNV_Delly(input_bam_ch, params.reference_fasta, reference_fasta_index, params.mappability_map, params.merged_sites_gCNV)
         }
     }
 }
