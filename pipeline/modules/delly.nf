@@ -25,11 +25,10 @@ process call_gSV_Delly {
         saveAs: { "call_gSV_Delly/${bam_sample_name}.log${file(it).getName()}" }
 
     input:
-        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai), val(mode)
+        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
         path(reference_fasta)
         path(reference_fasta_fai)
         path(exclusion_file)
-
 
     output:
         path "DELLY-${params.delly_version}_SV_${params.dataset_id}_${bam_sample_name}.bcf", emit: bcf_sv_file
@@ -64,14 +63,11 @@ process regenotype_gSV_Delly {
         saveAs: { "regenotype_gSV_Delly/${bam_sample_name}.log${file(it).getName()}" }
 
     input:
-        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai), val(mode)
+        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
         path(reference_fasta)
         path(reference_fasta_fai)
-        path(exclusion_file_or_mappability_map)
+        path(exclusion_file)
         path(sites)
-
-    when:
-        mode == 'SV'
 
     output:
         path "DELLY-${params.delly_version}_RGSV_${params.dataset_id}_${bam_sample_name}.bcf", emit: regenotyped_sv_bcf
@@ -84,7 +80,7 @@ process regenotype_gSV_Delly {
     delly \
         call \
         --vcffile $sites \
-        --exclude $exclusion_file_or_mappability_map \
+        --exclude $exclusion_file \
         --genome $reference_fasta \
         --outfile "DELLY-${params.delly_version}_RGSV_${params.dataset_id}_${bam_sample_name}.bcf" \
         --map-qual ${params.map_qual} \
@@ -107,7 +103,7 @@ process call_gCNV_Delly {
         saveAs: { "call_gCNV_Delly/${bam_sample_name}.log${file(it).getName()}" }
 
     input:
-        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai), val(mode)
+        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
         path(delly_sv_file)
         path(reference_fasta)
         path(reference_fasta_fai)
@@ -125,8 +121,8 @@ process call_gCNV_Delly {
         cnv \
         --genome        $reference_fasta \
         --outfile       DELLY-${params.delly_version}_CNV_${params.dataset_id}_${bam_sample_name}.bcf \
-        --svfile        $delly_sv_file \
-        --mappability   ${params.mappability_map} \
+        --svfile        DELLY-${params.delly_version}_SV_${params.dataset_id}_${bam_sample_name}.bcf \
+        --mappability   $mappability_file \
         $input_bam
     """
 }
@@ -146,10 +142,10 @@ process regenotype_gCNV_Delly {
         saveAs: { "regenotype_gCNV_Delly/${bam_sample_name}.log${file(it).getName()}" }
 
     input:
-        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai), val(mode)
+        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
         path(reference_fasta)
         path(reference_fasta_fai)
-        path(exclusion_file_or_mappability_map)
+        path(mappability_file)
         path(sites)
 
     output:
@@ -157,18 +153,15 @@ process regenotype_gCNV_Delly {
         path "DELLY-${params.delly_version}_RGCNV_${params.dataset_id}_${bam_sample_name}.bcf.csi", emit: regenotyped_cnv_bcf_csi
         path ".command.*"
 
-    when:
-        mode == 'CNV'
-
     script:
     """
     set -euo pipefail
     delly \
         cnv \
-        --segmentation \
-        --vcffile       $sites \
-        --exclude $exclusion_file_or_mappability_map \
+        -u \
+        -v $sites \
         --genome $reference_fasta \
+        -m $mappability_file \
         --outfile "DELLY-${params.delly_version}_RGCNV_${params.dataset_id}_${bam_sample_name}.bcf" \
         "$input_bam"
     """

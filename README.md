@@ -140,7 +140,6 @@ The second possible step of the regenotyping pipeline requires an aligned and so
 | patient | string | The patient name to be passed to final BCF/VCF. No white space is allowed. |
 | sample | string | The sample name to be passed to final BCF/VCF. No white space is allowed. |
 | input_bam | path | Absolute path to the BAM file for the sample. |
-| mode | string | When running regenotyping, either 'SV' or 'CNV'. Required for regenotyping, ignored in the discovery mode and can be left blank. |
 
 ### Nextflow Config File Parameters
 
