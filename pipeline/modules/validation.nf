@@ -1,32 +1,35 @@
 #!/usr/bin/env nextflow
 
-def docker_image_validation = "blcdsdockerregistry/validate:${params.validate_version}"
-
 log.info """\
 ------------------------------------
          V A L I D A T I O N
 ------------------------------------
 Docker Images:
-- docker_image_validation: ${docker_image_validation}
+- docker_image_validate: ${params.docker_image_validate}
 """
 
-process run_validate {
-    container docker_image_validation
+process run_validate_PipeVal {
+    container params.docker_image_validate
 
-    publishDir params.output_log_dir,
+    publishDir "${params.output_dir}/${params.docker_image_delly.split("/")[1].replace(':', '-').toUpperCase()}/intermediate/${task.process.replace(':', '/')}",
+        pattern: "input_validation.txt",
+        mode: "copy"
+
+    publishDir "${params.log_output_dir}/process-log",
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "run_validate/${file_to_validate}.log${file(it).getName()}" }
+        saveAs: { "${task.process}/${task.process}-${task.index}/log${file(it).getName()}" }
 
     input:
-    tuple val(mode), path(file_to_validate)
+        path(file_to_validate)
 
     output:
-    path("${file_to_validate}.temp")
-    path ".command.*"
+        path ".command.*"
+        path "input_validation.txt", emit: val_file
 
-    """
-    set -euo pipefail
-    python -m validate -t ${mode} ${file_to_validate} > "${file_to_validate}.temp"
-    """
-}
+    script:
+        """
+        set -euo pipefail
+        python -m validate -t file-input ${file_to_validate} > 'input_validation.txt'
+        """
+    }

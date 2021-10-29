@@ -1,48 +1,59 @@
 #!/usr/bin/env nextflow
 
-def docker_image_sha512 = "blcdsdockerregistry/call-gsv:sha512-${params.sha512_version}"
-
 log.info """\
 ------------------------------------
           S H A - 5 1 2
 ------------------------------------
 Docker Images:
-- docker_image_sha512:   ${docker_image_sha512}
+- docker_image_validate: ${params.docker_image_validate}
 """
 
-process run_sha512sum {
-    container docker_image_sha512
+process run_sha512sum_Manta {
+    container params.docker_image_validate
 
-    publishDir params.output_dir,
-        pattern: "*.vcf.sha512",
-        mode: "copy",
-        saveAs: { "BCFtools-${params.bcftools_version}/${file(it).getName()}" }
-
-    publishDir params.output_dir,
+    publishDir "${params.output_dir}/${params.docker_image_manta.split("/")[1].replace(':', '-').toUpperCase()}/intermediate/${task.process.replace(':', '/')}",
         pattern: "*.bcf.sha512",
-        mode: "copy",
-        saveAs: { "Delly-${params.delly_version}/${file(it).getName()}" }
+        mode: "copy"
 
-    publishDir params.output_dir,
-        pattern: "*.vcf.gz*.sha512",
-        mode: "copy",
-        saveAs: { "Manta-${params.manta_version}/results/variants/${file(it).getName()}" }
-
-    publishDir params.output_log_dir,
+    publishDir "$params.log_output_dir/process-log",
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "run_sha512sum/${input_checksum_file}.log${file(it).getName()}" }
+        saveAs: { "${task.process}/${task.process}-${task.index}/log${file(it).getName()}" }
 
     input:
-    path input_checksum_file
+        path input_checksum_file
 
     output:
-    path "${input_checksum_file}.sha512"
-    path ".command.*"
+        path "${input_checksum_file}.sha512"
+        path ".command.*"
 
     """
-    set -euo pipefail
-
-    sha512sum $input_checksum_file > ${input_checksum_file}.sha512
+        set -euo pipefail
+        python -m validate -t sha512-gen $input_checksum_file > ${input_checksum_file}.sha512
     """
-}
+    }
+
+process run_sha512sum_Delly {
+    container params.docker_image_validate
+
+    publishDir "${params.output_dir}/${params.docker_image_delly.split("/")[1].replace(':', '-').toUpperCase()}/intermediate/${task.process.replace(':', '/')}",
+        pattern: "*.bcf.sha512",
+        mode: "copy"
+
+    publishDir "$params.log_output_dir/process-log",
+        pattern: ".command.*",
+        mode: "copy",
+        saveAs: { "${task.process}/${task.process}-${task.index}/log${file(it).getName()}" }
+
+    input:
+        path input_checksum_file
+
+    output:
+        path "${input_checksum_file}.sha512"
+        path ".command.*"
+
+    """
+        set -euo pipefail
+        python -m validate -t sha512-gen $input_checksum_file > ${input_checksum_file}.sha512
+    """
+    }
