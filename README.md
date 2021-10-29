@@ -195,10 +195,10 @@ Testing was performed leveraging aligned and sorted bams generated using bwa-mem
 
 Test runs for the A-mini/partial/full samples were performed using the following reference files
 
-* **reference_fasta:** /hot/ref/hg38/genome/genome.fa
-* **reference_fasta_index:** /hot/ref/hg38/genome/genome.fa.fai
-* **exclusion_file:** /hot/ref/hg38/delly/human.hg38.excl.tsv
-* **mappability_map:** /hot/ref/hg38/delly/Homo_sapiens.GRCh38.dna.primary_assembly.fa.r101.s501.blacklist.gz
+* **reference_fasta:** /hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta
+* **reference_fasta_index:** /hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta.fai
+* **exclusion_file:** /hot/ref/tool-specific-input/Delly/GRCh38/human.hg38.excl.tsv
+* **mappability_map:** /hot/ref/tool-specific-input/Delly/GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.r101.s501.blacklist.gz
 
 ### Performance Validation
 
