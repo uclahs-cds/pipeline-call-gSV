@@ -35,9 +35,9 @@ The call-gSV nextflow pipeline, calls structural variants and copy number varian
 
 | Config File | Available Node cpus / memory | Designated Process 1; cpus / memory | Designated Process 2; cpus / memory | Designated Process 3; cpus / memory |
 |:------------|:---------|:-------------------------|:-------------------------|:-------------------------|
-| `lowmem.config` | 2 / 3 GB | call_gSV_Delly; 1 / 2 GB | call_gSV_Manta; 1 / 2 GB | validate_file; 1 / 1 GB |
-| `midmem.config` | 72 / 136.8 GB | call_gSV_Delly; 35 / 65 GB | call_gSV_Manta; 35 / 65 GB | validate_file; 1 / 1 GB |
-| `execute.config` | 64 / 950 GB | call_gSV_Delly; 31 / 470 GB | call_gSV_Manta; 31 / 470 GB | validate_file; 1 / 1 GB |
+| `F2.config` | 2 / 3 GB | call_gSV_Delly; 1 / 2 GB | call_gSV_Manta; 1 / 2 GB | validate_file; 1 / 1 GB |
+| `F72.config` | 72 / 136.8 GB | call_gSV_Delly; 35 / 65 GB | call_gSV_Manta; 35 / 65 GB | validate_file; 1 / 1 GB |
+| `M64.config` | 64 / 950 GB | call_gSV_Delly; 31 / 470 GB | call_gSV_Manta; 31 / 470 GB | validate_file; 1 / 1 GB |
 ---
 
 ## How To Run
