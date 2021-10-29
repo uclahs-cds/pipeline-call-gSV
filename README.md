@@ -206,10 +206,10 @@ Testing was performed primarily in the Boutros Lab SLURM Development cluster but
 
 |Test Case | Test Date | Node Type | Duration | CPU Hours | Virtual Memory Usage (RAM) -peak rss |
 |:---------|:----------|:----------|:---------|:----------|:---------------------------|
-| A-mini | 2021-02-12 | lowmem | 1m 29s | a few seconds | 208.8 MB |
-| A-partial | 2021-02-10 | midmem | 42m 5s | 48.8 | 8.9 GB |
-| A-full | 2021-02-10 | midmem | 7h 10m 43s | 509.0 | 10.9 GB |
-| SMC-HET | 2021-02-12 | midmem | 3h 9m 60s | 223.5 |  8.9 GB |
+| A-mini | 2021-02-12 | F2 | 1m 29s | a few seconds | 208.8 MB |
+| A-partial | 2021-02-10 | F72 | 42m 5s | 48.8 | 8.9 GB |
+| A-full | 2021-02-10 | F72 | 7h 10m 43s | 509.0 | 10.9 GB |
+| SMC-HET | 2021-02-12 | F72 | 3h 9m 60s | 223.5 |  8.9 GB |
 
 ### Quality Check Result Comparison
 
