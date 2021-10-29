@@ -21,6 +21,7 @@
     - [Human Genome Benchmarks](#human-genome-benchmarks)
     - [Validation Tool](#validation-tool)
   - [References](#references)
+  - [License](#license)
 
 ## Overview
 
@@ -45,11 +46,11 @@ Pipelines should be run **WITH A SINGLE SAMPLE AT TIME**. Otherwise resource all
 
 1. Make sure the pipeline is already downloaded to your machine. You can either download the stable release or the dev version by cloning the repo.  
 
-2. Update the nextflow.config file for input, output, and parameters. An example can be found [here](pipeline/config/nextflow.config). See [Inputs](#Inputs) for description of each variables in the config file.
+2. Update the nextflow.config file for input, output, and parameters. An example can be found [Here](pipeline/config/nextflow.config). See [Inputs](#Inputs) for description of each variables in the config file.
 
-3. Update the input csv. See [Inputs](#Inputs) for the columns needed. All columns must exist in order to run the pipeline. An example can be found [here](pipeline/inputs/call-gSV.inputs.csv). The example csv is a single germline sample.
+3. Update the input csv. See [Inputs](#Inputs) for the columns needed. All columns must exist in order to run the pipeline. An example can be found [Here](pipeline/inputs/call-gSV.inputs.csv). The example csv is a single germline sample.
  
-4. See the submission script, [here](https://github.com/uclahs-cds/tool-submit-nf), to submit your pipeline
+4. See the submission script, [Here](https://github.com/uclahs-cds/tool-submit-nf), to submit your pipeline
 
 ---
 
@@ -133,7 +134,7 @@ The second possible step of the regenotyping pipeline requires an aligned and so
 
 ### Input CSV
 
->The input csv should have all columns below and in the same order. An example of an input csv can be found [here](pipeline/inputs/call-gSV-inputs.csv).
+The input csv should have all columns below and in the same order. An example of an input csv can be found [here](pipeline/inputs/call-gSV-inputs.csv).
 
 | Field | Type | Description |
 |:------|:-----|:------------|
@@ -237,12 +238,6 @@ Testing was performed primarily in the Boutros Lab SLURM Development cluster but
 Note, per Nature the following benchmarks exist for the human genome:
 “Structural variants affect more bases: the typical genome contains an estimated **2,100 to 2,500 structural variants** (∼1,000 large deletions, ∼160 copy-number variants, ∼915 Alu insertions, ∼128 L1 insertions, ∼51 SVA insertions, ∼4 NUMTs, and ∼10 inversions), affecting ∼20 million bases of sequence.”
 
-### Validation Tool
-
-Included is a template for validating your input files. For more information on the tool check out: https://github.com/uclahs-cds/tool-validate-nf
-
----
-
 ## References
 
 1. [Rausch T, Zichner T, Schlattl A, Stütz AM, Benes V, Korbel JO. DELLY: structural variant discovery by integrated paired-end and split-read analysis. Bioinformatics. 2012;28(18):i333-i339. doi:10.1093/bioinformatics/bts378](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3436805/)
@@ -251,3 +246,17 @@ Included is a template for validating your input files. For more information on 
 4. [Real Time Genomics RTG Tools Operations Manual - vcfstats](https://cdn.rawgit.com/RealTimeGenomics/rtg-tools/master/installer/resources/tools/RTGOperationsManual/rtg_command_reference.html#vcfstats)
 5. [Boutros Lab -CallSV Quality Control pipeline]()
 6. [The 1000 Genomes Project Consortium., Corresponding authors., Auton, A. et al. A global reference for human genetic variation. Nature 526, 68–74 (2015). https://doi.org/10.1038/nature15393](https://www.nature.com/articles/nature15393)
+
+## License
+
+Authors: Tim Sanders (TSanders@mednet.ucla.edu), Yu Pan (YuPan@mednet.ucla.edu), Yael Berkovich (YBerkovich@mednet.ucla.edu)
+
+The pipeline-call-gSV is licensed under the GNU General Public License version 2. See the file LICENSE for the terms of the GNU GPL license.
+
+The pipeline-call-gSV takes BAM and BCF files and utilizes Delly to call/regenotype gSV/gCNV.
+
+Copyright (C) 2021 University of California Los Angeles ("Boutros Lab") All rights reserved.
+
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
