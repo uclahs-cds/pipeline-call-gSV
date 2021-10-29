@@ -5,6 +5,7 @@ All notable changes to the call-gSV pipeline.
 ### Added
 - Added the Issue Report template
 - Added the Pull Request template
+- Implemented the standardized directory structure
 
 ### Fixed
 - Fixed Issue #32: remove option '--exclude' in delly cnv
