@@ -3,8 +3,9 @@ All notable changes to the call-gSV pipeline.
 
 ## [Unreleased]
 ### Added
-- Added the Issue Report template
-- Added the Pull Request template
+- Added GPL 2.0
+- Added the new partition types
+- Added the new reference files
 - Implemented the standardized directory structure
 
 ### Fixed
