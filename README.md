@@ -44,7 +44,7 @@ The call-gSV nextflow pipeline, calls structural variants and copy number varian
 
 Pipelines should be run **WITH A SINGLE SAMPLE AT TIME**. Otherwise resource allocation and Nextflow errors could cause the pipeline to fail
 
-1. Make sure the pipeline is already downloaded to your machine. You can either download the stable release or the dev version by cloning the repo.  
+1. Check if the pipeline and the desired version is in /hot/pipeline/release.  
 
 2. Update the nextflow.config file for input, output, and parameters. An example can be found [Here](pipeline/config/nextflow.config). See [Inputs](#Inputs) for description of each variables in the config file.
 
