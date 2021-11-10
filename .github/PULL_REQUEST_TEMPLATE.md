@@ -24,12 +24,12 @@ Closes #...
 
 - DNA A-mini
 	- sample:    TWGSAMIN000001-T001-S01-F
-	- input:     /hot/pipeline/development/slurm/pipeline-regenotype-gSV-4-pipelines/pipeline-call-gSV/input/call-gSV-inputs-amini.csv
-	- config:    /hot/pipeline/development/slurm/pipeline-regenotype-gSV-4-pipelines/pipeline-call-gSV/config/nextflow-amini.config
-	- output:    /hot/pipeline/development/slurm/pipeline-regenotype-gSV-4-pipelines/pipeline-call-gSV/output-amini
+	- input:     /path/input/call-gSV-inputs-amini.csv
+	- config:    /path/config/nextflow-amini.config
+	- output:    /path/output-amini
 
 - DNA A-partial
 	- sample:    TWGSAPRT000001-T001-S01-F
-	- input:     /hot/pipeline/development/slurm/pipeline-regenotype-gSV-4-pipelines/pipeline-call-gSV/input/call-gSV-inputs-apartial.csv
-	- config:    /hot/pipeline/development/slurm/pipeline-regenotype-gSV-4-pipelines/pipeline-call-gSV/config/nextflow-apartial.config
-	- output:    /hot/pipeline/development/slurm/pipeline-regenotype-gSV-4-pipelines/pipeline-call-gSV/output-apartial
+	- input:     /path/input/call-gSV-inputs-apartial.csv
+	- config:    /path/config/nextflow-apartial.config
+	- output:    /path/output-apartial
