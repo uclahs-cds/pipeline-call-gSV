@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to the call-gSV pipeline.
 
-## [Unreleased]
+## [4.0.0-rc1]
 ### Added
 - Added GPL 2.0
 - Added the new partition types
