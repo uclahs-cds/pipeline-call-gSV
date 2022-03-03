@@ -34,9 +34,10 @@ The call-gSV nextflow pipeline, calls structural variants and copy number varian
 
 | Config File | Available Node cpus / memory | Designated Process 1; cpus / memory | Designated Process 2; cpus / memory | Designated Process 3; cpus / memory |
 |:------------|:---------|:-------------------------|:-------------------------|:-------------------------|
-| `lowmem.config` | 2 / 3 GB | call_gSV_Delly; 1 / 2 GB | call_gSV_Manta; 1 / 2 GB | validate_file; 1 / 1 GB |
-| `midmem.config` | 72 / 136.8 GB | call_gSV_Delly; 35 / 65 GB | call_gSV_Manta; 35 / 65 GB | validate_file; 1 / 1 GB |
-| `execute.config` | 64 / 950 GB | call_gSV_Delly; 31 / 470 GB | call_gSV_Manta; 31 / 470 GB | validate_file; 1 / 1 GB |
+| `F2.config` | 2 / 3 GB | call_gSV_Delly; 1 / 2 GB | call_gSV_Manta; 1 / 2 GB | validate_file; 1 / 1 GB |
+| `F32.config` | 32 / 62.8 GB | call_gSV_Delly; 1 / 30 GB | call_gSV_Manta; 1 / 30 GB | validate_file; 1 / 1 GB |
+| `F72.config` | 72 / 136.8 GB | call_gSV_Delly; 1 / 65 GB | call_gSV_Manta; 1 / 65 GB | validate_file; 1 / 1 GB |
+| `M64.config` | 64 / 950 GB | call_gSV_Delly; 1 / 470 GB | call_gSV_Manta; 1 / 470 GB | validate_file; 1 / 1 GB |
 ---
 
 ## How To Run
@@ -205,10 +206,10 @@ Testing was performed primarily in the Boutros Lab SLURM Development cluster but
 
 |Test Case | Test Date | Node Type | Duration | CPU Hours | Virtual Memory Usage (RAM) -peak rss |
 |:---------|:----------|:----------|:---------|:----------|:---------------------------|
-| A-mini | 2021-02-12 | lowmem | 1m 29s | a few seconds | 208.8 MB |
-| A-partial | 2021-02-10 | midmem | 42m 5s | 48.8 | 8.9 GB |
-| A-full | 2021-02-10 | midmem | 7h 10m 43s | 509.0 | 10.9 GB |
-| SMC-HET | 2021-02-12 | midmem | 3h 9m 60s | 223.5 |  8.9 GB |
+| A-mini | 2021-02-12 | F2 | 1m 29s | a few seconds | 208.8 MB |
+| A-partial | 2021-02-10 | F72 | 42m 5s | 48.8 | 8.9 GB |
+| A-full | 2021-02-10 | F72 | 7h 10m 43s | 509.0 | 10.9 GB |
+| SMC-HET | 2021-02-12 | F72 | 3h 9m 60s | 223.5 |  8.9 GB |
 
 ### Quality Check Result Comparison
 
