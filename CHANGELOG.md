@@ -12,6 +12,7 @@ All notable changes to the call-gSV pipeline.
 
 ### Changed
 - Storing variant_type,reference_fasta,reference_fasta_index in the input file is rigid, also duplacating a same value many times. Now store these values in the nextflow.config. 
+- Changed partition types from lowmem/midmem/execute to F2/F32/F72/M64.
 
 ---
 
