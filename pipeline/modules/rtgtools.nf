@@ -1,40 +1,36 @@
 #!/usr/bin/env nextflow
 
-def docker_image_rtgtools = "blcdsdockerregistry/rtg-tools:${params.rtgtools_version}"
-
 log.info """\
 ------------------------------------
           R T G T O O L S
 ------------------------------------
 Docker Images:
-- docker_image_rtgtools:   ${docker_image_rtgtools}
+- docker_image_rtgtools: ${params.docker_image_rtgtools}
 """
 
 process run_vcfstats_RTGTools {
-    container docker_image_rtgtools
+    container params.docker_image_rtgtools
 
-    publishDir params.output_dir,
+    publishDir "${params.output_dir}/${params.docker_image_delly.split("/")[1].replace(':', '-').toUpperCase()}/intermediate/${task.process.replace(':', '/')}",
         pattern: "*_stats.txt",
-        mode: "copy",
-        saveAs: { "rtgtools-${params.rtgtools_version}/${file(it).getName()}" }
+        mode: "copy"
 
-    publishDir params.output_log_dir,
+    publishDir "$params.log_output_dir/process-log",
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "run_vcfstats_RTGTools/${bam_sample_name}.log${file(it).getName()}" }
+        saveAs: { "${task.process.replace(':', '/')}/log${file(it).getName()}" }
 
     input:
-    path vcf_sv_file
-    val bam_sample_name
-    val variant_type
+        path vcf_sv_file
+        val bam_sample_name
+        val variant_type
 
     output:
-    path "DELLY-${params.delly_version}_${variant_type}_${params.dataset_id}_${bam_sample_name}_stats.txt"
-    path ".command.*"
+        path "DELLY-${params.delly_version}_${variant_type}_${params.dataset_id}_${bam_sample_name}_stats.txt"
+        path ".command.*"
 
     """
     set -euo pipefail
-
     rtg vcfstats $vcf_sv_file > DELLY-${params.delly_version}_${variant_type}_${params.dataset_id}_${bam_sample_name}_stats.txt
     """
-}
+    }

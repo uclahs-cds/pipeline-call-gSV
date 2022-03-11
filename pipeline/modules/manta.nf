@@ -1,33 +1,29 @@
 #!/usr/bin/env nextflow
 
-def docker_image_manta = "blcdsdockerregistry/manta:${params.manta_version}"
-
 log.info """\
 ------------------------------------
              M A N T A
 ------------------------------------
 Docker Images:
-- docker_image_manta:   ${docker_image_manta}
+- docker_image_manta: ${params.docker_image_manta}
 """
 
 process call_gSV_Manta {
-    container docker_image_manta
+    container params.docker_image_manta
 
-    publishDir params.output_dir,
+    publishDir "$params.output_dir/${params.docker_image_manta.split("/")[1].replace(':', '-').toUpperCase()}/output",
         pattern: "MantaWorkflow/results",
-        mode: "copy",
-        saveAs: { "Manta-${params.manta_version}/${file(it).getName()}" }
+        mode: "copy"
 
-    publishDir params.output_log_dir,
+    publishDir "$params.log_output_dir/process-log",
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "call_gSV_Manta/${bam_sample_name}.log${file(it).getName()}" }
+        saveAs: { "${task.process.replace(':', '/')}/log${file(it).getName()}" }
 
     input:
         tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
         path(reference_fasta)
         path(reference_fasta_fai)
-
     output:
         path("MantaWorkflow/results/variants/candidateSmallIndels.vcf.gz"), emit: vcf_small_indel_sv_file
         path("MantaWorkflow/results/variants/candidateSmallIndels.vcf.gz.tbi")
@@ -40,14 +36,12 @@ process call_gSV_Manta {
         path "MantaWorkflow/results"
         path ".command.*"
         val bam_sample_name, emit: bam_sample_name
-
     """
     set -euo pipefail
     configManta.py \
         --normalBam $input_bam \
         --referenceFasta $reference_fasta \
         --runDir MantaWorkflow
-
     MantaWorkflow/runWorkflow.py
     """
-}
+    }
