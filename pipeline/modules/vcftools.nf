@@ -11,14 +11,14 @@ Docker Images:
 process run_vcf_validator_VCFtools {
     container params.docker_image_vcftools
 
-    publishDir "${params.output_dir}/${params.docker_image_delly.split("/")[1].replace(':', '-').toUpperCase()}/intermediate/${task.process.replace(':', '/')}",
+    publishDir "${params.output_dir}/${params.docker_image_delly.split("/")[1].replace(':', '-').capitalize()}/QC/${task.process.replace(':', '/')}",
         pattern: "*_validation.txt",
         mode: "copy"
 
     publishDir "$params.log_output_dir/process-log",
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "${task.process.replace(':', '/')}/log${file(it).getName()}" }
+        saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
 
     input:
         path vcf_sv_file

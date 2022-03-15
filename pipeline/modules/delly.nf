@@ -11,14 +11,14 @@ Docker Images:
 process call_gSV_Delly {
     container params.docker_image_delly
 
-    publishDir "$params.output_dir/${params.docker_image_delly.split("/")[1].replace(':', '-').toUpperCase()}/output",
+    publishDir "$params.output_dir/${params.docker_image_delly.split("/")[1].replace(':', '-').capitalize()}/output",
         pattern: "*.bcf*",
         mode: "copy"
 
     publishDir "$params.log_output_dir/process-log",
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "${task.process.replace(':', '/')}/log${file(it).getName()}" }
+        saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
 
     input:
         tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
@@ -45,14 +45,14 @@ process call_gSV_Delly {
 process regenotype_gSV_Delly {
     container params.docker_image_delly
 
-    publishDir "$params.output_dir/${params.docker_image_delly.split("/")[1].replace(':', '-').toUpperCase()}/output",
+    publishDir "$params.output_dir/${params.docker_image_delly.split("/")[1].replace(':', '-').capitalize()}/output",
         pattern: "*.bcf*",
         mode: "copy"
 
     publishDir "$params.log_output_dir/process-log",
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "${task.process.replace(':', '/')}/log${file(it).getName()}" }
+        saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
 
     input:
         tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
@@ -81,14 +81,14 @@ process regenotype_gSV_Delly {
 process call_gCNV_Delly {
     container params.docker_image_delly
 
-    publishDir "$params.output_dir/${params.docker_image_delly.split("/")[1].replace(':', '-').toUpperCase()}/output",
+    publishDir "$params.output_dir/${params.docker_image_delly.split("/")[1].replace(':', '-').capitalize()}/output",
         pattern: "*.bcf*",
         mode: "copy"
 
     publishDir "$params.log_output_dir/process-log",
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "${task.process.replace(':', '/')}/log${file(it).getName()}" }
+        saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
 
     input:
         tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
@@ -116,14 +116,14 @@ process call_gCNV_Delly {
 process regenotype_gCNV_Delly {
     container params.docker_image_delly
 
-    publishDir "$params.output_dir/${params.docker_image_delly.split("/")[1].replace(':', '-').toUpperCase()}/output",
+    publishDir "$params.output_dir/${params.docker_image_delly.split("/")[1].replace(':', '-').capitalize()}/output",
         pattern: "*.bcf*",
         mode: "copy"
 
     publishDir "$params.log_output_dir/process-log",
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "${task.process.replace(':', '/')}/log${file(it).getName()}" }
+        saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
 
     input:
         tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
