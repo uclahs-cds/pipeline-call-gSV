@@ -15,7 +15,7 @@ process call_gSV_Delly {
         pattern: "*.bcf*",
         mode: "copy"
 
-    publishDir "$params.log_output_dir/process-log",
+    publishDir "$params.log_output_dir/process-log/${params.docker_image_delly.split("/")[1].replace(':', '-').capitalize()}",
         pattern: ".command.*",
         mode: "copy",
         saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
@@ -49,7 +49,7 @@ process regenotype_gSV_Delly {
         pattern: "*.bcf*",
         mode: "copy"
 
-    publishDir "$params.log_output_dir/process-log",
+    publishDir "$params.log_output_dir/process-log/${params.docker_image_delly.split("/")[1].replace(':', '-').capitalize()}",
         pattern: ".command.*",
         mode: "copy",
         saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
@@ -85,7 +85,7 @@ process call_gCNV_Delly {
         pattern: "*.bcf*",
         mode: "copy"
 
-    publishDir "$params.log_output_dir/process-log",
+    publishDir "$params.log_output_dir/process-log/${params.docker_image_delly.split("/")[1].replace(':', '-').capitalize()}",
         pattern: ".command.*",
         mode: "copy",
         saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
@@ -120,7 +120,7 @@ process regenotype_gCNV_Delly {
         pattern: "*.bcf*",
         mode: "copy"
 
-    publishDir "$params.log_output_dir/process-log",
+    publishDir "$params.log_output_dir/process-log/${params.docker_image_delly.split("/")[1].replace(':', '-').capitalize()}",
         pattern: ".command.*",
         mode: "copy",
         saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }

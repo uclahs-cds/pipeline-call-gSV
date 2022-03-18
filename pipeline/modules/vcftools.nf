@@ -15,7 +15,7 @@ process run_vcf_validator_VCFtools {
         pattern: "*_validation.txt",
         mode: "copy"
 
-    publishDir "$params.log_output_dir/process-log",
+    publishDir "$params.log_output_dir/process-log/${params.docker_image_delly.split("/")[1].replace(':', '-').capitalize()}/QC",
         pattern: ".command.*",
         mode: "copy",
         saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }

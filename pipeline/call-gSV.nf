@@ -103,7 +103,13 @@ workflow {
     if (params.run_discovery) {
         if (params.run_manta) {
             call_gSV_Manta(input_bam_ch, params.reference_fasta, reference_fasta_index)
-            run_sha512sum_Manta(call_gSV_Manta.out.vcf_small_indel_sv_file.mix(call_gSV_Manta.out.vcf_diploid_sv_file, call_gSV_Manta.out.vcf_candidate_sv_file))
+            run_sha512sum_Manta(call_gSV_Manta.out.vcf_small_indel_sv_file.mix(
+                call_gSV_Manta.out.vcf_diploid_sv_file,
+                call_gSV_Manta.out.vcf_candidate_sv_file,
+                call_gSV_Manta.out.vcf_small_indel_sv_tbi,
+                call_gSV_Manta.out.vcf_diploid_sv_tbi,
+                call_gSV_Manta.out.vcf_candidate_sv_tbi
+                ))
             }
         if (params.run_delly) {
             call_gSV_Delly(input_bam_ch, params.reference_fasta, reference_fasta_index, params.exclusion_file)
