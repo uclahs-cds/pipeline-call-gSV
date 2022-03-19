@@ -25,11 +25,14 @@ process call_gSV_Delly {
         path(reference_fasta)
         path(reference_fasta_fai)
         path(exclusion_file)
+
     output:
         path "DELLY-${params.delly_version}_SV_${params.dataset_id}_${bam_sample_name}.bcf", emit: bcf_sv_file
         path "DELLY-${params.delly_version}_SV_${params.dataset_id}_${bam_sample_name}.bcf.csi"
         path ".command.*"
         val bam_sample_name, emit: bam_sample_name
+
+    script:
     """
     set -euo pipefail
     delly \
@@ -64,6 +67,7 @@ process regenotype_gSV_Delly {
         path "DELLY-${params.delly_version}_RGSV_${params.dataset_id}_${bam_sample_name}.bcf", emit: regenotyped_sv_bcf
         path "DELLY-${params.delly_version}_RGSV_${params.dataset_id}_${bam_sample_name}.bcf.csi", emit: regenotyped_sv_bcf_csi
         path ".command.*"
+
     script:
     """
     set -euo pipefail
@@ -96,11 +100,14 @@ process call_gCNV_Delly {
         path(reference_fasta)
         path(reference_fasta_fai)
         path(mappability_file)
+
     output:
         path "DELLY-${params.delly_version}_CNV_${params.dataset_id}_${bam_sample_name}.bcf", emit: bcf_cnv_file
         path "DELLY-${params.delly_version}_CNV_${params.dataset_id}_${bam_sample_name}.bcf.csi"
         path ".command.*"
         val bam_sample_name, emit: bam_sample_name
+
+    script:
     """
     set -euo pipefail
     delly \
@@ -131,10 +138,12 @@ process regenotype_gCNV_Delly {
         path(reference_fasta_fai)
         path(mappability_file)
         path(sites)
+
     output:
         path "DELLY-${params.delly_version}_RGCNV_${params.dataset_id}_${bam_sample_name}.bcf", emit: regenotyped_cnv_bcf
         path "DELLY-${params.delly_version}_RGCNV_${params.dataset_id}_${bam_sample_name}.bcf.csi", emit: regenotyped_cnv_bcf_csi
         path ".command.*"
+
     script:
     """
     set -euo pipefail
