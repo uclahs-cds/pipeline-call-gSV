@@ -11,11 +11,11 @@ Docker Images:
 process convert_BCF2VCF_BCFtools {
     container params.docker_image_bcftools
 
-    publishDir "${params.output_dir}/${params.docker_image_delly.split("/")[1].replace(':', '-').capitalize()}/intermediate/${task.process.replace(':', '/')}",
+    publishDir "${params.output_dir}/${params.docker_image_delly.split("/")[1].replace(':', '-').toUpperCase()}/intermediate/${task.process.replace(':', '/')}",
         pattern: "*.vcf",
         mode: "copy"
 
-    publishDir "${params.log_output_dir}/process-log/${params.docker_image_delly.split("/")[1].replace(':', '-').capitalize()}",
+    publishDir "${params.log_output_dir}/process-log/${params.docker_image_delly.split("/")[1].replace(':', '-').toUpperCase()}",
         pattern: ".command.*",
         mode: "copy",
         saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }

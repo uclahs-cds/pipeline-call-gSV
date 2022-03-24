@@ -55,7 +55,7 @@ include { call_gSV_Manta } from './modules/manta'
 include { convert_BCF2VCF_BCFtools as convert_gSV_BCF2VCF_BCFtools; convert_BCF2VCF_BCFtools as convert_gCNV_BCF2VCF_BCFtools } from './modules/bcftools'
 include { run_vcfstats_RTGTools as run_gSV_vcfstats_RTGTools; run_vcfstats_RTGTools as run_gCNV_vcfstats_RTGTools } from './modules/rtgtools'
 include { run_vcf_validator_VCFtools as run_gSV_vcf_validator_VCFtools; run_vcf_validator_VCFtools as run_gCNV_vcf_validator_VCFtools } from './modules/vcftools'
-include { run_sha512sum as run_sha512sum_gSV_Delly; run_sha512sum as run_sha512sum_gCNV_Delly; run_sha512sum as run_sha512sum_regeno_gSV_Delly; run_sha512sum as run_sha512sum_regeno_gCNV_Delly } from './modules/sha512' addParams(docker_image_name: "$params.docker_image_delly")
+include { run_sha512sum as run_sha512sum_gSV_Delly; run_sha512sum as run_sha512sum_gCNV_Delly; run_sha512sum as run_sha512sum_regeno_gSV_Delly; run_sha512sum as run_sha512sum_regeno_gCNV_Delly } from './modules/sha512' addParams(docker_image_name: "$params.docker_image_delly".toUpperCase())
 include { run_sha512sum as run_sha512sum_Manta } from './modules/sha512' addParams(docker_image_name: "$params.docker_image_manta")
 
 input_bam_ch = Channel
@@ -114,12 +114,12 @@ workflow {
         if (params.run_delly) {
             call_gSV_Delly(input_bam_ch, params.reference_fasta, reference_fasta_index, params.exclusion_file)
             convert_gSV_BCF2VCF_BCFtools(call_gSV_Delly.out.bcf_sv_file, call_gSV_Delly.out.bam_sample_name, params.GSV)
-            run_sha512sum_gSV_Delly(call_gSV_Delly.out.bcf_sv_file)
+            run_sha512sum_gSV_Delly(call_gSV_Delly.out.bcf_sv_file.mix(call_gSV_Delly.out.bcf_sv_file_csi))
 
             if (params.variant_type.contains(params.GCNV)) {
                 call_gCNV_Delly(input_bam_ch, call_gSV_Delly.out.bcf_sv_file.toList(), params.reference_fasta, reference_fasta_index, params.mappability_map)
                 convert_gCNV_BCF2VCF_BCFtools(call_gCNV_Delly.out.bcf_cnv_file, call_gCNV_Delly.out.bam_sample_name, params.GCNV)
-                run_sha512sum_gCNV_Delly(call_gCNV_Delly.out.bcf_cnv_file)
+                run_sha512sum_gCNV_Delly(call_gCNV_Delly.out.bcf_cnv_file.mix(call_gCNV_Delly.out.bcf_cnv_file_csi))
                 }
 
             if (params.run_qc) {
