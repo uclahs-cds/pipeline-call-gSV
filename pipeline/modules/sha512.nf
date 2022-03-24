@@ -1,48 +1,34 @@
 #!/usr/bin/env nextflow
 
-def docker_image_sha512 = "blcdsdockerregistry/call-gsv:sha512-${params.sha512_version}"
-
 log.info """\
 ------------------------------------
           S H A - 5 1 2
 ------------------------------------
 Docker Images:
-- docker_image_sha512:   ${docker_image_sha512}
+- docker_image_validate: ${params.docker_image_validate}
 """
 
 process run_sha512sum {
-    container docker_image_sha512
+    container params.docker_image_validate
 
-    publishDir params.output_dir,
-        pattern: "*.vcf.sha512",
-        mode: "copy",
-        saveAs: { "BCFtools-${params.bcftools_version}/${file(it).getName()}" }
+    publishDir "${params.output_dir}/${params.docker_image_name.split("/")[1].replace(':', '-').capitalize()}/output",
+        pattern: "*.sha512",
+        mode: "copy"
 
-    publishDir params.output_dir,
-        pattern: "*.bcf.sha512",
-        mode: "copy",
-        saveAs: { "Delly-${params.delly_version}/${file(it).getName()}" }
-
-    publishDir params.output_dir,
-        pattern: "*.vcf.gz*.sha512",
-        mode: "copy",
-        saveAs: { "Manta-${params.manta_version}/results/variants/${file(it).getName()}" }
-
-    publishDir params.output_log_dir,
+    publishDir "$params.log_output_dir/process-log/${params.docker_image_name.split("/")[1].replace(':', '-').capitalize()}/${task.process.replace(':', '/')}",
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "run_sha512sum/${input_checksum_file}.log${file(it).getName()}" }
+        saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
 
     input:
-    path input_checksum_file
+        path input_checksum_file
 
     output:
-    path "${input_checksum_file}.sha512"
-    path ".command.*"
+        path "${input_checksum_file}.sha512"
+        path ".command.*"
 
     """
-    set -euo pipefail
-
-    sha512sum $input_checksum_file > ${input_checksum_file}.sha512
+        set -euo pipefail
+        python -m validate -t sha512-gen $input_checksum_file > ${input_checksum_file}.sha512
     """
-}
+    }
