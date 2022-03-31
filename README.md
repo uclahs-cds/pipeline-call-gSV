@@ -163,7 +163,7 @@ The second possible step of the regenotyping pipeline requires an aligned and so
 | `run_qc` | no | boolean | Optional parameter to indicate whether subsequent quality checks should be run on Delly outputs. Default value is false. |
 | `save_intermediate_files` | yes | boolean | Optional parameter to indicate whether intermediate files will be saved. Default value is true. |
 | `output_dir` | yes | path | Absolute path to the directory where the output files to be saved. |
-| `work_dir` | optional | path | Absolute path to the temp directory. |
+| `work_dir` | optional | path | Path of working directory for Nextflow. When included in the sample config file, Nextflow intermediate files and logs will be saved to this directory. With ucla_cds, the default is /scratch and should only be changed for testing/development. Changing this directory to /hot or /tmp can lead to high server latency and potential disk space limitations, respectively. |
 
 ---
 
