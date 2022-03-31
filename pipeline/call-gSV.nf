@@ -19,14 +19,12 @@ Current Configuration:
     input_csv: ${params.input_csv}
     reference_fasta: ${params.reference_fasta}
     reference_fasta_index: ${params.reference_fasta_index}
-    reference_prefix: ${params.reference_prefix}
     exclusion_file: ${params.exclusion_file}
     mappability_map: ${params.mappability_map}
 
 - output:
     output_dir: ${params.output_dir}
     log_output_dir: ${params.log_output_dir}
-    temp_dir: ${params.temp_dir}
 
 - options:
     save_intermediate_files: ${params.save_intermediate_files}
