@@ -162,7 +162,8 @@ The second possible step of the regenotyping pipeline requires an aligned and so
 | `run_manta` | true | boolean | Whether or not the workflow should run Manta (either run_delly or run_manta must be set to true) |
 | `run_qc` | no | boolean | Optional parameter to indicate whether subsequent quality checks should be run on Delly outputs. Default value is false. |
 | `save_intermediate_files` | yes | boolean | Optional parameter to indicate whether intermediate files will be saved. Default value is true. |
-| `output_dir` | yes | path | Absolute path to the directory where the output files to be saved. 
+| `output_dir` | yes | path | Absolute path to the directory where the output files to be saved. |
+| `work_dir` | optional | path | Absolute path to the temp directory. |
 
 ---
 
