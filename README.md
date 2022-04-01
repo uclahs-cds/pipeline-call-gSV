@@ -155,8 +155,6 @@ The second possible step of the regenotyping pipeline requires an aligned and so
 | `merged_sites` | yes | path | The path to the merged sites.bcf file. Must be populated if running the regenotyping branch. |
 | `input_csv` | yes | string | Absolute path to the input csv file for the pipeline. |
 | `reference_fasta` | yes | path | Absolute path to the reference genome `fasta` file. The reference genome is used by Delly for structural variant calling. |
-| `reference_fasta_index` | no | path | Absolute path to the reference genome `fasta` index file. The reference genome is used by Delly for structural variant calling. If this path is not specified, call-gSV will assume the index file exists in the same directory as the `reference_fasta` |
-| `reference_prefix` | yes | path | Absolute path to the reference genome `fasta` prefix. The reference genome is used by Delly for structural variant calling. |
 | `exclusion_file` | yes | path | Absolute path to the delly reference genome `exclusion` file utilized to remove suggested regions for structural variant calling. On Slurm/SGE, an HG38 exclusion file is located at /[hot\|data]/ref/hg38/delly/human.hg38.excl.tsv |
 | `mappability_map` | yes | path | Absolute path to the delly mappability map to support GC and mappability fragment correction in CNV calling |
 | `map_qual` | no | path | minimum paired-end (PE) mapping quaility threshold for Delly). |
@@ -164,8 +162,8 @@ The second possible step of the regenotyping pipeline requires an aligned and so
 | `run_manta` | true | boolean | Whether or not the workflow should run Manta (either run_delly or run_manta must be set to true) |
 | `run_qc` | no | boolean | Optional parameter to indicate whether subsequent quality checks should be run on Delly outputs. Default value is false. |
 | `save_intermediate_files` | yes | boolean | Optional parameter to indicate whether intermediate files will be saved. Default value is true. |
-| `output_dir` | yes | path | Absolute path to the directory where the output files to be saved. 
-| `temp_dir` | yes | path | Absolute path to the directory where the nextflow's intermediate files are saved. |
+| `output_dir` | yes | path | Absolute path to the directory where the output files to be saved. |
+| `work_dir` | optional | path | Path of working directory for Nextflow. When included in the sample config file, Nextflow intermediate files and logs will be saved to this directory. With `ucla_cds`, the default is `/scratch` and should only be changed for testing/development. Changing this directory to `/hot` or `/tmp` can lead to high server latency and potential disk space limitations, respectively. |
 
 ---
 
