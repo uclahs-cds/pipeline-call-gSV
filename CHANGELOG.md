@@ -4,6 +4,8 @@ All notable changes to the call-gSV pipeline.
 ---
 
 ## [Unreleased]
+### Changed
+- Update PULL_REQUEST_TEMPLATE.md based on NextFlow Pipeline Template
 
 ---
 
