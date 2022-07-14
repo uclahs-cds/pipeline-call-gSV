@@ -45,4 +45,4 @@ already, or do not wish to be listed. (*This acknowledgement is optional.*)
 
 - [ ] I have updated the version number in the `metadata.yaml` and `manifest` block of the `nextflow.config` file following [semver](https://semver.org/), or the version number has already been updated. (*Leave it unchecked if you are unsure about new version number and discuss it with the infrastructure team in this PR.*)
 
-- [ ] I have tested the pipeline on at least one A-mini sample with "run_delly = true", "run_manta = true", "run_qc = true". For run_delly = true, I have tested "variant_type" set to `gSV`, `gCNV`, and both. The paths to the test config files and output directories are captured above in the Testing Results section.
+- [ ] I have tested the pipeline on at least one A-mini sample with `run_delly = true`, `run_manta = true`, `run_qc = true`. For `run_delly = true`, I have tested 'variant_type' set to `gSV`, `gCNV`, and both. The paths to the test config files and output directories are captured above in the Testing Results section.
