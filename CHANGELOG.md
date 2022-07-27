@@ -10,6 +10,7 @@ All notable changes to the call-gSV pipeline.
 - Add GPL 2.0
 
 ### Fixed
+- Fix Issue #55: fix F2 detection
 - Fix Issue #32: remove option '--exclude' in delly cnv
 - Fix Issue #33: should pass the mappability_map file instead of the exclusion file to regenotype_gCNV_Delly
 
