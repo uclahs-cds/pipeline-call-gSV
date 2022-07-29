@@ -7,7 +7,7 @@ All notable changes to the call-gSV pipeline.
 
 ---
 
-## [4.0.0-rc.1]
+## [4.0.0-rc.1] - 2022-07-29
 ### Added
 - Add the Issue Report template
 - Add the Pull Request template
