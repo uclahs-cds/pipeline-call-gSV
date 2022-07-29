@@ -4,6 +4,10 @@ All notable changes to the call-gSV pipeline.
 ---
 
 ## [Unreleased]
+
+---
+
+## [4.0.0-rc.1]
 ### Added
 - Add the Issue Report template
 - Add the Pull Request template
