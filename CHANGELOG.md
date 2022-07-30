@@ -4,6 +4,8 @@ All notable changes to the call-gSV pipeline.
 ---
 
 ## [Unreleased]
+### Changed
+- Standardize repo structure and rename the NF script name from `call-gSV.nf` to `main.nf`
 
 ---
 
