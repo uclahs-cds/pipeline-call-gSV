@@ -4,6 +4,8 @@ All notable changes to the call-gSV pipeline.
 ---
 
 ## [Unreleased]
+### Added
+- Add `F16.config` to allow F16 compatibility for the pipeline
 ### Changed
 - Standardize repo structure and rename the NF script name from `call-gSV.nf` to `main.nf`
 
