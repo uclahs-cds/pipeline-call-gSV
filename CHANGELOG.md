@@ -7,6 +7,7 @@ All notable changes to the call-gSV pipeline.
 ### Added
 - Add `F16.config` to allow F16 compatibility for the pipeline
 ### Changed
+- move `save_intermediate_files` from `default.config` to `template.config` and set it to `false` 
 - Update BCFtools 1.12 to 1.15.1
 - Update Delly 1.0.3 to 1.1.3
 - Update Delly 0.9.1 to 1.0.3
