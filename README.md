@@ -35,23 +35,53 @@ The call-gSV nextflow pipeline, calls structural variants and copy number varian
 
 | Config File | Available Node cpus / memory | Designated Process 1; cpus / memory | Designated Process 2; cpus / memory | Designated Process 3; cpus / memory |
 |:------------|:---------|:-------------------------|:-------------------------|:-------------------------|
-| `F2.config` | 2 / 3 GB | call_gSV_Delly; 1 / 2 GB | call_gSV_Manta; 1 / 2 GB | validate_file; 1 / 1 GB |
+| `F2.config` | 2 / 3 GB | call_gSV_Delly; 1 / 2 GB | call_gSV_Manta; 1 / 2 GB\* | validate_file; 1 / 1 GB |
 | `F32.config` | 32 / 62.8 GB | call_gSV_Delly; 1 / 30 GB | call_gSV_Manta; 1 / 30 GB | validate_file; 1 / 1 GB |
 | `F72.config` | 72 / 136.8 GB | call_gSV_Delly; 1 / 65 GB | call_gSV_Manta; 1 / 65 GB | validate_file; 1 / 1 GB |
 | `M64.config` | 64 / 950 GB | call_gSV_Delly; 1 / 470 GB | call_gSV_Manta; 1 / 470 GB | validate_file; 1 / 1 GB |
 ---
+\* - Manta SV calling wouldn't work on an F2 node due to incompatible resources. In order to test the pipeline for tasks not relevant to Manta, please set `run_manta = false` in the sample specific [config](config/template.config) file.
 
 ## How To Run
 
-Pipelines should be run **WITH A SINGLE SAMPLE AT TIME**. Otherwise resource allocation and Nextflow errors could cause the pipeline to fail
+Below is a summary of how to run the pipeline.  See [here](https://confluence.mednet.ucla.edu/pages/viewpage.action?spaceKey=BOUTROSLAB&title=How+to+run+a+nextflow+pipeline) for full instructions.
 
-1. Make sure the pipeline is already downloaded to your machine. You can either download the stable release or the dev version by cloning the repo.  
+Pipelines should be run **WITH A SINGLE SAMPLE AT TIME**. Otherwise resource allocation and Nextflow errors could cause the pipeline to fail.
 
-2. Update the nextflow.config file for input, output, and parameters. An example can be found [here](pipeline/config/nextflow.config). See [Inputs](#Inputs) for description of each variables in the config file.
+1. The recommended way of running the pipeline is to directly use the source code located here: `/hot/software/pipeline/pipeline-call-gSV/Nextflow/release/`, rather than cloning a copy of the pipeline.
+
+    * The source code should never be modified when running our pipelines
+
+2. Create a config file for input, output, and parameters. An example for a config file can be found [here](config/template.config). See [Nextflow Config File Parameters](#Nextflow-Config-File-Parameters) for the detailed description of each variable in the config file.
+
+    * Do not directly modify the source `template.config`, but rather you should copy it from the pipeline release folder to your project-specific folder and modify it there
+
+3. Create the input CSV using the [template](input/call-gSV-input.csv).See [Input CSV](#Input-CSV) for detailed description of each column. All columns must exist and should be comma separated in order to run the pipeline successfully.
+   
+   * Again, do not directly modify the source template CSV file.  Instead, copy it from the pipeline release folder to your project-specific folder and modify it there.
 
 3. Update the input csv. See [Inputs](#Inputs) for the columns needed. All columns must exist in order to run the pipeline. An example can be found [here](pipeline/inputs/call-gSV.inputs.csv). The example csv is a single germline sample.
  
-4. See the submission script, [here](https://github.com/uclahs-cds/tool-submit-nf), to submit your pipeline
+4. The pipeline can be executed locally using the command below:
+
+```bash
+nextflow run path/to/main.nf -config path/to/sample-specific.config
+```
+
+* For example, `path/to/main.nf` could be: `/hot/software/pipeline/pipeline-call-gSV/Nextflow/release/4.0.0/main.nf`
+* `path/to/sample-specific.config` is the path to where you saved your project-specific copy of [template.config](config/template.config) 
+
+To submit to UCLAHS-CDS's Azure cloud, use the submission script [here](https://github.com/uclahs-cds/tool-submit-nf) with the command below:
+
+```bash
+python path/to/submit_nextflow_pipeline.py \
+    --nextflow_script path/to/main.nf \
+    --nextflow_config path/to/sample-specific.config \
+    --pipeline_run_name <sample_name> \
+    --partition_type F16 \
+    --email <your UCLA email, jdoe@ucla.edu>
+```
+In the above command, the partition type can be changed based on the size of the dataset.
 
 ---
 
@@ -92,7 +122,7 @@ Currently the following filters are applied by Delly when calling structural var
 
 The second step of the pipeline identifies any found copy number variants (CNVs). To do this, Delly requires an aligned and sorted BAM file and BAM index as an input, as well as the BCF output from the initial structural variant calling (to refine breakpoints) and a mappability map. Any CNVs identified are annotated and output as a single BCF file. 
 
-Currently the following filters are applied by Delly when calling copy  number variants. Parameters with a "call-gSV default" can be updated in the nextflow.config file.
+Currently the following filters are applied by Delly when calling copy number variants. Parameters with a "call-gSV default" can be updated in the sample specific nextflow [config](config/template.config) file.
 <br>
 | Parameter | Delly default | call-gSV default | Description |
 |:------------|:----------|:-------------------------|-------------|
@@ -135,7 +165,7 @@ The second possible step of the regenotyping pipeline requires an aligned and so
 
 ### Input CSV
 
->The input csv should have all columns below and in the same order. An example of an input csv can be found [here](pipeline/inputs/call-gSV-inputs.csv).
+The input CSV should have each of the input fields listed below as separate columns, using the same order and comma as column separator. An example of the input CSV can be found [here](input/call-gSV-input.csv).
 
 | Field | Type | Description |
 |:------|:-----|:------------|
@@ -148,22 +178,23 @@ The second possible step of the regenotyping pipeline requires an aligned and so
 | Input Parameter | Required | Type | Description |
 |:----------------|:---------|:-----|:------------|
 | `dataset_id` | yes | string | Boutros lab dataset id. |
-| `blcds_registered_dataset` | yes | boolean | Affirms if dataset should be registered in the Boutros Lab Data registry. Default value is false. |
-| `sge_scheduler` | yes | boolean | Affirms whether job will be executed on the SGE cluster. Default value is false. |
-| `run_discovery` | yes | boolean | Specifies whether or not to run the "disovery" branch of the pipeline. Default value is true. (either run_discovery or run_regenotyping must be true) |
-| `run_regenotyping` | yes | boolean | Specifies whether or not to run the "regenotyping" branch of the pipeline. Default value is false. (either run_discovery or run_regenotyping must be true) |
+| `blcds_registered_dataset` | yes | boolean | Affirms if dataset should be registered in the Boutros Lab Data registry. Default value is `false`. |
+| `run_discovery` | yes | boolean | Specifies whether or not to run the "disovery" branch of the pipeline. Default value is `true`. (either `run_discovery` or `run_regenotyping` must be `true`) |
+| `run_regenotyping` | yes | boolean | Specifies whether or not to run the "regenotyping" branch of the pipeline. Default value is `false`. (either `run_discovery` or `run_regenotyping` must be `true`) |
 | `merged_sites` | yes | path | The path to the merged sites.bcf file. Must be populated if running the regenotyping branch. |
 | `input_csv` | yes | string | Absolute path to the input csv file for the pipeline. |
-| `reference_fasta` | yes | path | Absolute path to the reference genome `fasta` file. The reference genome is used by Delly for structural variant calling. |
-| `exclusion_file` | yes | path | Absolute path to the delly reference genome `exclusion` file utilized to remove suggested regions for structural variant calling. On Slurm/SGE, an HG38 exclusion file is located at /[hot\|data]/ref/hg38/delly/human.hg38.excl.tsv |
+| `reference_fasta` | yes | path | Absolute path to the reference genome `FASTA` file. The reference genome is used by Delly for structural variant calling. |
+| `exclusion_file` | yes | path | Absolute path to the delly reference genome `exclusion` file utilized to remove suggested regions for structural variant calling. On Slurm, an HG38 exclusion file is located at `/hot/ref/tool-specific-input/Delly/hg38/human.hg38.excl.tsv` |
 | `mappability_map` | yes | path | Absolute path to the delly mappability map to support GC and mappability fragment correction in CNV calling |
 | `map_qual` | no | path | minimum paired-end (PE) mapping quaility threshold for Delly). |
-| `run_delly` | true | boolean | Whether or not the workflow should run Delly (either run_delly or run_manta must be set to true) |
-| `run_manta` | true | boolean | Whether or not the workflow should run Manta (either run_delly or run_manta must be set to true) |
-| `run_qc` | no | boolean | Optional parameter to indicate whether subsequent quality checks should be run on Delly outputs. Default value is false. |
-| `save_intermediate_files` | yes | boolean | Optional parameter to indicate whether intermediate files will be saved. Default value is true. |
+| `run_delly` | true | boolean | Whether or not the workflow should run Delly (either run_delly or run_manta must be set to `true`) |
+| `run_manta` | true | boolean | Whether or not the workflow should run Manta (either run_delly or run_manta must be set to `true`) |
+| `run_qc` | no | boolean | Optional parameter to indicate whether subsequent quality checks should be run on Delly outputs. Default value is `false`. |
+| `save_intermediate_files` | yes | boolean | Optional parameter to indicate whether intermediate files will be saved. Default value is `false`. |
 | `output_dir` | yes | path | Absolute path to the directory where the output files to be saved. |
 | `work_dir` | optional | path | Path of working directory for Nextflow. When included in the sample config file, Nextflow intermediate files and logs will be saved to this directory. With `ucla_cds`, the default is `/scratch` and should only be changed for testing/development. Changing this directory to `/hot` or `/tmp` can lead to high server latency and potential disk space limitations, respectively. |
+
+An example of the NextFlow Input Parameters Config file can be found [here](config/template.config).
 
 ---
 
@@ -185,22 +216,26 @@ The second possible step of the regenotyping pipeline requires an aligned and so
 
 ### Test Data Set
 
-Testing was performed leveraging aligned and sorted bams generated using bwa-mem2-2.1 against reference GRCh38 (SMC-HET was aligned against hs37d5):
+Testing was performed leveraging aligned and sorted BAMs generated using `bwa-mem2-2.1` against reference GRCh38 (SMC-HET was aligned against hs37d5):
 
-* **A-mini:**    BWA-MEM2-2.1_TEST0000000_TWGSAMIN000001-T001-S01-F.bam and bai
-* **A-partial:** BWA-MEM2-2.1_TEST0000000_TWGSAPRT000001-T001-S01-F.bam and bai
-* **A-full:**    a-full-CPCG0196-B1.bam and bai
-* **SMC-HET:**    HG002.N.bam and bai
+* **A-mini:**    BWA-MEM2-2.1_TEST0000000_TWGSAMIN000001-T001-S01-F.bam and .bai
+* **A-partial:** BWA-MEM2-2.1_TEST0000000_TWGSAPRT000001-T001-S01-F.bam and .bai
+* **A-full:**    a-full-CPCG0196-B1.bam and .bai\*
+* **A-partial**:   CPCG0196-B1-downsampled-a-partial-sorted.bam and .bai\*
+* **SMC-HET:**    HG002.N.bam and .bai
+
+\* With Delly `v1.1.3`, the delly `CNV calling` works only on samples with good coverage windows such as, `a-full-CPCG0196-B1.bam` and `CPCG0196-B1-downsampled-a-partial-sorted.bam`. 
 
 Test runs for the A-mini/partial/full samples were performed using the following reference files
 
-* **reference_fasta:** /hot/ref/hg38/genome/genome.fa
-* **reference_fasta_index:** /hot/ref/hg38/genome/genome.fa.fai
-* **exclusion_file:** /hot/ref/hg38/delly/human.hg38.excl.tsv
-* **mappability_map:** /hot/ref/hg38/delly/Homo_sapiens.GRCh38.dna.primary_assembly.fa.r101.s501.blacklist.gz
+* **reference_fasta:** /hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta
+* **reference_fasta_index:** /hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta.fai
+* **exclusion_file:** /hot/ref/tool-specific-input/Delly/GRCh38/human.hg38.excl.tsv
+* **mappability_map:** /hot/ref/tool-specific-input/Delly/GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.r101.s501.blacklist.gz
 
 ### Performance Validation
 
+#### with Delly <= `v0.9.1` in the pipeline
 Testing was performed primarily in the Boutros Lab SLURM Development cluster but additional functional tests were performed on the SGE cluster on 2/26/2021 and the SLURM Covid cluster.  Metrics below will be updated where relevant with additional testing and tuning outputs.
 
 |Test Case | Test Date | Node Type | Duration | CPU Hours | Virtual Memory Usage (RAM) -peak rss |
@@ -209,6 +244,15 @@ Testing was performed primarily in the Boutros Lab SLURM Development cluster but
 | A-partial | 2021-02-10 | F72 | 42m 5s | 48.8 | 8.9 GB |
 | A-full | 2021-02-10 | F72 | 7h 10m 43s | 509.0 | 10.9 GB |
 | SMC-HET | 2021-02-12 | F72 | 3h 9m 60s | 223.5 |  8.9 GB |
+
+#### with Delly >= `v1.0.3` in the pipeline
+Metrics below are based on the integration of Delly v1.13 in the `call-gSV` pipeline.
+
+|Test Case | Test Date | Node Type | Duration | CPU Hours | Virtual Memory Usage (RAM) -peak rss |
+|:---------|:----------|:----------|:---------|:----------|:---------------------------|
+| CPCG0196-B1 A-partial | 2022-08-08 | F72 | 1h 9m 15s | 2.2 | 10.85 GB |
+| CPCG0196-B1 A-full  | 2022-08-06 | F72 | 21h 3m 19s | 37.3 | 24.68 GB |
+
 
 ### Quality Check Result Comparison
 
@@ -254,7 +298,7 @@ Included is a template for validating your input files. For more information on 
 
 ## License
 
-Authors: Tim Sanders (TSanders@mednet.ucla.edu), Yu Pan (YuPan@mednet.ucla.edu), Yael Berkovich (YBerkovich@mednet.ucla.edu)
+Authors: Tim Sanders (TSanders@mednet.ucla.edu), Yu Pan (YuPan@mednet.ucla.edu), Yael Berkovich (YBerkovich@mednet.ucla.edu), Mohammed Faizal Eeman Mootor (MMootor@mednet.ucla.edu)
 
 The pipeline-call-gSV is licensed under the GNU General Public License version 2. See the file LICENSE for the terms of the GNU GPL license.
 
