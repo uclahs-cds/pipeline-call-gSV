@@ -224,7 +224,7 @@ Testing was performed leveraging aligned and sorted BAMs generated using `bwa-me
 * **A-partial**:   CPCG0196-B1-downsampled-a-partial-sorted.bam and .bai\*
 * **SMC-HET:**    HG002.N.bam and .bai
 
-\* With Delly `v1.1.3`, the delly `CNV calling` works only on samples with good coverage windows such as, `a-full-CPCG0196-B1.bam` and `CPCG0196-B1-downsampled-a-partial-sorted.bam`. 
+\* In Delly `v1.1.3`, a `coverage check` has been introduced which checks for coverage quality in a given window before CNV calling. Successful CNV calling was observed on samples with coverages across the genome, such as, `a-full-CPCG0196-B1.bam` and `CPCG0196-B1-downsampled-a-partial-sorted.bam` (WGS samples). For more details, please refer to Discussion #64.
 
 Test runs for the A-mini/partial/full samples were performed using the following reference files
 
