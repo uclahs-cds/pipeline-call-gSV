@@ -25,11 +25,11 @@
 
 ## Overview
 
-The call-gSV nextflow pipeline, calls structural variants and copy number variants utilizing [Delly](https://github.com/dellytools/delly) and [Manta](https://github.com/Illumina/manta). Additionally, the pipeline can also regenotype previously identified structural variants or copy number variants with Delly. It is suitable for detecting copy-number variable deletion and tandem duplication events as well as balanced rearrangements such as inversions or reciprocal translocations and validates the output quality with [BCFtools](https://github.com/samtools/bcftools).  The pipeline has been engineered to run in a 4 layer stack in a cloud-based scalable environment of CycleCloud, Slurm, Nextflow and Docker.  Additionally it has been validated with the SMC-HET dataset and the GRCh38 reference genome, using paired-end FASTQ's that were back-extracted from BAMs created by BAM Surgeon.
+The call-gSV nextflow pipeline, calls structural variants (SVs) and copy number variants (CNVs) utilizing [Delly](https://github.com/dellytools/delly) and [Manta](https://github.com/Illumina/manta). Additionally, the pipeline can also regenotype previously identified SVs or CNVs with Delly. It is suitable for detecting copy-number variable deletion and tandem duplication events as well as balanced rearrangements such as inversions or reciprocal translocations and validates the output quality with [BCFtools](https://github.com/samtools/bcftools).  The pipeline has been engineered to run in a 4 layer stack in a cloud-based scalable environment of CycleCloud, Slurm, Nextflow and Docker.  Additionally it has been validated with the SMC-HET dataset and the GRCh38 reference genome, using paired-end FASTQ's that were back-extracted from BAMs created by BAM Surgeon.
 
 <b><i>Developer's Notes:</i></b>
 
-> We will be performing benchmarking on our SLURM cluster.  Currently using 71 CPUs for structural variant calling gives the best performance, running in 3-8 hours per sample with ~10GB of memory.  <i>...Stay tuned for updates from further testing.</i>
+> We will be performing benchmarking on our SLURM cluster.  Currently using 71 CPUs for SV calling gives the best performance, running in 3-8 hours per sample with ~10GB of memory.  <i>...Stay tuned for updates from further testing.</i>
 
 ### Node Specific Config File Settings
 
@@ -97,14 +97,14 @@ A directed acyclic graph of your pipeline.
 
 ### Discovery
 
-The "discovery" branch of the call-gSV pipeline allows you to identify germline structural variants and copy number variants utilizing either Delly or Manta. After variants are identified, basic quality checks are performed on the outputs of the processes.
+The "discovery" branch of the call-gSV pipeline allows you to identify germline SVs and CNVs utilizing either Delly or Manta. After variants are identified, basic quality checks are performed on the outputs of the processes.
 
 ### 1. Calling Structural Variants
 
-The first step of the pipeline requires an aligned and sorted BAM file and BAM index as an input for variant calling with [Delly](https://github.com/dellytools/delly) or [Manta](https://github.com/Illumina/manta). Delly combines short-range and long-range paired-end mapping and split-read analysis for the discovery of balanced and unbalanced structural variants at single-nucleotide breakpoint resolution (deletions, tandem duplications, inversions and translocations.) Structural variants are called, annotated and merged into a single BCF file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
-Manta calls structural variants (SVs) and indels from mapped paired-end sequencing reads. It is optimized for analysis of germline variation in small sets of individuals and somatic variation in tumor/normal sample pairs. Manta discovers, assembles and scores large-scale SVs, medium-sized indels and large insertions within a single efficient workflow.
+The first step of the pipeline requires an aligned and sorted BAM file and BAM index as an input for variant calling with [Delly](https://github.com/dellytools/delly) or [Manta](https://github.com/Illumina/manta). Delly combines short-range and long-range paired-end mapping and split-read analysis for the discovery of balanced and unbalanced SVs at single-nucleotide breakpoint resolution (deletions, tandem duplications, inversions and translocations.) SVs are called, annotated and merged into a single BCF file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
+Manta calls SVs and indels from mapped paired-end sequencing reads. It is optimized for analysis of germline variation in small sets of individuals and somatic variation in tumor/normal sample pairs. Manta discovers, assembles and scores large-scale SVs, medium-sized indels and large insertions within a single efficient workflow.
 
-Currently the following filters are applied by Delly when calling structural variants. Parameters with a "call-gSV default" can be updated in the nextflow.config file.
+Currently the following filters are applied by Delly when calling SVs. Parameters with a "call-gSV default" can be updated in the nextflow.config file.
 <br>
 | Parameter | Delly default | call-gSV default | Description |
 |:------------|:----------|:-------------------------|-------------|
@@ -120,9 +120,9 @@ Currently the following filters are applied by Delly when calling structural var
 
 ### 2. Calling Copy Number Variants
 
-The second step of the pipeline identifies any found copy number variants (CNVs). To do this, Delly requires an aligned and sorted BAM file and BAM index as an input, as well as the BCF output from the initial structural variant calling (to refine breakpoints) and a mappability map. Any CNVs identified are annotated and output as a single BCF file. 
+The second step of the pipeline identifies any found CNVs. To do this, Delly requires an aligned and sorted BAM file and BAM index as an input, as well as the BCF output from the initial SV calling (to refine breakpoints) and a mappability map. Any CNVs identified are annotated and output as a single BCF file. 
 
-Currently the following filters are applied by Delly when calling copy number variants. Parameters with a "call-gSV default" can be updated in the sample specific nextflow [config](config/template.config) file.
+Currently the following filters are applied by Delly when calling CNVs. Parameters with a "call-gSV default" can be updated in the sample specific nextflow [config](config/template.config) file.
 <br>
 | Parameter | Delly default | call-gSV default | Description |
 |:------------|:----------|:-------------------------|-------------|
@@ -147,16 +147,16 @@ For Delly, VCF files are generated from the BCFs to run the vcf-validate command
 
 ### Regenotyping
 
-The "regenotyping" branch of the call-gSV pipeline allows you to regenotype previously identified structural variants or copy number variants using Delly. 
+The "regenotyping" branch of the call-gSV pipeline allows you to regenotype previously identified SVs or CNVs using Delly. 
 
 ### 1. Regenotyping Structural Variants
 
-Similar to the "discovery" process, the first step of the regenotyping pipeline requires an aligned and sorted BAM file, BAM index, and a merged sites BCF (from the merge-SVsites pipeline) as inputs for structural variant regenotyping with [Delly](https://github.com/dellytools/delly). The provided sample is genotyped with the merged sites list. Structural variants are annotated and merged into a single BCF file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
+Similar to the "discovery" process, the first step of the regenotyping pipeline requires an aligned and sorted BAM file, BAM index, and a merged sites BCF (from the merge-SVsites pipeline) as inputs for SV regenotyping with [Delly](https://github.com/dellytools/delly). The provided sample is genotyped with the merged sites list. Structural variants are annotated and merged into a single BCF file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
 <br>
 
 ### 2. Regenotyping Copy Number Variants
 
-The second possible step of the regenotyping pipeline requires an aligned and sorted BAM file, BAM index, and a merged sites BCF as an input, as well as the BCF output from the initial structural variant calling (to refine breakpoints) and a mappability map. Any CNVs identified are annotated and output as a single BCF file.
+The second possible step of the regenotyping pipeline requires an aligned and sorted BAM file, BAM index, and a merged sites BCF as an input, as well as the BCF output from the initial SV calling (to refine breakpoints) and a mappability map. Any CNVs identified are annotated and output as a single BCF file.
 <br>
 
 ---
@@ -183,8 +183,8 @@ The input CSV should have each of the input fields listed below as separate colu
 | `run_regenotyping` | yes | boolean | Specifies whether or not to run the "regenotyping" branch of the pipeline. Default value is `false`. (either `run_discovery` or `run_regenotyping` must be `true`) |
 | `merged_sites` | yes | path | The path to the merged sites.bcf file. Must be populated if running the regenotyping branch. |
 | `input_csv` | yes | string | Absolute path to the input csv file for the pipeline. |
-| `reference_fasta` | yes | path | Absolute path to the reference genome `FASTA` file. The reference genome is used by Delly for structural variant calling. |
-| `exclusion_file` | yes | path | Absolute path to the delly reference genome `exclusion` file utilized to remove suggested regions for structural variant calling. On Slurm, an HG38 exclusion file is located at `/hot/ref/tool-specific-input/Delly/hg38/human.hg38.excl.tsv` |
+| `reference_fasta` | yes | path | Absolute path to the reference genome `FASTA` file. The reference genome is used by Delly for SV calling. |
+| `exclusion_file` | yes | path | Absolute path to the delly reference genome `exclusion` file utilized to remove suggested regions for SV calling. On Slurm, an HG38 exclusion file is located at `/hot/ref/tool-specific-input/Delly/hg38/human.hg38.excl.tsv` |
 | `mappability_map` | yes | path | Absolute path to the delly mappability map to support GC and mappability fragment correction in CNV calling |
 | `map_qual` | no | path | minimum paired-end (PE) mapping quaility threshold for Delly). |
 | `run_delly` | true | boolean | Whether or not the workflow should run Delly (either run_delly or run_manta must be set to `true`) |
@@ -202,8 +202,8 @@ An example of the NextFlow Input Parameters Config file can be found [here](conf
 
 | Output | Output Type | Description |
 |:-------|:---------|:------------|
-| `.bcf` | final | Binary VCF output format with structural variants if found. |
-| `.vcf` | intermediate | VCF output format with structural variants if found. If output by Manta, these VCFs will be compressed. |
+| `.bcf` | final | Binary VCF output format with SVs if found. |
+| `.vcf` | intermediate | VCF output format with SVs if found. If output by Manta, these VCFs will be compressed. |
 | `.bcf.csi` | final | CSI-format index for BAM files. |
 | `.validate.txt` | final | output file from vcf-validator. |
 | `.stats.txt` | final | output file from RTG Tools. |
@@ -229,7 +229,6 @@ Testing was performed leveraging aligned and sorted BAMs generated using `bwa-me
 Test runs for the A-mini/partial/full samples were performed using the following reference files
 
 * **reference_fasta:** /hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta
-* **reference_fasta_index:** /hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta.fai
 * **exclusion_file:** /hot/ref/tool-specific-input/Delly/GRCh38/human.hg38.excl.tsv
 * **mappability_map:** /hot/ref/tool-specific-input/Delly/GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.r101.s501.blacklist.gz
 
@@ -268,8 +267,8 @@ Metrics below are based on the integration of Delly v1.13 in the `call-gSV` pipe
 | IMPRECISE Calls | 2 | 764 | 51709 | 7012 | `grep -c -w  "IMPRECISE" filename.vcf` |
 | Failed Filters | 0 | 653 | 44991 | 2619 | `.stats.txt` |
 | Passed Filters | 3 | 1959 | 18257 | 12658 | `.stats.txt` |
-| Structural variant breakends | 0 | 219 | 1124 | 0 | `.stats.txt` |
-| Symbolic structural variants | 2 | 1559 | 12500 | 11156 | `.stats.txt` |
+| SV breakends | 0 | 219 | 1124 | 0 | `.stats.txt` |
+| Symbolic SVs | 2 | 1559 | 12500 | 11156 | `.stats.txt` |
 | Same as reference | 1 | 263 | 4595 | 1471 | `.stats.txt` |
 | Missing Genotype | 0 | 8 | 38 | 31 | `.stats.txt` | 
 | Total Het/Hom ratio | (2/0) | 1.00 (843/845) | 2.37 (9580/4044) | 1.86 (7251/3905) | `.stats.txt` |
@@ -304,7 +303,7 @@ The pipeline-call-gSV is licensed under the GNU General Public License version 2
 
 The pipeline-call-gSV takes BAM and BCF files and utilizes Delly to call/regenotype gSV/gCNV.
 
-Copyright (C) 2021 University of California Los Angeles ("Boutros Lab") All rights reserved.
+Copyright (C) 2021-2022 University of California Los Angeles ("Boutros Lab") All rights reserved.
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 
