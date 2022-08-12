@@ -27,9 +27,6 @@
 
 The call-gSV nextflow pipeline, calls structural variants (SVs) and copy number variants (CNVs) utilizing [Delly](https://github.com/dellytools/delly) and [Manta](https://github.com/Illumina/manta). Additionally, the pipeline can also regenotype previously identified SVs or CNVs with Delly. It is suitable for detecting copy-number variable deletion and tandem duplication events as well as balanced rearrangements such as inversions or reciprocal translocations and validates the output quality with [BCFtools](https://github.com/samtools/bcftools).  The pipeline has been engineered to run in a 4 layer stack in a cloud-based scalable environment of CycleCloud, Slurm, Nextflow and Docker.  Additionally it has been validated with the SMC-HET dataset and the GRCh38 reference genome, using paired-end FASTQ's that were back-extracted from BAMs created by BAM Surgeon.
 
-<b><i>Developer's Notes:</i></b>
-
-> We will be performing benchmarking on our SLURM cluster.  Currently using 71 CPUs for SV calling gives the best performance, running in 3-8 hours per sample with ~10GB of memory.  <i>...Stay tuned for updates from further testing.</i>
 
 ### Node Specific Config File Settings
 
@@ -60,8 +57,6 @@ Pipelines should be run **WITH A SINGLE SAMPLE AT TIME**. Otherwise resource all
    
    * Again, do not directly modify the source template CSV file.  Instead, copy it from the pipeline release folder to your project-specific folder and modify it there.
 
-3. Update the input csv. See [Inputs](#Inputs) for the columns needed. All columns must exist in order to run the pipeline. An example can be found [here](pipeline/inputs/call-gSV.inputs.csv). The example csv is a single germline sample.
- 
 4. The pipeline can be executed locally using the command below:
 
 ```bash
@@ -81,7 +76,7 @@ python path/to/submit_nextflow_pipeline.py \
     --partition_type F16 \
     --email <your UCLA email, jdoe@ucla.edu>
 ```
-In the above command, the partition type can be changed based on the size of the dataset.
+In the above command, the partition type can be changed based on the size of the dataset. An F16 node is generally recommended for larger datasets like A-full.
 
 ---
 
@@ -151,7 +146,7 @@ The "regenotyping" branch of the call-gSV pipeline allows you to regenotype prev
 
 ### 1. Regenotyping Structural Variants
 
-Similar to the "discovery" process, the first step of the regenotyping pipeline requires an aligned and sorted BAM file, BAM index, and a merged sites BCF (from the merge-SVsites pipeline) as inputs for SV regenotyping with [Delly](https://github.com/dellytools/delly). The provided sample is genotyped with the merged sites list. Structural variants are annotated and merged into a single BCF file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
+Similar to the "discovery" process, the first step of the regenotyping pipeline requires an aligned and sorted BAM file, BAM index, and a merged sites BCF (from the merge-SVsites pipeline) as inputs for SV regenotyping with [Delly](https://github.com/dellytools/delly). The provided sample is genotyped with the merged sites list. SVs are annotated and merged into a single BCF file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
 <br>
 
 ### 2. Regenotyping Copy Number Variants
@@ -182,7 +177,7 @@ The input CSV should have each of the input fields listed below as separate colu
 | `run_discovery` | yes | boolean | Specifies whether or not to run the "disovery" branch of the pipeline. Default value is `true`. (either `run_discovery` or `run_regenotyping` must be `true`) |
 | `run_regenotyping` | yes | boolean | Specifies whether or not to run the "regenotyping" branch of the pipeline. Default value is `false`. (either `run_discovery` or `run_regenotyping` must be `true`) |
 | `merged_sites` | yes | path | The path to the merged sites.bcf file. Must be populated if running the regenotyping branch. |
-| `input_csv` | yes | string | Absolute path to the input csv file for the pipeline. |
+| `input_csv` | yes | string | Absolute path to the input CSV file for the pipeline. |
 | `reference_fasta` | yes | path | Absolute path to the reference genome `FASTA` file. The reference genome is used by Delly for SV calling. |
 | `exclusion_file` | yes | path | Absolute path to the delly reference genome `exclusion` file utilized to remove suggested regions for SV calling. On Slurm, an HG38 exclusion file is located at `/hot/ref/tool-specific-input/Delly/hg38/human.hg38.excl.tsv` |
 | `mappability_map` | yes | path | Absolute path to the delly mappability map to support GC and mappability fragment correction in CNV calling |
@@ -218,11 +213,11 @@ An example of the NextFlow Input Parameters Config file can be found [here](conf
 
 Testing was performed leveraging aligned and sorted BAMs generated using `bwa-mem2-2.1` against reference GRCh38 (SMC-HET was aligned against hs37d5):
 
-* **A-mini:**    BWA-MEM2-2.1_TEST0000000_TWGSAMIN000001-T001-S01-F.bam and .bai
-* **A-partial:** BWA-MEM2-2.1_TEST0000000_TWGSAPRT000001-T001-S01-F.bam and .bai
-* **A-full:**    a-full-CPCG0196-B1.bam and .bai\*
-* **A-partial**:   CPCG0196-B1-downsampled-a-partial-sorted.bam and .bai\*
-* **SMC-HET:**    HG002.N.bam and .bai
+* **A-mini:**    BWA-MEM2-2.1_TEST0000000_TWGSAMIN000001-T001-S01-F.bam
+* **A-partial:** BWA-MEM2-2.1_TEST0000000_TWGSAPRT000001-T001-S01-F.bam
+* **A-full:**    a-full-CPCG0196-B1.bam\*
+* **A-partial**:   CPCG0196-B1-downsampled-a-partial-sorted.bam\*
+* **SMC-HET:**    HG002.N.bam
 
 \* In Delly `v1.1.3`, a `coverage check` has been introduced which checks for coverage quality in a given window before CNV calling. Successful CNV calling was observed on samples with coverages across the genome, such as, `a-full-CPCG0196-B1.bam` and `CPCG0196-B1-downsampled-a-partial-sorted.bam` (WGS samples). For more details, please refer to Discussion #64.
 
@@ -235,7 +230,7 @@ Test runs for the A-mini/partial/full samples were performed using the following
 ### Performance Validation
 
 #### with Delly <= `v0.9.1` in the pipeline
-Testing was performed primarily in the Boutros Lab SLURM Development cluster but additional functional tests were performed on the SGE cluster on 2/26/2021 and the SLURM Covid cluster.  Metrics below will be updated where relevant with additional testing and tuning outputs.
+Testing was performed primarily in the Boutros Lab Slurm Development cluster but additional functional tests were performed on the SGE cluster on 2/26/2021 and the Slurm Covid cluster.  Metrics below will be updated where relevant with additional testing and tuning outputs.
 
 |Test Case | Test Date | Node Type | Duration | CPU Hours | Virtual Memory Usage (RAM) -peak rss |
 |:---------|:----------|:----------|:---------|:----------|:---------------------------|
