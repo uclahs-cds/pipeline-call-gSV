@@ -25,33 +25,58 @@
 
 ## Overview
 
-The call-gSV nextflow pipeline, calls structural variants and copy number variants utilizing [Delly](https://github.com/dellytools/delly) and [Manta](https://github.com/Illumina/manta). Additionally, the pipeline can also regenotype previously identified structural variants or copy number variants with Delly. It is suitable for detecting copy-number variable deletion and tandem duplication events as well as balanced rearrangements such as inversions or reciprocal translocations and validates the output quality with [BCFtools](https://github.com/samtools/bcftools).  The pipeline has been engineered to run in a 4 layer stack in a cloud-based scalable environment of CycleCloud, Slurm, Nextflow and Docker.  Additionally it has been validated with the SMC-HET dataset and the GRCh38 reference genome, using paired-end FASTQ's that were back-extracted from BAMs created by BAM Surgeon.
+The call-gSV nextflow pipeline, calls structural variants (SVs) and copy number variants (CNVs) utilizing [Delly](https://github.com/dellytools/delly) and [Manta](https://github.com/Illumina/manta). Additionally, the pipeline can also regenotype previously identified SVs or CNVs with Delly. It is suitable for detecting copy-number variable deletion and tandem duplication events as well as balanced rearrangements such as inversions or reciprocal translocations and validates the output quality with [BCFtools](https://github.com/samtools/bcftools).  The pipeline has been engineered to run in a 4 layer stack in a cloud-based scalable environment of CycleCloud, Slurm, Nextflow and Docker.  Additionally it has been validated with the SMC-HET dataset and the GRCh38 reference genome, using paired-end FASTQ's that were back-extracted from BAMs created by BAM Surgeon.
 
-<b><i>Developer's Notes:</i></b>
-
-> We will be performing benchmarking on our SLURM cluster.  Currently using 71 CPUs for structural variant calling gives the best performance, running in 3-8 hours per sample with ~10GB of memory.  <i>...Stay tuned for updates from further testing.</i>
 
 ### Node Specific Config File Settings
 
 | Config File | Available Node cpus / memory | Designated Process 1; cpus / memory | Designated Process 2; cpus / memory | Designated Process 3; cpus / memory |
 |:------------|:---------|:-------------------------|:-------------------------|:-------------------------|
-| `F2.config` | 2 / 3 GB | call_gSV_Delly; 1 / 2 GB | call_gSV_Manta; 1 / 2 GB | validate_file; 1 / 1 GB |
+| `F2.config` | 2 / 3 GB | call_gSV_Delly; 1 / 2 GB | call_gSV_Manta; 1 / 2 GB\* | validate_file; 1 / 1 GB |
 | `F32.config` | 32 / 62.8 GB | call_gSV_Delly; 1 / 30 GB | call_gSV_Manta; 1 / 30 GB | validate_file; 1 / 1 GB |
 | `F72.config` | 72 / 136.8 GB | call_gSV_Delly; 1 / 65 GB | call_gSV_Manta; 1 / 65 GB | validate_file; 1 / 1 GB |
 | `M64.config` | 64 / 950 GB | call_gSV_Delly; 1 / 470 GB | call_gSV_Manta; 1 / 470 GB | validate_file; 1 / 1 GB |
 ---
+\* - Manta SV calling wouldn't work on an F2 node due to incompatible resources. In order to test the pipeline for tasks not relevant to Manta, please set `run_manta = false` in the sample specific [config](config/template.config) file.
 
 ## How To Run
 
-Pipelines should be run **WITH A SINGLE SAMPLE AT TIME**. Otherwise resource allocation and Nextflow errors could cause the pipeline to fail
+Below is a summary of how to run the pipeline.  See [here](https://confluence.mednet.ucla.edu/pages/viewpage.action?spaceKey=BOUTROSLAB&title=How+to+run+a+nextflow+pipeline) for full instructions.
 
-1. Make sure the pipeline is already downloaded to your machine. You can either download the stable release or the dev version by cloning the repo.  
+Pipelines should be run **WITH A SINGLE SAMPLE AT TIME**. Otherwise resource allocation and Nextflow errors could cause the pipeline to fail.
 
-2. Update the nextflow.config file for input, output, and parameters. An example can be found [here](pipeline/config/nextflow.config). See [Inputs](#Inputs) for description of each variables in the config file.
+1. The recommended way of running the pipeline is to directly use the source code located here: `/hot/software/pipeline/pipeline-call-gSV/Nextflow/release/`, rather than cloning a copy of the pipeline.
 
-3. Update the input csv. See [Inputs](#Inputs) for the columns needed. All columns must exist in order to run the pipeline. An example can be found [here](pipeline/inputs/call-gSV.inputs.csv). The example csv is a single germline sample.
- 
-4. See the submission script, [here](https://github.com/uclahs-cds/tool-submit-nf), to submit your pipeline
+    * The source code should never be modified when running our pipelines
+
+2. Create a config file for input, output, and parameters. An example for a config file can be found [here](config/template.config). See [Nextflow Config File Parameters](#Nextflow-Config-File-Parameters) for the detailed description of each variable in the config file.
+
+    * Do not directly modify the source `template.config`, but rather you should copy it from the pipeline release folder to your project-specific folder and modify it there
+
+3. Create the input CSV using the [template](input/call-gSV-input.csv).See [Input CSV](#Input-CSV) for detailed description of each column. All columns must exist and should be comma separated in order to run the pipeline successfully.
+   
+   * Again, do not directly modify the source template CSV file.  Instead, copy it from the pipeline release folder to your project-specific folder and modify it there.
+
+4. The pipeline can be executed locally using the command below:
+
+```bash
+nextflow run path/to/main.nf -config path/to/sample-specific.config
+```
+
+* For example, `path/to/main.nf` could be: `/hot/software/pipeline/pipeline-call-gSV/Nextflow/release/4.0.0/main.nf`
+* `path/to/sample-specific.config` is the path to where you saved your project-specific copy of [template.config](config/template.config) 
+
+To submit to UCLAHS-CDS's Azure cloud, use the submission script [here](https://github.com/uclahs-cds/tool-submit-nf) with the command below:
+
+```bash
+python path/to/submit_nextflow_pipeline.py \
+    --nextflow_script path/to/main.nf \
+    --nextflow_config path/to/sample-specific.config \
+    --pipeline_run_name <sample_name> \
+    --partition_type F16 \
+    --email <your UCLA email, jdoe@ucla.edu>
+```
+In the above command, the partition type can be changed based on the size of the dataset. An F16 node is generally recommended for larger datasets like A-full.
 
 ---
 
@@ -67,14 +92,14 @@ A directed acyclic graph of your pipeline.
 
 ### Discovery
 
-The "discovery" branch of the call-gSV pipeline allows you to identify germline structural variants and copy number variants utilizing either Delly or Manta. After variants are identified, basic quality checks are performed on the outputs of the processes.
+The "discovery" branch of the call-gSV pipeline allows you to identify germline SVs and CNVs utilizing either Delly or Manta. After variants are identified, basic quality checks are performed on the outputs of the processes.
 
 ### 1. Calling Structural Variants
 
-The first step of the pipeline requires an aligned and sorted BAM file and BAM index as an input for variant calling with [Delly](https://github.com/dellytools/delly) or [Manta](https://github.com/Illumina/manta). Delly combines short-range and long-range paired-end mapping and split-read analysis for the discovery of balanced and unbalanced structural variants at single-nucleotide breakpoint resolution (deletions, tandem duplications, inversions and translocations.) Structural variants are called, annotated and merged into a single BCF file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
-Manta calls structural variants (SVs) and indels from mapped paired-end sequencing reads. It is optimized for analysis of germline variation in small sets of individuals and somatic variation in tumor/normal sample pairs. Manta discovers, assembles and scores large-scale SVs, medium-sized indels and large insertions within a single efficient workflow.
+The first step of the pipeline requires an aligned and sorted BAM file and BAM index as an input for variant calling with [Delly](https://github.com/dellytools/delly) or [Manta](https://github.com/Illumina/manta). Delly combines short-range and long-range paired-end mapping and split-read analysis for the discovery of balanced and unbalanced SVs at single-nucleotide breakpoint resolution (deletions, tandem duplications, inversions and translocations.) SVs are called, annotated and merged into a single BCF file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
+Manta calls SVs and indels from mapped paired-end sequencing reads. It is optimized for analysis of germline variation in small sets of individuals and somatic variation in tumor/normal sample pairs. Manta discovers, assembles and scores large-scale SVs, medium-sized indels and large insertions within a single efficient workflow.
 
-Currently the following filters are applied by Delly when calling structural variants. Parameters with a "call-gSV default" can be updated in the nextflow.config file.
+Currently the following filters are applied by Delly when calling SVs. Parameters with a "call-gSV default" can be updated in the nextflow.config file.
 <br>
 | Parameter | Delly default | call-gSV default | Description |
 |:------------|:----------|:-------------------------|-------------|
@@ -90,9 +115,9 @@ Currently the following filters are applied by Delly when calling structural var
 
 ### 2. Calling Copy Number Variants
 
-The second step of the pipeline identifies any found copy number variants (CNVs). To do this, Delly requires an aligned and sorted BAM file and BAM index as an input, as well as the BCF output from the initial structural variant calling (to refine breakpoints) and a mappability map. Any CNVs identified are annotated and output as a single BCF file. 
+The second step of the pipeline identifies any found CNVs. To do this, Delly requires an aligned and sorted BAM file and BAM index as an input, as well as the BCF output from the initial SV calling (to refine breakpoints) and a mappability map. Any CNVs identified are annotated and output as a single BCF file. 
 
-Currently the following filters are applied by Delly when calling copy  number variants. Parameters with a "call-gSV default" can be updated in the nextflow.config file.
+Currently the following filters are applied by Delly when calling CNVs. Parameters with a "call-gSV default" can be updated in the sample specific nextflow [config](config/template.config) file.
 <br>
 | Parameter | Delly default | call-gSV default | Description |
 |:------------|:----------|:-------------------------|-------------|
@@ -117,16 +142,16 @@ For Delly, VCF files are generated from the BCFs to run the vcf-validate command
 
 ### Regenotyping
 
-The "regenotyping" branch of the call-gSV pipeline allows you to regenotype previously identified structural variants or copy number variants using Delly. 
+The "regenotyping" branch of the call-gSV pipeline allows you to regenotype previously identified SVs or CNVs using Delly. 
 
 ### 1. Regenotyping Structural Variants
 
-Similar to the "discovery" process, the first step of the regenotyping pipeline requires an aligned and sorted BAM file, BAM index, and a merged sites BCF (from the merge-SVsites pipeline) as inputs for structural variant regenotyping with [Delly](https://github.com/dellytools/delly). The provided sample is genotyped with the merged sites list. Structural variants are annotated and merged into a single BCF file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
+Similar to the "discovery" process, the first step of the regenotyping pipeline requires an aligned and sorted BAM file, BAM index, and a merged sites BCF (from the merge-SVsites pipeline) as inputs for SV regenotyping with [Delly](https://github.com/dellytools/delly). The provided sample is genotyped with the merged sites list. SVs are annotated and merged into a single BCF file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
 <br>
 
 ### 2. Regenotyping Copy Number Variants
 
-The second possible step of the regenotyping pipeline requires an aligned and sorted BAM file, BAM index, and a merged sites BCF as an input, as well as the BCF output from the initial structural variant calling (to refine breakpoints) and a mappability map. Any CNVs identified are annotated and output as a single BCF file.
+The second possible step of the regenotyping pipeline requires an aligned and sorted BAM file, BAM index, and a merged sites BCF as an input, as well as the BCF output from the initial SV calling (to refine breakpoints) and a mappability map. Any CNVs identified are annotated and output as a single BCF file.
 <br>
 
 ---
@@ -135,7 +160,7 @@ The second possible step of the regenotyping pipeline requires an aligned and so
 
 ### Input CSV
 
->The input csv should have all columns below and in the same order. An example of an input csv can be found [here](pipeline/inputs/call-gSV-inputs.csv).
+The input CSV should have each of the input fields listed below as separate columns, using the same order and comma as column separator. An example of the input CSV can be found [here](input/call-gSV-input.csv).
 
 | Field | Type | Description |
 |:------|:-----|:------------|
@@ -148,22 +173,23 @@ The second possible step of the regenotyping pipeline requires an aligned and so
 | Input Parameter | Required | Type | Description |
 |:----------------|:---------|:-----|:------------|
 | `dataset_id` | yes | string | Boutros lab dataset id. |
-| `blcds_registered_dataset` | yes | boolean | Affirms if dataset should be registered in the Boutros Lab Data registry. Default value is false. |
-| `sge_scheduler` | yes | boolean | Affirms whether job will be executed on the SGE cluster. Default value is false. |
-| `run_discovery` | yes | boolean | Specifies whether or not to run the "disovery" branch of the pipeline. Default value is true. (either run_discovery or run_regenotyping must be true) |
-| `run_regenotyping` | yes | boolean | Specifies whether or not to run the "regenotyping" branch of the pipeline. Default value is false. (either run_discovery or run_regenotyping must be true) |
+| `blcds_registered_dataset` | yes | boolean | Affirms if dataset should be registered in the Boutros Lab Data registry. Default value is `false`. |
+| `run_discovery` | yes | boolean | Specifies whether or not to run the "disovery" branch of the pipeline. Default value is `true`. (either `run_discovery` or `run_regenotyping` must be `true`) |
+| `run_regenotyping` | yes | boolean | Specifies whether or not to run the "regenotyping" branch of the pipeline. Default value is `false`. (either `run_discovery` or `run_regenotyping` must be `true`) |
 | `merged_sites` | yes | path | The path to the merged sites.bcf file. Must be populated if running the regenotyping branch. |
-| `input_csv` | yes | string | Absolute path to the input csv file for the pipeline. |
-| `reference_fasta` | yes | path | Absolute path to the reference genome `fasta` file. The reference genome is used by Delly for structural variant calling. |
-| `exclusion_file` | yes | path | Absolute path to the delly reference genome `exclusion` file utilized to remove suggested regions for structural variant calling. On Slurm/SGE, an HG38 exclusion file is located at /[hot\|data]/ref/hg38/delly/human.hg38.excl.tsv |
+| `input_csv` | yes | string | Absolute path to the input CSV file for the pipeline. |
+| `reference_fasta` | yes | path | Absolute path to the reference genome `FASTA` file. The reference genome is used by Delly for SV calling. |
+| `exclusion_file` | yes | path | Absolute path to the delly reference genome `exclusion` file utilized to remove suggested regions for SV calling. On Slurm, an HG38 exclusion file is located at `/hot/ref/tool-specific-input/Delly/hg38/human.hg38.excl.tsv` |
 | `mappability_map` | yes | path | Absolute path to the delly mappability map to support GC and mappability fragment correction in CNV calling |
 | `map_qual` | no | path | minimum paired-end (PE) mapping quaility threshold for Delly). |
-| `run_delly` | true | boolean | Whether or not the workflow should run Delly (either run_delly or run_manta must be set to true) |
-| `run_manta` | true | boolean | Whether or not the workflow should run Manta (either run_delly or run_manta must be set to true) |
-| `run_qc` | no | boolean | Optional parameter to indicate whether subsequent quality checks should be run on Delly outputs. Default value is false. |
-| `save_intermediate_files` | yes | boolean | Optional parameter to indicate whether intermediate files will be saved. Default value is true. |
+| `run_delly` | true | boolean | Whether or not the workflow should run Delly (either run_delly or run_manta must be set to `true`) |
+| `run_manta` | true | boolean | Whether or not the workflow should run Manta (either run_delly or run_manta must be set to `true`) |
+| `run_qc` | no | boolean | Optional parameter to indicate whether subsequent quality checks should be run on Delly outputs. Default value is `false`. |
+| `save_intermediate_files` | yes | boolean | Optional parameter to indicate whether intermediate files will be saved. Default value is `false`. |
 | `output_dir` | yes | path | Absolute path to the directory where the output files to be saved. |
 | `work_dir` | optional | path | Path of working directory for Nextflow. When included in the sample config file, Nextflow intermediate files and logs will be saved to this directory. With `ucla_cds`, the default is `/scratch` and should only be changed for testing/development. Changing this directory to `/hot` or `/tmp` can lead to high server latency and potential disk space limitations, respectively. |
+
+An example of the NextFlow Input Parameters Config file can be found [here](config/template.config).
 
 ---
 
@@ -171,8 +197,8 @@ The second possible step of the regenotyping pipeline requires an aligned and so
 
 | Output | Output Type | Description |
 |:-------|:---------|:------------|
-| `.bcf` | final | Binary VCF output format with structural variants if found. |
-| `.vcf` | intermediate | VCF output format with structural variants if found. If output by Manta, these VCFs will be compressed. |
+| `.bcf` | final | Binary VCF output format with SVs if found. |
+| `.vcf` | intermediate | VCF output format with SVs if found. If output by Manta, these VCFs will be compressed. |
 | `.bcf.csi` | final | CSI-format index for BAM files. |
 | `.validate.txt` | final | output file from vcf-validator. |
 | `.stats.txt` | final | output file from RTG Tools. |
@@ -185,23 +211,26 @@ The second possible step of the regenotyping pipeline requires an aligned and so
 
 ### Test Data Set
 
-Testing was performed leveraging aligned and sorted bams generated using bwa-mem2-2.1 against reference GRCh38 (SMC-HET was aligned against hs37d5):
+Testing was performed leveraging aligned and sorted BAMs generated using `bwa-mem2-2.1` against reference GRCh38 (SMC-HET was aligned against hs37d5):
 
-* **A-mini:**    BWA-MEM2-2.1_TEST0000000_TWGSAMIN000001-T001-S01-F.bam and bai
-* **A-partial:** BWA-MEM2-2.1_TEST0000000_TWGSAPRT000001-T001-S01-F.bam and bai
-* **A-full:**    a-full-CPCG0196-B1.bam and bai
-* **SMC-HET:**    HG002.N.bam and bai
+* **A-mini:**    BWA-MEM2-2.1_TEST0000000_TWGSAMIN000001-T001-S01-F.bam
+* **A-partial:** BWA-MEM2-2.1_TEST0000000_TWGSAPRT000001-T001-S01-F.bam
+* **A-full:**    a-full-CPCG0196-B1.bam\*
+* **A-partial**:   CPCG0196-B1-downsampled-a-partial-sorted.bam\*
+* **SMC-HET:**    HG002.N.bam
+
+\* In Delly `v1.1.3`, a `coverage check` has been introduced which checks for coverage quality in a given window before CNV calling. Successful CNV calling was observed on samples with coverages across the genome, such as, `a-full-CPCG0196-B1.bam` and `CPCG0196-B1-downsampled-a-partial-sorted.bam` (WGS samples). For more details, please refer to Discussion #64.
 
 Test runs for the A-mini/partial/full samples were performed using the following reference files
 
-* **reference_fasta:** /hot/ref/hg38/genome/genome.fa
-* **reference_fasta_index:** /hot/ref/hg38/genome/genome.fa.fai
-* **exclusion_file:** /hot/ref/hg38/delly/human.hg38.excl.tsv
-* **mappability_map:** /hot/ref/hg38/delly/Homo_sapiens.GRCh38.dna.primary_assembly.fa.r101.s501.blacklist.gz
+* **reference_fasta:** /hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta
+* **exclusion_file:** /hot/ref/tool-specific-input/Delly/GRCh38/human.hg38.excl.tsv
+* **mappability_map:** /hot/ref/tool-specific-input/Delly/GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.r101.s501.blacklist.gz
 
 ### Performance Validation
 
-Testing was performed primarily in the Boutros Lab SLURM Development cluster but additional functional tests were performed on the SGE cluster on 2/26/2021 and the SLURM Covid cluster.  Metrics below will be updated where relevant with additional testing and tuning outputs.
+#### with Delly <= `v0.9.1` in the pipeline
+Testing was performed primarily in the Boutros Lab Slurm Development cluster but additional functional tests were performed on the SGE cluster on 2/26/2021 and the Slurm Covid cluster.  Metrics below will be updated where relevant with additional testing and tuning outputs.
 
 |Test Case | Test Date | Node Type | Duration | CPU Hours | Virtual Memory Usage (RAM) -peak rss |
 |:---------|:----------|:----------|:---------|:----------|:---------------------------|
@@ -209,6 +238,15 @@ Testing was performed primarily in the Boutros Lab SLURM Development cluster but
 | A-partial | 2021-02-10 | F72 | 42m 5s | 48.8 | 8.9 GB |
 | A-full | 2021-02-10 | F72 | 7h 10m 43s | 509.0 | 10.9 GB |
 | SMC-HET | 2021-02-12 | F72 | 3h 9m 60s | 223.5 |  8.9 GB |
+
+#### with Delly >= `v1.0.3` in the pipeline
+Metrics below are based on the integration of Delly v1.13 in the `call-gSV` pipeline.
+
+|Test Case | Test Date | Node Type | Duration | CPU Hours | Virtual Memory Usage (RAM) -peak rss |
+|:---------|:----------|:----------|:---------|:----------|:---------------------------|
+| CPCG0196-B1 A-partial | 2022-08-08 | F72 | 1h 9m 15s | 2.2 | 10.85 GB |
+| CPCG0196-B1 A-full  | 2022-08-06 | F72 | 21h 3m 19s | 37.3 | 24.68 GB |
+
 
 ### Quality Check Result Comparison
 
@@ -224,8 +262,8 @@ Testing was performed primarily in the Boutros Lab SLURM Development cluster but
 | IMPRECISE Calls | 2 | 764 | 51709 | 7012 | `grep -c -w  "IMPRECISE" filename.vcf` |
 | Failed Filters | 0 | 653 | 44991 | 2619 | `.stats.txt` |
 | Passed Filters | 3 | 1959 | 18257 | 12658 | `.stats.txt` |
-| Structural variant breakends | 0 | 219 | 1124 | 0 | `.stats.txt` |
-| Symbolic structural variants | 2 | 1559 | 12500 | 11156 | `.stats.txt` |
+| SV breakends | 0 | 219 | 1124 | 0 | `.stats.txt` |
+| Symbolic SVs | 2 | 1559 | 12500 | 11156 | `.stats.txt` |
 | Same as reference | 1 | 263 | 4595 | 1471 | `.stats.txt` |
 | Missing Genotype | 0 | 8 | 38 | 31 | `.stats.txt` | 
 | Total Het/Hom ratio | (2/0) | 1.00 (843/845) | 2.37 (9580/4044) | 1.86 (7251/3905) | `.stats.txt` |
@@ -254,13 +292,13 @@ Included is a template for validating your input files. For more information on 
 
 ## License
 
-Authors: Tim Sanders (TSanders@mednet.ucla.edu), Yu Pan (YuPan@mednet.ucla.edu), Yael Berkovich (YBerkovich@mednet.ucla.edu)
+Authors: Tim Sanders (TSanders@mednet.ucla.edu), Yu Pan (YuPan@mednet.ucla.edu), Yael Berkovich (YBerkovich@mednet.ucla.edu), Mohammed Faizal Eeman Mootor (MMootor@mednet.ucla.edu)
 
 The pipeline-call-gSV is licensed under the GNU General Public License version 2. See the file LICENSE for the terms of the GNU GPL license.
 
 The pipeline-call-gSV takes BAM and BCF files and utilizes Delly to call/regenotype gSV/gCNV.
 
-Copyright (C) 2021 University of California Los Angeles ("Boutros Lab") All rights reserved.
+Copyright (C) 2021-2022 University of California Los Angeles ("Boutros Lab") All rights reserved.
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 
