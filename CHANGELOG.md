@@ -7,11 +7,12 @@ All notable changes to the call-gSV pipeline.
 
 ---
 
-## [4.0.0] - 2022-08-09
+## [4.0.0] - 2022-08-12
 ### Added
 - Add `F16.config` to allow F16 compatibility for the pipeline
 
 ### Changed
+- Update README.md for `4.0.0`
 - Move `save_intermediate_files` from `default.config` to `template.config` and set it to `false` 
 - Update BCFtools 1.12 to 1.15.1
 - Update Delly 1.0.3 to 1.1.3
