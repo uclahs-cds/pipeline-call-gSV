@@ -7,7 +7,7 @@ All notable changes to the call-gSV pipeline.
 
 ---
 
-## [4.0.0] - 2022-08-12
+## [4.0.0] - 2022-08-17
 ### Added
 - Add `F16.config` to allow F16 compatibility for the pipeline
 
