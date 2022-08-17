@@ -4,8 +4,13 @@ All notable changes to the call-gSV pipeline.
 ---
 
 ## [Unreleased]
+
+---
+
+## [4.0.0] - 2022-08-17
 ### Added
 - Add `F16.config` to allow F16 compatibility for the pipeline
+
 ### Changed
 - Update README.md for `4.0.0`
 - Move `save_intermediate_files` from `default.config` to `template.config` and set it to `false` 
