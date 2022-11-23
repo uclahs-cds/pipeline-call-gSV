@@ -11,11 +11,11 @@ Docker Images:
 process run_sha512sum {
     container params.docker_image_validate
 
-    publishDir "${params.output_dir}/${params.docker_image_name.split("/")[1].replace(':', '-').capitalize()}/output",
+    publishDir "${params.output_dir}/${params.docker_image_name.split("/")[-1].replace(':', '-').capitalize()}/output",
         pattern: "*.sha512",
         mode: "copy"
 
-    publishDir "$params.log_output_dir/process-log/${params.docker_image_name.split("/")[1].replace(':', '-').capitalize()}/${task.process.replace(':', '/')}",
+    publishDir "$params.log_output_dir/process-log/${params.docker_image_name.split("/")[-1].replace(':', '-').capitalize()}/${task.process.replace(':', '/')}",
         pattern: ".command.*",
         mode: "copy",
         saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
