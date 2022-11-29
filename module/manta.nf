@@ -11,15 +11,15 @@ Docker Images:
 process call_gSV_Manta {
     container params.docker_image_manta
 
-    publishDir "$params.output_dir/${params.docker_image_manta.split("/")[1].replace(':', '-').capitalize()}/output",
+    publishDir "$params.output_dir/${params.docker_image_manta.split("/")[-1].replace(':', '-').capitalize()}/output",
         pattern: "*vcf.gz*",
         mode: "copy"
 
-    publishDir "$params.output_dir/${params.docker_image_manta.split("/")[1].replace(':', '-').capitalize()}/QC",
+    publishDir "$params.output_dir/${params.docker_image_manta.split("/")[-1].replace(':', '-').capitalize()}/QC",
         pattern: "*Stats*",
         mode: "copy"
 
-    publishDir "$params.log_output_dir/process-log/${params.docker_image_manta.split("/")[1].replace(':', '-').capitalize()}",
+    publishDir "$params.log_output_dir/process-log/${params.docker_image_manta.split("/")[-1].replace(':', '-').capitalize()}",
         pattern: ".command.*",
         mode: "copy",
         saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
