@@ -39,7 +39,7 @@ Current Configuration:
     bcftools: ${params.bcftools_version}
     vcftools: ${params.vcftools_version}
     rtgtools: ${params.rtgtools_version}
-    validation tool: ${params.validate_version}
+    validation tool: ${params.pipeval_version}
 
 ------------------------------------
 Starting workflow...
