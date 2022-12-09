@@ -4,6 +4,10 @@ All notable changes to the call-gSV pipeline.
 ---
 
 ## [Unreleased]
+
+---
+
+## [4.0.1] - 2022-12-09
 ### Changed
 - Parameterize Docker registry
 - Use `ghcr.io/uclahs-cds` as default registry
