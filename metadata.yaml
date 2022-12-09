@@ -5,4 +5,4 @@ maintainers: "Boutros Lab Infrastructure BoutrosLabInfrastructure@mednet.ucla.ed
 languages: ["Nextflow", "Docker"]
 dependencies: ["Java", "Nextflow", "Docker"]
 references: "https://confluence.mednet.ucla.edu/display/BOUTROSLAB/Guide+to+Nextflow"
-tools: ["Delly:v1.1.3", "Manta:v1.6.0", "BCFtools:v1.15.1", "VCFtools:v0.1.16", "RTG-tools:v3.12", "Validate-nf:v2.1.5"]
+tools: ["Delly:v1.1.3", "Manta:v1.6.0", "BCFtools:v1.15.1", "VCFtools:v0.1.16", "RTG-tools:v3.12", "PipeVal:v3.0.0"]
