@@ -39,7 +39,7 @@ Current Configuration:
     bcftools: ${params.bcftools_version}
     vcftools: ${params.vcftools_version}
     rtgtools: ${params.rtgtools_version}
-    validation tool: ${params.validate_version}
+    validation tool: ${params.pipeval_version}
 
 ------------------------------------
 Starting workflow...
@@ -47,7 +47,9 @@ Starting workflow...
 """
 .stripIndent()
 
-include { run_validate } from './module/validation'
+include { run_validate_PipeVal } from './external/pipeline-Nextflow-module/modules/PipeVal/validate/main.nf' addParams(
+    options: [ docker_image_version: params.pipeval_version ]
+    )
 include { call_gSV_Delly; call_gCNV_Delly; regenotype_gSV_Delly; regenotype_gCNV_Delly } from './module/delly'
 include { call_gSV_Manta } from './module/manta'
 include { convert_BCF2VCF_BCFtools as convert_gSV_BCF2VCF_BCFtools; convert_BCF2VCF_BCFtools as convert_gCNV_BCF2VCF_BCFtools } from './module/bcftools'
@@ -101,14 +103,31 @@ if (!params.run_delly && !params.run_manta) {
 
 reference_fasta_index = "${params.reference_fasta}.fai"
 
-validation_channel = Channel
+/**
+* Create input_validation to validate the input bams
+*/
+validation_mode = Channel.of("file-input")
+
+input_files = Channel
     .fromPath(params.input_csv, checkIfExists:true)
     .splitCsv(header:true)
     .map{ row -> [row.input_bam, "${row.input_bam}.bai"]}
     .flatten()
 
+validation_mode
+     .combine(input_files)
+     .set { input_validation }
+
 workflow {
-    run_validate(validation_channel)
+    /**
+    * Validate the input bams
+    */
+    run_validate_PipeVal(input_validation)
+    // Collect and store input validation output
+    run_validate_PipeVal.out.validation_result.collectFile(
+        name: 'input_validation.txt',
+        storeDir: "${params.output_dir}/validation/run_validate_PipeVal"
+        )
 
     if (params.run_discovery) {
         if (params.run_manta) {

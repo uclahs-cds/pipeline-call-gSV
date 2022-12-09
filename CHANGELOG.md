@@ -4,9 +4,15 @@ All notable changes to the call-gSV pipeline.
 ---
 
 ## [Unreleased]
-## Changed
+### Changed
 - Parameterize Docker registry
 - Use `ghcr.io/uclahs-cds` as default registry
+
+### Added
+- Add PipeVal using `pipeline-Nextflow-module` to validate the input CSV file
+
+### Removed
+- Remove `module/validation.nf` as PipeVal sub-module is used
 
 ---
 
