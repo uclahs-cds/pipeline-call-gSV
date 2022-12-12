@@ -280,7 +280,7 @@ Note, per Nature the following benchmarks exist for the human genome:
 
 ### Validation Tool
 
-Included is a template for validating your input files. For more information on the tool check out: https://github.com/uclahs-cds/tool-validate-nf
+Included is a template for validating your input files. For more information on the tool check out: https://github.com/uclahs-cds/public-tool-PipeVal
 
 ---
 
