@@ -96,16 +96,9 @@ if (params.verbose){
     input_validation.view()
     }
 
-input_bam_ch = Channel
-    .fromPath(params.input_csv, checkIfExists:true)
-    .splitCsv(header:true)
-    .map{ row -> tuple(
-                    row.patient,
-                    row.sample,
-                    row.input_bam,
-                    "${row.input_bam}.bai"
-                    )
-        }
+input_ch_samples_with_index
+    .map{ it -> [it.id, it.path, it.index] }
+    .set { input_bam_ch }
 
 if (!params.reference_fasta) {
     // error out - must provide a reference FASTA file

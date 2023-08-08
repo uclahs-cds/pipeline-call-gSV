@@ -21,7 +21,7 @@ process call_gSV_Delly {
         saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
 
     input:
-        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
+        tuple val(bam_sample_name), path(input_bam), path(input_bam_bai)
         path(reference_fasta)
         path(reference_fasta_fai)
         path(exclusion_file)
@@ -58,7 +58,7 @@ process regenotype_gSV_Delly {
         saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
 
     input:
-        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
+        tuple val(bam_sample_name), path(input_bam), path(input_bam_bai)
         path(reference_fasta)
         path(reference_fasta_fai)
         path(exclusion_file)
@@ -96,7 +96,7 @@ process call_gCNV_Delly {
         saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
 
     input:
-        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
+        tuple val(bam_sample_name), path(input_bam), path(input_bam_bai)
         path(delly_sv_file)
         path(reference_fasta)
         path(reference_fasta_fai)
@@ -134,7 +134,7 @@ process regenotype_gCNV_Delly {
         saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
 
     input:
-        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
+        tuple val(bam_sample_name), path(input_bam), path(input_bam_bai)
         path(reference_fasta)
         path(reference_fasta_fai)
         path(mappability_file)
