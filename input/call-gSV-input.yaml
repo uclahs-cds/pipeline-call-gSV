@@ -1,0 +1,6 @@
+---
+patient_id: "patient_id"
+input:
+  BAM:
+    normal:
+      - "/absolute/path/to/BAM"
