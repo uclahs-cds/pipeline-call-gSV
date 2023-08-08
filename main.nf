@@ -16,7 +16,7 @@ Current Configuration:
     version: ${workflow.manifest.version}
 
 - input:
-    input_csv: ${params.input_csv}
+    sample: ${params.sample_to_process}
     reference_fasta: ${params.reference_fasta}
     reference_fasta_index: "${params.reference_fasta}.fai"
     exclusion_file: ${params.exclusion_file}
@@ -74,6 +74,27 @@ if (params.run_delly || params.run_regenotyping) {
         }
     }
 
+// Returns the index file for the given bam
+def indexFile(bam) {
+    if (bam.endsWith('.bam')) {
+        return "${bam}.bai"
+    } else {
+        throw new Exception("Index file for ${bam} file type not supported. Use .bam!")
+    }
+}
+
+Channel.from(params.sample_to_process)
+    .map{ sample -> ['index': indexFile(sample.path)] + sample }
+    .set{ input_ch_samples_with_index }
+
+input_ch_samples_with_index
+    .map{ sample -> [sample.path, sample.index] }
+    .flatten()
+    .set{ input_validation }
+
+if (params.verbose){
+    input_validation.view()
+    }
 
 input_bam_ch = Channel
     .fromPath(params.input_csv, checkIfExists:true)
@@ -102,21 +123,6 @@ if (!params.run_delly && !params.run_manta) {
     }
 
 reference_fasta_index = "${params.reference_fasta}.fai"
-
-/**
-* Create input_validation to validate the input bams
-*/
-validation_mode = Channel.of("file-input")
-
-input_files = Channel
-    .fromPath(params.input_csv, checkIfExists:true)
-    .splitCsv(header:true)
-    .map{ row -> [row.input_bam, "${row.input_bam}.bai"]}
-    .flatten()
-
-validation_mode
-     .combine(input_files)
-     .set { input_validation }
 
 workflow {
     /**
