@@ -125,7 +125,7 @@ workflow {
     // Collect and store input validation output
     run_validate_PipeVal.out.validation_result.collectFile(
         name: 'input_validation.txt',
-        storeDir: "${params.output_dir}/validation/run_validate_PipeVal"
+        storeDir: "${params.output_dir_base}/validation/run_validate_PipeVal"
         )
 
     if (params.run_discovery) {
