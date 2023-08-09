@@ -7,23 +7,23 @@
 ## Testing Results
 
 - Manta
-    - sample:    <!-- e.g. A-mini TWGSAMIN000001-T001-S01-F, TWGSAMIN000001-T002-S02-F -->
-    - input csv: <!-- path/to/input/call-gSV-inputs.csv -->
+    - sample:    <!-- e.g. A-mini TWGSAMIN000001-N001-S01-F -->
+    - input YAML: <!-- path/to/input/call-gSV-inputs.yaml -->
     - config:    <!-- path/to/cpnfig/nextflow-test-amini.config -->
     - output:    <!-- path/to/output/Manta-1.6.0/ -->
 - Delly - gSV
-    - sample:    <!-- e.g. A-mini TWGSAMIN000001-T001-S01-F, TWGSAMIN000001-T002-S02-F -->
-    - input csv: <!-- path/to/input/call-gSV-inputs.csv -->
+    - sample:    <!-- e.g. A-mini TWGSAMIN000001-N001-S01-F -->
+    - input YAML: <!-- path/to/input/call-gSV-inputs.yaml -->
     - config:    <!-- path/to/config/nextflow-test-amini.config -->
     - output:    <!-- path/to/output/Delly-0.8.7/ -->
 - Delly - gCNV
-    - sample:    <!-- e.g. A-mini TWGSAMIN000001-T001-S01-F, TWGSAMIN000001-T002-S02-F -->
-    - input csv: <!-- path/to/input/call-gSV-inputs.csv -->
+    - sample:    <!-- e.g. A-mini TWGSAMIN000001-N001-S01-F -->
+    - input YAML: <!-- path/to/input/call-gSV-inputs.yaml -->
     - config:    <!-- path/to/config/nextflow-test-amini.config -->
     - output:    <!-- path/to/output/Delly-0.8.7/ -->
 - Delly - gSV & gCNV
-    - sample:    <!-- e.g. A-mini TWGSAMIN000001-T001-S01-F, TWGSAMIN000001-T002-S02-F -->
-    - input csv: <!-- path/to/input/call-gSV-inputs.csv -->
+    - sample:    <!-- e.g. A-mini TWGSAMIN000001-N001-S01-F -->
+    - input YAML: <!-- path/to/input/call-gSV-inputs.yaml -->
     - config:    <!-- path/to/config/nextflow-test-amini.config -->
     - output:    <!-- path/to/output/Delly-0.8.7/ -->
 
