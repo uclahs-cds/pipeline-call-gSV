@@ -4,6 +4,15 @@ All notable changes to the call-gSV pipeline.
 ---
 
 ## [Unreleased]
+### Changed
+- Update README to reflect YAML support
+- Parse sample ID from tumor BAM for output directory naming
+
+### Added
+- Add YAML input
+
+### Removed
+- Remove CSV input
 
 ---
 
@@ -26,7 +35,7 @@ All notable changes to the call-gSV pipeline.
 
 ### Changed
 - Update README.md for `4.0.0`
-- Move `save_intermediate_files` from `default.config` to `template.config` and set it to `false` 
+- Move `save_intermediate_files` from `default.config` to `template.config` and set it to `false`
 - Update BCFtools 1.12 to 1.15.1
 - Update Delly 1.0.3 to 1.1.3
 - Update Delly 0.9.1 to 1.0.3
@@ -46,7 +55,7 @@ All notable changes to the call-gSV pipeline.
 - Fix Issue #33: should pass the mappability_map file instead of the exclusion file to regenotype_gCNV_Delly
 
 ### Changed
-- Change the input file schema by removing variant_type,reference_fasta,reference_fasta_index, put them into template.config. 
+- Change the input file schema by removing variant_type,reference_fasta,reference_fasta_index, put them into template.config.
 - Change partition types from lowmem/midmem/execute to F2/F32/F72/M64.
 - Standardize the output structure.
 - Standardize the configuration structure.
