@@ -53,9 +53,9 @@ Pipelines should be run **WITH A SINGLE SAMPLE AT TIME**. Otherwise resource all
 
     * Do not directly modify the source `template.config`, but rather you should copy it from the pipeline release folder to your project-specific folder and modify it there
 
-3. Create the input CSV using the [template](input/call-gSV-input.csv).See [Input CSV](#Input-CSV) for detailed description of each column. All columns must exist and should be comma separated in order to run the pipeline successfully.
-   
-   * Again, do not directly modify the source template CSV file.  Instead, copy it from the pipeline release folder to your project-specific folder and modify it there.
+3. Create the input YAML using the [template](input/call-gSV-input.yaml).See [Input YAML](#Input-YAML) for detailed description of each column. All columns must exist and should be comma separated in order to run the pipeline successfully.
+
+   * Again, do not directly modify the source template YAML file.  Instead, copy it from the pipeline release folder to your project-specific folder and modify it there.
 
 4. The pipeline can be executed locally using the command below:
 
@@ -64,7 +64,8 @@ nextflow run path/to/main.nf -config path/to/sample-specific.config
 ```
 
 * For example, `path/to/main.nf` could be: `/hot/software/pipeline/pipeline-call-gSV/Nextflow/release/4.0.0/main.nf`
-* `path/to/sample-specific.config` is the path to where you saved your project-specific copy of [template.config](config/template.config) 
+* `path/to/sample-specific.config` is the path to where you saved your project-specific copy of [template.config](config/template.config)
+* `path/to/input.yaml` is the path to where you saved your sample-specific copy of [call-gSV-input.yaml](input/call-gSV-input.yaml)
 
 To submit to UCLAHS-CDS's Azure cloud, use the submission script [here](https://github.com/uclahs-cds/tool-submit-nf) with the command below:
 
@@ -72,6 +73,7 @@ To submit to UCLAHS-CDS's Azure cloud, use the submission script [here](https://
 python path/to/submit_nextflow_pipeline.py \
     --nextflow_script path/to/main.nf \
     --nextflow_config path/to/sample-specific.config \
+    --nextflow_yaml path/to/input.yaml \
     --pipeline_run_name <sample_name> \
     --partition_type F16 \
     --email <your UCLA email, jdoe@ucla.edu>
@@ -117,7 +119,7 @@ Currently the following filters are applied by Delly when calling SVs. Parameter
 
 ### 2. Calling Copy Number Variants
 
-The second step of the pipeline identifies any found CNVs. To do this, Delly requires an aligned and sorted BAM file and BAM index as an input, as well as the BCF output from the initial SV calling (to refine breakpoints) and a mappability map. Any CNVs identified are annotated and output as a single BCF file. 
+The second step of the pipeline identifies any found CNVs. To do this, Delly requires an aligned and sorted BAM file and BAM index as an input, as well as the BCF output from the initial SV calling (to refine breakpoints) and a mappability map. Any CNVs identified are annotated and output as a single BCF file.
 
 Currently the following filters are applied by Delly when calling CNVs. Parameters with a "call-gSV default" can be updated in the sample specific nextflow [config](config/template.config) file.
 <br>
@@ -144,7 +146,7 @@ For Delly, VCF files are generated from the BCFs to run the vcf-validate command
 
 ### Regenotyping
 
-The "regenotyping" branch of the call-gSV pipeline allows you to regenotype previously identified SVs or CNVs using Delly. 
+The "regenotyping" branch of the call-gSV pipeline allows you to regenotype previously identified SVs or CNVs using Delly.
 
 ### 1. Regenotyping Structural Variants
 
@@ -160,9 +162,9 @@ The second possible step of the regenotyping pipeline requires an aligned and so
 
 ## Inputs
 
-### Input CSV
+### Input YAML
 
-The input CSV should have each of the input fields listed below as separate columns, using the same order and comma as column separator. An example of the input CSV can be found [here](input/call-gSV-input.csv).
+The input YAML should have each of the input fields listed below as separate columns, using the same order and comma as column separator. An example of the input YAML can be found [here](input/call-gSV-input.yaml).
 
 | Field | Type | Description |
 |:------|:-----|:------------|
@@ -179,7 +181,6 @@ The input CSV should have each of the input fields listed below as separate colu
 | `run_discovery` | yes | boolean | Specifies whether or not to run the "disovery" branch of the pipeline. Default value is `true`. (either `run_discovery` or `run_regenotyping` must be `true`) |
 | `run_regenotyping` | yes | boolean | Specifies whether or not to run the "regenotyping" branch of the pipeline. Default value is `false`. (either `run_discovery` or `run_regenotyping` must be `true`) |
 | `merged_sites` | yes | path | The path to the merged sites.bcf file. Must be populated if running the regenotyping branch. |
-| `input_csv` | yes | string | Absolute path to the input CSV file for the pipeline. |
 | `reference_fasta` | yes | path | Absolute path to the reference genome `FASTA` file. The reference genome is used by Delly for SV calling. |
 | `exclusion_file` | yes | path | Absolute path to the delly reference genome `exclusion` file utilized to remove suggested regions for SV calling. On Slurm, an HG38 exclusion file is located at `/hot/ref/tool-specific-input/Delly/hg38/human.hg38.excl.tsv` |
 | `mappability_map` | yes | path | Absolute path to the delly mappability map to support GC and mappability fragment correction in CNV calling |
@@ -198,16 +199,16 @@ An example of the NextFlow Input Parameters Config file can be found [here](conf
 
 ## Outputs
 
-| Output | Output Type | Description |
-|:-------|:---------|:------------|
-| `.bcf` | final | Binary VCF output format with SVs if found. |
-| `.vcf` | intermediate | VCF output format with SVs if found. If output by Manta, these VCFs will be compressed. |
-| `.bcf.csi` | final | CSI-format index for BAM files. |
-| `.validate.txt` | final | output file from vcf-validator. |
-| `.stats.txt` | final | output file from RTG Tools. |
-| `report.html`, `timeline.html` and `trace.txt` | log | A Nextflow report, timeline and trace files. |
-| `*.log.command.*` | log | Process and sample specific logging files created by nextflow. |
-| `*.sha512` | checksum| generates SHA-512 hash to validate file integrity. |
+| Output | Description |
+|:-------|:------------|
+| `.bcf` | Binary VCF output format with SVs if found. |
+| `.vcf` | VCF output format with SVs if found. If output by Manta, these VCFs will be compressed. |
+| `.bcf.csi` | CSI-format index for BAM files. |
+| `.validate.txt` | output file from vcf-validator. |
+| `.stats.txt` | output file from RTG Tools. |
+| `report.html`, `timeline.html` and `trace.txt` | A Nextflow report, timeline and trace files. |
+| `*.log.command.*` | Process and sample specific logging files created by nextflow. |
+| `*.sha512` | generates SHA-512 hash to validate file integrity. |
 ---
 
 ## Testing and Validation
@@ -268,7 +269,7 @@ Metrics below are based on the integration of Delly v1.13 in the `call-gSV` pipe
 | SV breakends | 0 | 219 | 1124 | 0 | `.stats.txt` |
 | Symbolic SVs | 2 | 1559 | 12500 | 11156 | `.stats.txt` |
 | Same as reference | 1 | 263 | 4595 | 1471 | `.stats.txt` |
-| Missing Genotype | 0 | 8 | 38 | 31 | `.stats.txt` | 
+| Missing Genotype | 0 | 8 | 38 | 31 | `.stats.txt` |
 | Total Het/Hom ratio | (2/0) | 1.00 (843/845) | 2.37 (9580/4044) | 1.86 (7251/3905) | `.stats.txt` |
 | Breakend Het/Hom ratio | (0/0) | 0.84 (59/70) | 13.41 (1046/78) | (0/0) | `.stats.txt` |
 | Symbolic SV Het/Hom ratio | (2/0) | 1.01 (784/775) | 2.15 (8534/3966) | 1.86 (7251/3905) | `.stats.txt` |
