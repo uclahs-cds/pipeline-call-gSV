@@ -6,7 +6,7 @@ All notable changes to the call-gSV pipeline.
 ## [Unreleased]
 ### Changed
 - Update README to reflect YAML support
-- Parse sample ID from tumor BAM for output directory naming
+- Parse sample ID from input BAM for output directory naming
 
 ### Added
 - Add YAML input
