@@ -53,7 +53,7 @@ Pipelines should be run **WITH A SINGLE SAMPLE AT TIME**. Otherwise resource all
 
     * Do not directly modify the source `template.config`, but rather you should copy it from the pipeline release folder to your project-specific folder and modify it there
 
-3. Create the input YAML using the [template](input/call-gSV-input.yaml).See [Input YAML](#Input-YAML) for detailed description of each column. All columns must exist and should be comma separated in order to run the pipeline successfully.
+3. Create the input YAML using the [template](input/call-gSV-input.yaml).See [Input YAML](#Input-YAML) for a detailed description.
 
    * Again, do not directly modify the source template YAML file.  Instead, copy it from the pipeline release folder to your project-specific folder and modify it there.
 
@@ -164,13 +164,19 @@ The second possible step of the regenotyping pipeline requires an aligned and so
 
 ### Input YAML
 
-The input YAML should have each of the input fields listed below as separate columns, using the same order and comma as column separator. An example of the input YAML can be found [here](input/call-gSV-input.yaml).
-
 | Field | Type | Description |
 |:------|:-----|:------------|
-| patient | string | The patient name to be passed to final BCF/VCF. No white space is allowed. |
-| sample | string | The sample name to be passed to final BCF/VCF. No white space is allowed. |
-| input_bam | path | Absolute path to the BAM file for the sample. |
+| sample_id | string | Sample ID |
+| sample_bam | path | Set to absolute path to germline BAM |
+
+```
+---
+sample_id: "sample_id"
+input:
+  BAM:
+    sample_bam:
+      - "/path/to/germline/BAM"
+```
 
 ### Nextflow Config File Parameters
 

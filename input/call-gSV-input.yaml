@@ -2,5 +2,5 @@
 sample_id: "sample_id"
 input:
   BAM:
-    normal:
-      - "/absolute/path/to/BAM"
+    sample:
+      - "/absolute/path/to/germline/BAM"
