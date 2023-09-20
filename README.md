@@ -53,7 +53,7 @@ Pipelines should be run **WITH A SINGLE SAMPLE AT TIME**. Otherwise resource all
 
     * Do not directly modify the source `template.config`, but rather you should copy it from the pipeline release folder to your project-specific folder and modify it there
 
-3. Create the input YAML using the [template](input/call-gSV-input.yaml).See [Input YAML](#Input-YAML) for a detailed description.
+3. Create the input YAML using the [template](input/call-gSV-input.yaml). See [Input YAML](#Input-YAML) for a detailed description.
 
    * Again, do not directly modify the source template YAML file.  Instead, copy it from the pipeline release folder to your project-specific folder and modify it there.
 
@@ -167,15 +167,14 @@ The second possible step of the regenotyping pipeline requires an aligned and so
 | Field | Type | Description |
 |:------|:-----|:------------|
 | sample_id | string | Sample ID |
-| sample_bam | path | Set to absolute path to germline BAM |
+| normal | path | Set to absolute path to input BAM |
 
 ```
 ---
-sample_id: "sample_id"
 input:
   BAM:
-    sample_bam:
-      - "/path/to/germline/BAM"
+    normal:
+      - "/path/to/input/BAM"
 ```
 
 ### Nextflow Config File Parameters
