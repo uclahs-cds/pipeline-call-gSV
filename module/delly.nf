@@ -21,7 +21,7 @@ process call_gSV_Delly {
         saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
 
     input:
-        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
+        tuple val(bam_sample_name), path(input_bam), path(input_bam_bai)
         path(reference_fasta)
         path(reference_fasta_fai)
         path(exclusion_file)
@@ -58,7 +58,7 @@ process regenotype_gSV_Delly {
         saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
 
     input:
-        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
+        tuple val(bam_sample_name), path(input_bam), path(input_bam_bai)
         path(reference_fasta)
         path(reference_fasta_fai)
         path(exclusion_file)
@@ -86,7 +86,7 @@ process regenotype_gSV_Delly {
 process call_gCNV_Delly {
     container params.docker_image_delly
 
-    publishDir "$params.output_dir/${params.docker_image_delly.split("/")[-1].replace(':', '-').toUpperCase()}/output",
+    publishDir "$params.output_dir_base/${params.docker_image_delly.split("/")[-1].replace(':', '-').toUpperCase()}/output",
         pattern: "*.bcf*",
         mode: "copy"
 
@@ -96,7 +96,7 @@ process call_gCNV_Delly {
         saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
 
     input:
-        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
+        tuple val(bam_sample_name), path(input_bam), path(input_bam_bai)
         path(delly_sv_file)
         path(reference_fasta)
         path(reference_fasta_fai)
@@ -124,7 +124,7 @@ process call_gCNV_Delly {
 process regenotype_gCNV_Delly {
     container params.docker_image_delly
 
-    publishDir "$params.output_dir/${params.docker_image_delly.split("/")[-1].replace(':', '-').toUpperCase()}/output",
+    publishDir "$params.output_dir_base/${params.docker_image_delly.split("/")[-1].replace(':', '-').toUpperCase()}/output",
         pattern: "*.bcf*",
         mode: "copy"
 
@@ -134,7 +134,7 @@ process regenotype_gCNV_Delly {
         saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
 
     input:
-        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
+        tuple val(bam_sample_name), path(input_bam), path(input_bam_bai)
         path(reference_fasta)
         path(reference_fasta_fai)
         path(mappability_file)

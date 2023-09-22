@@ -11,11 +11,11 @@ Docker Images:
 process call_gSV_Manta {
     container params.docker_image_manta
 
-    publishDir "$params.output_dir/${params.docker_image_manta.split("/")[-1].replace(':', '-').capitalize()}/output",
+    publishDir "$params.output_dir_base/${params.docker_image_manta.split("/")[-1].replace(':', '-').capitalize()}/output",
         pattern: "*vcf.gz*",
         mode: "copy"
 
-    publishDir "$params.output_dir/${params.docker_image_manta.split("/")[-1].replace(':', '-').capitalize()}/QC",
+    publishDir "$params.output_dir_base/${params.docker_image_manta.split("/")[-1].replace(':', '-').capitalize()}/QC",
         pattern: "*Stats*",
         mode: "copy"
 
@@ -25,7 +25,7 @@ process call_gSV_Manta {
         saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
 
     input:
-        tuple val(patient), val(bam_sample_name), path(input_bam), path(input_bam_bai)
+        tuple val(bam_sample_name), path(input_bam), path(input_bam_bai)
         path(reference_fasta)
         path(reference_fasta_fai)
 

@@ -11,7 +11,7 @@ Docker Images:
 process convert_BCF2VCF_BCFtools {
     container params.docker_image_bcftools
 
-    publishDir "${params.output_dir}/${params.docker_image_delly.split("/")[-1].replace(':', '-').toUpperCase()}/intermediate/${task.process.replace(':', '/')}",
+    publishDir "${params.output_dir_base}/${params.docker_image_delly.split("/")[-1].replace(':', '-').toUpperCase()}/intermediate/${task.process.replace(':', '/')}",
         pattern: "*.vcf",
         mode: "copy"
 
