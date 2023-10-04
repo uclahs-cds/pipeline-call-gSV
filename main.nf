@@ -63,9 +63,11 @@ checked_variant_type = []
 if (params.run_delly || params.run_regenotyping) {
     for (vt in params.variant_type) {
         if ('gsv' == vt.toLowerCase() || 'sv' == vt.toLowerCase()) {
+            params.GSV = vt
             checked_variant_type.add(params.GSV)
             }
         if ('gcnv' == vt.toLowerCase() || 'cnv' == vt.toLowerCase()) {
+            params.GCNV = vt
             checked_variant_type.add(params.GCNV)
             }
         }
