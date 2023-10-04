@@ -3,54 +3,42 @@ dataset_id:
   type: 'String'
   required: true
   help: 'Dataset identifier'
-GSV:
-  type: 'String'
-  required: true
-  help: 'Germline SV label, "gSV"'
-  default:
-    - "gSV"
-GCNV:
-  type: 'String'
-  required: true
-  help: 'Germline CNV label, "gCNV"'
-  default:
-    - "gCNV"
 variant_type:
   type: 'List'
   required: true
-  help: 'List of variant types to be called'
+  help: 'List of germline variant types to be called'
   default:
-    - GSV
-    - GCNV
+    - "gSV"
+    - "gCNV"
   choices:
-    - GSV
-    - GCNV
+    - "gSV"
+    - "gCNV"
 run_discovery:
-  type: 'Boolean'
+  type: 'Bool'
   required: true
   help: 'Identify SVs using Delly/Manta'
   default:
     - true
 run_regenotyping:
-  type: 'Boolean'
+  type: 'Bool'
   required: true
   help: 'Regenotype SVs/CNVs using Delly'
   default:
     - false
 run_delly:
-  type: 'Boolean'
+  type: 'Bool'
   required: true
   help: 'Run Delly'
   default:
     - true
 run_manta:
-  type: 'Boolean'
+  type: 'Bool'
   required: true
   help: 'Run Manta'
   default:
     - true
 run_qc:
-  type: 'Boolean'
+  type: 'Bool'
   required: true
   help: 'Run QC'
   default:
@@ -80,16 +68,6 @@ map_qual:
   required: true
   help: 'Minimum Paired-End (PE) mapping quality for Delly'
   default: 20
-merged_sites_gSV:
-  type: 'Path'
-  mode: 'r'
-  required: false
-  help: 'Absolute path to a BCF/VCF file containing merged gSV sites across samples. Required when `run_regenotyping = true`.'
-merged_sites_gCNV:
-  type: 'Path'
-  mode: 'r'
-  required: false
-  help: 'Absolute path to a BCF/VCF file containing merged gCNV sites across samples. Required when `run_regenotyping = true`.'
 input:
   type: 'InputNamespace'
   required: true
