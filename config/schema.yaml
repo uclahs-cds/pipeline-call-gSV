@@ -68,6 +68,12 @@ map_qual:
   required: true
   help: 'Minimum Paired-End (PE) mapping quality for Delly'
   default: 20
+save_intermediate_files:
+  type: 'Bool'
+  required: true
+  help: 'Save intermediate files from the pipeline'
+  default:
+    - false
 input:
   type: 'InputNamespace'
   required: true
