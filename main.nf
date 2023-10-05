@@ -58,24 +58,6 @@ include { run_vcf_validator_VCFtools as run_gSV_vcf_validator_VCFtools; run_vcf_
 include { run_sha512sum as run_sha512sum_gSV_Delly; run_sha512sum as run_sha512sum_gCNV_Delly; run_sha512sum as run_sha512sum_regeno_gSV_Delly; run_sha512sum as run_sha512sum_regeno_gCNV_Delly } from './module/sha512' addParams(docker_image_name: "$params.docker_image_delly".toUpperCase())
 include { run_sha512sum as run_sha512sum_Manta } from './module/sha512' addParams(docker_image_name: "$params.docker_image_manta")
 
-
-checked_variant_type = []
-if (params.run_delly || params.run_regenotyping) {
-    for (vt in params.variant_type) {
-        if ('gsv' == vt.toLowerCase() || 'sv' == vt.toLowerCase()) {
-            params.GSV = vt
-            checked_variant_type.add(params.GSV)
-            }
-        if ('gcnv' == vt.toLowerCase() || 'cnv' == vt.toLowerCase()) {
-            params.GCNV = vt
-            checked_variant_type.add(params.GCNV)
-            }
-        }
-    if (checked_variant_type.isEmpty()) {
-        throw new Exception("ERROR: checked_variant_type cannot be empty")
-        }
-    }
-
 // Returns the index file for the given bam
 def indexFile(bam) {
     if (bam.endsWith('.bam')) {
@@ -93,10 +75,6 @@ input_ch_samples_with_index
     .map{ sample -> [sample.path, sample.index] }
     .flatten()
     .set{ input_validation }
-
-if (params.verbose){
-    input_validation.view()
-    }
 
 input_ch_samples_with_index
     .map{ it -> [it.id, it.path, it.index] }
@@ -143,22 +121,22 @@ workflow {
             }
         if (params.run_delly) {
             call_gSV_Delly(input_bam_ch, params.reference_fasta, reference_fasta_index, params.exclusion_file)
-            convert_gSV_BCF2VCF_BCFtools(call_gSV_Delly.out.bcf_sv_file, call_gSV_Delly.out.bam_sample_name, params.GSV)
+            convert_gSV_BCF2VCF_BCFtools(call_gSV_Delly.out.bcf_sv_file, call_gSV_Delly.out.bam_sample_name, "gSV")
             run_sha512sum_gSV_Delly(call_gSV_Delly.out.bcf_sv_file.mix(call_gSV_Delly.out.bcf_sv_file_csi))
 
-            if (checked_variant_type.contains(params.GCNV)) {
+            if (variant_type.contains("gCNV")) {
                 call_gCNV_Delly(input_bam_ch, call_gSV_Delly.out.bcf_sv_file.toList(), params.reference_fasta, reference_fasta_index, params.mappability_map)
-                convert_gCNV_BCF2VCF_BCFtools(call_gCNV_Delly.out.bcf_cnv_file, call_gCNV_Delly.out.bam_sample_name, params.GCNV)
+                convert_gCNV_BCF2VCF_BCFtools(call_gCNV_Delly.out.bcf_cnv_file, call_gCNV_Delly.out.bam_sample_name, "gCNV")
                 run_sha512sum_gCNV_Delly(call_gCNV_Delly.out.bcf_cnv_file.mix(call_gCNV_Delly.out.bcf_cnv_file_csi))
                 }
 
             if (params.run_qc) {
-                run_gSV_vcfstats_RTGTools(convert_gSV_BCF2VCF_BCFtools.out.vcf_file, call_gSV_Delly.out.bam_sample_name, params.GSV)
-                run_gSV_vcf_validator_VCFtools(convert_gSV_BCF2VCF_BCFtools.out.vcf_file, call_gSV_Delly.out.bam_sample_name, params.GSV)
+                run_gSV_vcfstats_RTGTools(convert_gSV_BCF2VCF_BCFtools.out.vcf_file, call_gSV_Delly.out.bam_sample_name, "gSV")
+                run_gSV_vcf_validator_VCFtools(convert_gSV_BCF2VCF_BCFtools.out.vcf_file, call_gSV_Delly.out.bam_sample_name, "gSV")
 
-                if (checked_variant_type.contains(params.GCNV)) {
-                    run_gCNV_vcfstats_RTGTools(convert_gCNV_BCF2VCF_BCFtools.out.vcf_file, call_gCNV_Delly.out.bam_sample_name, params.GCNV)
-                    run_gCNV_vcf_validator_VCFtools(convert_gCNV_BCF2VCF_BCFtools.out.vcf_file, call_gCNV_Delly.out.bam_sample_name, params.GCNV)
+                if (variant_type.contains("gCNV")) {
+                    run_gCNV_vcfstats_RTGTools(convert_gCNV_BCF2VCF_BCFtools.out.vcf_file, call_gCNV_Delly.out.bam_sample_name, "gCNV")
+                    run_gCNV_vcf_validator_VCFtools(convert_gCNV_BCF2VCF_BCFtools.out.vcf_file, call_gCNV_Delly.out.bam_sample_name, "gCNV")
                     }
                 }
             }
@@ -166,12 +144,12 @@ workflow {
     // When 'run_regenotyping' is set to true, the variant_type specified in the input_csv will be used to determine which
     // regenotyping process to run. For example, if the variant_type contains 'gSV', regenotype_gSV_Delly will run, etc.
     if (params.run_regenotyping) {
-        if (checked_variant_type.contains(params.GSV)) {
+        if (variant_type.contains("gSV")) {
             regenotype_gSV_Delly(input_bam_ch, params.reference_fasta, reference_fasta_index, params.exclusion_file, params.merged_sites_gSV)
             run_sha512sum_regeno_gSV_Delly(regenotype_gSV_Delly.out.regenotyped_sv_bcf.mix(regenotype_gSV_Delly.out.regenotyped_sv_bcf_csi))
         }
 
-        if (checked_variant_type.contains(params.GCNV)) {
+        if (variant_type.contains("gCNV")) {
             regenotype_gCNV_Delly(input_bam_ch, params.reference_fasta, reference_fasta_index, params.mappability_map, params.merged_sites_gCNV)
             run_sha512sum_regeno_gCNV_Delly(regenotype_gCNV_Delly.out.regenotyped_cnv_bcf.mix(regenotype_gCNV_Delly.out.regenotyped_cnv_bcf_csi))
         }
