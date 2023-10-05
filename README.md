@@ -176,7 +176,7 @@ input:
     normal:
       - "/path/to/input/BAM"
 ```
-> Note: This pipeline is designed to detect germline SVs. To maintain consistency with other Boutros Lab Nextflow pipelines, the input YAML format mirrors that of other somatic or germline variant calling pipelines. However, it's important to note that the sample type tags, whether labeled as 'normal' or 'tumor', do NOT influence the germline SV/CNV calling processes in this pipeline.
+> Note: This pipeline is designed to detect germline SVs. To maintain consistency with other Boutros Lab Nextflow pipelines, the input YAML format mirrors that of other somatic or germline variant calling pipelines. However, it's important to note that the sample type tags, whether labeled as `normal` or `tumor`, do NOT influence the germline SV/CNV calling processes in this pipeline.
 
 ### Nextflow Config File Parameters
 
