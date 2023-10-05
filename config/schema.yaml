@@ -68,6 +68,16 @@ map_qual:
   required: true
   help: 'Minimum Paired-End (PE) mapping quality for Delly'
   default: 20
+merged_sites_gSV:
+  type: 'Path'
+  mode: 'r'
+  required: false
+  help: 'Absolute path to a BCF/VCF file containing merged gSV sites across samples. Required when `run_regenotyping = true`.'
+merged_sites_gCNV:
+  type: 'Path'
+  mode: 'r'
+  required: false
+  help: 'Absolute path to a BCF/VCF file containing merged gCNV sites across samples. Required when `run_regenotyping = true`.'
 save_intermediate_files:
   type: 'Bool'
   required: true
