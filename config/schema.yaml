@@ -1,0 +1,104 @@
+---
+dataset_id:
+  type: 'String'
+  required: true
+  help: 'Dataset identifier'
+variant_type:
+  type: 'List'
+  required: true
+  help: 'List of germline variant types to be called'
+  default:
+    - "gSV"
+    - "gCNV"
+  choices:
+    - "gSV"
+    - "gCNV"
+run_discovery:
+  type: 'Bool'
+  required: true
+  help: 'Identify SVs using Delly/Manta'
+  default:
+    - true
+run_regenotyping:
+  type: 'Bool'
+  required: true
+  help: 'Regenotype SVs/CNVs using Delly'
+  default:
+    - false
+run_delly:
+  type: 'Bool'
+  required: true
+  help: 'Run Delly'
+  default:
+    - true
+run_manta:
+  type: 'Bool'
+  required: true
+  help: 'Run Manta'
+  default:
+    - true
+run_qc:
+  type: 'Bool'
+  required: true
+  help: 'Run QC'
+  default:
+    - true
+output_dir:
+  type: 'Path'
+  mode: 'w'
+  required: true
+  help: 'Absolute path to output directory'
+reference_fasta:
+  type: 'Path'
+  mode: 'r'
+  required: true
+  help: 'Absolute path to a reference FASTA file'
+exclusion_file:
+  type: 'Path'
+  mode: 'r'
+  required: true
+  help: 'Absolute path to an exclusion file'
+mappability_map:
+  type: 'Path'
+  mode: 'r'
+  required: true
+  help: 'Absolute path to a mappability file'
+map_qual:
+  type: 'Integer'
+  required: true
+  help: 'Minimum Paired-End (PE) mapping quality for Delly'
+  default: 20
+merged_sites_gSV:
+  type: 'Path'
+  mode: 'r'
+  required: false
+  help: 'Absolute path to a BCF/VCF file containing merged gSV sites across samples. Required when `run_regenotyping = true`.'
+merged_sites_gCNV:
+  type: 'Path'
+  mode: 'r'
+  required: false
+  help: 'Absolute path to a BCF/VCF file containing merged gCNV sites across samples. Required when `run_regenotyping = true`.'
+save_intermediate_files:
+  type: 'Bool'
+  required: true
+  help: 'Save intermediate files from the pipeline'
+  default:
+    - false
+input:
+  type: 'InputNamespace'
+  required: true
+  help: 'Input samples'
+  elements:
+    BAM:
+      type: 'InputBAMNamespace'
+      required: true
+      help: 'Input BAM for germline SV/CNV calling'
+      elements:
+        normal:
+          type: 'BAMEntryList'
+          required: true
+          help: 'Input BAM'
+        tumor:
+          type: 'BAMEntryList'
+          required: false
+          help: 'Input tumor BAM. Only to be used in exceptional use cases. Remove `normal` BAM if this is used.'
