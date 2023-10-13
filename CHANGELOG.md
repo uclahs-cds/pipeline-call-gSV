@@ -5,6 +5,7 @@ All notable changes to the call-gSV pipeline.
 
 ## [Unreleased]
 ### Changed
+- Standardize Manta output filenames
 - Use strings `gSV` and `gCNV` as list for param `variant_type` in `template.config`
 - Update README to reflect YAML support
 - Parse sample ID from input BAM for output directory naming
