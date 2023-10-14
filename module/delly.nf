@@ -13,7 +13,7 @@ include { generate_standard_filename } from '../external/pipeline-Nextflow-modul
 output_filename = generate_standard_filename(
         "DELLY-${params.delly_version}",
         params.dataset_id,
-        bam_sample_name,
+        ${params.bam_sample_name},
         [:]
         )
 
