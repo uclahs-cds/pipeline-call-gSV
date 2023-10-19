@@ -11,7 +11,7 @@ Docker Images:
 process call_gSV_Delly {
     container params.docker_image_delly
 
-    publishDir "$params.output_dir/${params.docker_image_delly.split("/")[-1].replace(':', '-').toUpperCase()}/output",
+    publishDir "$params.output_dir_base/${params.docker_image_delly.split("/")[-1].replace(':', '-').toUpperCase()}/output",
         pattern: "*.bcf*",
         mode: "copy"
 
@@ -48,7 +48,7 @@ process call_gSV_Delly {
 process regenotype_gSV_Delly {
     container params.docker_image_delly
 
-    publishDir "$params.output_dir/${params.docker_image_delly.split("/")[-1].replace(':', '-').toUpperCase()}/output",
+    publishDir "$params.output_dir_base/${params.docker_image_delly.split("/")[-1].replace(':', '-').toUpperCase()}/output",
         pattern: "*.bcf*",
         mode: "copy"
 
