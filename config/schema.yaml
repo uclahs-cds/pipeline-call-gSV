@@ -8,11 +8,11 @@ variant_type:
   required: true
   help: 'List of germline variant types to be called'
   default:
-    - "GSV"
-    - "GCNV"
+    - "gSV"
+    - "gCNV"
   choices:
-    - "GSV"
-    - "GCNV"
+    - "gSV"
+    - "gCNV"
 run_discovery:
   type: 'Bool'
   required: true
