@@ -18,7 +18,7 @@ process call_gSV_Manta {
     publishDir "$params.output_dir_base/${params.docker_image_manta.split("/")[-1].replace(':', '-').capitalize()}/QC",
         pattern: "*Stats*",
         mode: "copy",
-        saveAs: { "${params.params.output_filename}_${file(it).getName()}" }
+        saveAs: { "${params.output_filename}_${file(it).getName()}" }
 
     publishDir "$params.log_output_dir/process-log/${params.docker_image_manta.split("/")[-1].replace(':', '-').capitalize()}",
         pattern: ".command.*",
