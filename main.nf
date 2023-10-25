@@ -47,13 +47,27 @@ Starting workflow...
 """
 .stripIndent()
 
+include { generate_standard_filename } from '../external/pipeline-Nextflow-module/modules/common/generate_standardized_filename/main.nf'
+
 include { run_validate_PipeVal } from './external/pipeline-Nextflow-module/modules/PipeVal/validate/main.nf' addParams(
     options: [ docker_image_version: params.pipeval_version ]
     )
 include { call_gSV_Delly; call_gCNV_Delly; regenotype_gSV_Delly; regenotype_gCNV_Delly } from './module/delly' addParams(
-    bam_sample_name: "${params.sample}"
+    output_filename: generate_standard_filename(
+        "DELLY-${params.delly_version}",
+        params.dataset_id,
+        "${params.sample}",
+        [:]
+        )
     )
-include { call_gSV_Manta } from './module/manta'
+include { call_gSV_Manta } from './module/manta' addParams(
+    output_filename: generate_standard_filename(
+        "Manta-${params.manta_version}",
+        params.dataset_id,
+        "${params.sample}",
+        [:]
+        )
+    )
 include { convert_BCF2VCF_BCFtools as convert_gSV_BCF2VCF_BCFtools; convert_BCF2VCF_BCFtools as convert_gCNV_BCF2VCF_BCFtools } from './module/bcftools'
 include { run_vcfstats_RTGTools as run_gSV_vcfstats_RTGTools; run_vcfstats_RTGTools as run_gCNV_vcfstats_RTGTools } from './module/rtgtools'
 include { run_vcf_validator_VCFtools as run_gSV_vcf_validator_VCFtools; run_vcf_validator_VCFtools as run_gCNV_vcf_validator_VCFtools } from './module/vcftools'
