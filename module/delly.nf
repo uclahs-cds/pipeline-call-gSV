@@ -27,8 +27,8 @@ process call_gSV_Delly {
         path(exclusion_file)
 
     output:
-        path "DELLY-${params.delly_version}_SV_${params.dataset_id}_${bam_sample_name}.bcf", emit: bcf_sv_file
-        path "DELLY-${params.delly_version}_SV_${params.dataset_id}_${bam_sample_name}.bcf.csi", emit: bcf_sv_file_csi
+        path "${params.output_filename}_${params.GSV}.bcf", emit: bcf_sv_file
+        path "${params.output_filename}_${params.GSV}.bcf.csi", emit: bcf_sv_file_csi
         path ".command.*"
         val bam_sample_name, emit: bam_sample_name
 
@@ -39,7 +39,7 @@ process call_gSV_Delly {
         call \
         --exclude   $exclusion_file \
         --genome    $reference_fasta \
-        --outfile   DELLY-${params.delly_version}_SV_${params.dataset_id}_${bam_sample_name}.bcf \
+        --outfile   ${params.output_filename}_${params.GSV}.bcf \
         --map-qual ${params.map_qual} \
         $input_bam
     """
@@ -65,8 +65,8 @@ process regenotype_gSV_Delly {
         path(sites)
 
     output:
-        path "DELLY-${params.delly_version}_RGSV_${params.dataset_id}_${bam_sample_name}.bcf", emit: regenotyped_sv_bcf
-        path "DELLY-${params.delly_version}_RGSV_${params.dataset_id}_${bam_sample_name}.bcf.csi", emit: regenotyped_sv_bcf_csi
+        path "${params.output_filename}_${params.RGSV}.bcf", emit: regenotyped_sv_bcf
+        path "${params.output_filename}_${params.RGSV}.bcf.csi", emit: regenotyped_sv_bcf_csi
         path ".command.*"
 
     script:
@@ -77,7 +77,7 @@ process regenotype_gSV_Delly {
         --vcffile $sites \
         --exclude $exclusion_file \
         --genome $reference_fasta \
-        --outfile "DELLY-${params.delly_version}_RGSV_${params.dataset_id}_${bam_sample_name}.bcf" \
+        --outfile "${params.output_filename}_${params.RGSV}.bcf" \
         --map-qual ${params.map_qual} \
         "$input_bam"
     """
@@ -103,8 +103,8 @@ process call_gCNV_Delly {
         path(mappability_file)
 
     output:
-        path "DELLY-${params.delly_version}_CNV_${params.dataset_id}_${bam_sample_name}.bcf", emit: bcf_cnv_file
-        path "DELLY-${params.delly_version}_CNV_${params.dataset_id}_${bam_sample_name}.bcf.csi", emit: bcf_cnv_file_csi
+        path "${params.output_filename}_${params.GCNV}.bcf", emit: bcf_cnv_file
+        path "${params.output_filename}_${params.GCNV}.bcf.csi", emit: bcf_cnv_file_csi
         path ".command.*"
         val bam_sample_name, emit: bam_sample_name
 
@@ -114,8 +114,8 @@ process call_gCNV_Delly {
     delly \
         cnv \
         --genome        $reference_fasta \
-        --outfile       DELLY-${params.delly_version}_CNV_${params.dataset_id}_${bam_sample_name}.bcf \
-        --svfile        DELLY-${params.delly_version}_SV_${params.dataset_id}_${bam_sample_name}.bcf \
+        --outfile       ${params.output_filename}_${params.GCNV}.bcf \
+        --svfile        $delly_sv_file \
         --mappability   $mappability_file \
         $input_bam
     """
@@ -141,8 +141,8 @@ process regenotype_gCNV_Delly {
         path(sites)
 
     output:
-        path "DELLY-${params.delly_version}_RGCNV_${params.dataset_id}_${bam_sample_name}.bcf", emit: regenotyped_cnv_bcf
-        path "DELLY-${params.delly_version}_RGCNV_${params.dataset_id}_${bam_sample_name}.bcf.csi", emit: regenotyped_cnv_bcf_csi
+        path "${params.output_filename}_${params.RGCNV}.bcf", emit: regenotyped_cnv_bcf
+        path "${params.output_filename}_${params.RGCNV}.bcf.csi", emit: regenotyped_cnv_bcf_csi
         path ".command.*"
 
     script:
@@ -154,7 +154,7 @@ process regenotype_gCNV_Delly {
         -v $sites \
         --genome $reference_fasta \
         -m $mappability_file \
-        --outfile "DELLY-${params.delly_version}_RGCNV_${params.dataset_id}_${bam_sample_name}.bcf" \
+        --outfile "${params.output_filename}_${params.RGCNV}.bcf" \
         "$input_bam"
     """
     }
