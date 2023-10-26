@@ -4,5 +4,5 @@ description: "a pipeline for calling structural variants and copy number variant
 maintainers: "Boutros Lab Infrastructure BoutrosLabInfrastructure@mednet.ucla.edu"
 languages: ["Nextflow", "Docker"]
 dependencies: ["Java", "Nextflow", "Docker"]
-references: "https://confluence.mednet.ucla.edu/display/BOUTROSLAB/Guide+to+Nextflow"
+references: "https://uclahs-cds.atlassian.net/wiki/spaces/BOUTROSLAB/pages/3189620/Guide+to+Nextflow"
 tools: ["Delly:v1.1.3", "Manta:v1.6.0", "BCFtools:v1.15.1", "VCFtools:v0.1.16", "RTG-tools:v3.12", "PipeVal:v3.0.0"]
