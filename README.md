@@ -184,16 +184,17 @@ input:
 |:----------------|:---------|:-----|:------------|
 | `dataset_id` | yes | string | Boutros lab dataset id. |
 | `blcds_registered_dataset` | yes | boolean | Affirms if dataset should be registered in the Boutros Lab Data registry. Default value is `false`. |
+| `variant_type` | yes | list | List containing variant types to call. Default is `["gSV", "gCNV"]` |
 | `run_discovery` | yes | boolean | Specifies whether or not to run the "disovery" branch of the pipeline. Default value is `true`. (either `run_discovery` or `run_regenotyping` must be `true`) |
 | `run_regenotyping` | yes | boolean | Specifies whether or not to run the "regenotyping" branch of the pipeline. Default value is `false`. (either `run_discovery` or `run_regenotyping` must be `true`) |
 | `merged_sites` | yes | path | The path to the merged sites.bcf file. Must be populated if running the regenotyping branch. |
-| `reference_fasta` | yes | path | Absolute path to the reference genome `FASTA` file. The reference genome is used by Delly for SV calling. |
-| `exclusion_file` | yes | path | Absolute path to the delly reference genome `exclusion` file utilized to remove suggested regions for SV calling. On Slurm, an HG38 exclusion file is located at `/hot/ref/tool-specific-input/Delly/hg38/human.hg38.excl.tsv` |
-| `mappability_map` | yes | path | Absolute path to the delly mappability map to support GC and mappability fragment correction in CNV calling |
-| `map_qual` | no | path | minimum paired-end (PE) mapping quaility threshold for Delly). |
 | `run_delly` | true | boolean | Whether or not the workflow should run Delly (either run_delly or run_manta must be set to `true`) |
 | `run_manta` | true | boolean | Whether or not the workflow should run Manta (either run_delly or run_manta must be set to `true`) |
 | `run_qc` | no | boolean | Optional parameter to indicate whether subsequent quality checks should be run on Delly outputs. Default value is `false`. |
+| `reference_fasta` | yes | path | Absolute path to the reference genome `FASTA` file. The reference genome is used by Delly for SV calling. |
+| `exclusion_file` | yes | path | Absolute path to the delly reference genome `exclusion` file utilized to remove suggested regions for SV calling. On Slurm, an HG38 exclusion file is located at `/hot/ref/tool-specific-input/Delly/hg38/human.hg38.excl.tsv` |
+| `mappability_map` | yes | path | Absolute path to the delly mappability map to support GC and mappability fragment correction in CNV calling |
+| `map_qual` | no | path | minimum paired-end (PE) mapping quaility threshold for Delly. |
 | `save_intermediate_files` | yes | boolean | Optional parameter to indicate whether intermediate files will be saved. Default value is `false`. |
 | `output_dir` | yes | path | Absolute path to the directory where the output files to be saved. |
 | `work_dir` | optional | path | Path of working directory for Nextflow. When included in the sample config file, Nextflow intermediate files and logs will be saved to this directory. With `ucla_cds`, the default is `/scratch` and should only be changed for testing/development. Changing this directory to `/hot` or `/tmp` can lead to high server latency and potential disk space limitations, respectively. |
@@ -302,7 +303,7 @@ Included is a template for validating your input files. For more information on 
 
 ## License
 
-Authors: Tim Sanders (TSanders@mednet.ucla.edu), Yu Pan (YuPan@mednet.ucla.edu), Yael Berkovich (YBerkovich@mednet.ucla.edu), Mohammed Faizal Eeman Mootor (MMootor@mednet.ucla.edu)
+Authors: Tim Sanders (TSanders@mednet.ucla.edu), Yu Pan (YuPan@mednet.ucla.edu), Yael Berkovich (YBerkovich@mednet.ucla.edu), Mohammed Faizal Eeman Mootor (MMootor@mednet.ucla.edu), Nicholas Wiltsie (nwiltsie@mednet.ucla.edu)
 
 The pipeline-call-gSV is licensed under the GNU General Public License version 2. See the file LICENSE for the terms of the GNU GPL license.
 
