@@ -301,9 +301,10 @@ Included is a template for validating your input files. For more information on 
 5. [Boutros Lab -CallSV Quality Control pipeline]()
 6. [The 1000 Genomes Project Consortium., Corresponding authors., Auton, A. et al. A global reference for human genetic variation. Nature 526, 68–74 (2015). https://doi.org/10.1038/nature15393](https://www.nature.com/articles/nature15393)
 
-## License
+## Contributors
+Please see list of [Contributors](https://github.com/uclahs-cds/pipeline-call-gSV/graphs/contributors) at GitHub.
 
-Authors: Tim Sanders (TSanders@mednet.ucla.edu), Yu Pan (YuPan@mednet.ucla.edu), Yael Berkovich (YBerkovich@mednet.ucla.edu), Mohammed Faizal Eeman Mootor (MMootor@mednet.ucla.edu), Nicholas Wiltsie (nwiltsie@mednet.ucla.edu)
+## License
 
 The pipeline-call-gSV is licensed under the GNU General Public License version 2. See the file LICENSE for the terms of the GNU GPL license.
 
