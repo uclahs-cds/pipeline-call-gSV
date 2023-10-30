@@ -4,6 +4,10 @@ All notable changes to the call-gSV pipeline.
 ---
 
 ## [Unreleased]
+
+---
+
+## [5.0.0-rc.1] - 2023-10-30
 ### Changed
 - Standardize DELLY output filenames
 - Enable `save_intermediate_files` in `bcftools.nf` and `rtgtools.nf`
