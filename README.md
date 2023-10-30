@@ -63,7 +63,7 @@ Pipelines should be run **WITH A SINGLE SAMPLE AT TIME**. Otherwise resource all
 nextflow run path/to/main.nf -config path/to/sample-specific.config
 ```
 
-* For example, `path/to/main.nf` could be: `/hot/software/pipeline/pipeline-call-gSV/Nextflow/release/4.0.0/main.nf`
+* For example, `path/to/main.nf` could be: `/hot/software/pipeline/pipeline-call-gSV/Nextflow/release/5.0.0-rc.1/main.nf`
 * `path/to/sample-specific.config` is the path to where you saved your project-specific copy of [template.config](config/template.config)
 * `path/to/input.yaml` is the path to where you saved your sample-specific copy of [call-gSV-input.yaml](input/call-gSV-input.yaml)
 
