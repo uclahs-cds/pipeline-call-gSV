@@ -1,0 +1,35 @@
+---
+global:
+  temp_dir: ./test/work
+  nf_config: test/global.config
+  remove_temp: false
+  clean_logs: true
+
+cases:
+  - name: gsv_discovery-all-tools-std-input
+    message: test development branch using all tools and standard paired tumor and normal test input CPCG0196-B1 of a-partial size
+    nf_script: ./main.nf
+    nf_config: ./test/config/gsv_discovery-all-tools.config
+    params_file: ./test/yaml/gsv_test-std-input.yaml
+    skip: false
+    verbose: true
+    asserts:
+      - actual: call-gSV-*/CPCG0196-B1/DELLY-*/output/DELLY-*_TEST_CPCG0196-B1_gCNV.bcf
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/DELLY-1.1.3/DELLY-1.1.3_TEST_CPCG0196-B1_gCNV.bcf
+        script: test/assert_vcf.sh
+
+      - actual: call-gSV-*/CPCG0196-B1/DELLY-*/output/DELLY-*_TEST_CPCG0196-B1_gSV.bcf
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/DELLY-1.1.3/DELLY-1.1.3_TEST_CPCG0196-B1_gSV.bcf
+        script: test/assert_vcf.sh
+
+      - actual: call-gSV-*/CPCG0196-B1/Manta-*/output/candidateSmallIndels.vcf.gz
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/Manta-1.6.0/candidateSmallIndels.vcf.gz
+        script: test/assert_vcf.sh
+
+      - actual: call-gSV-*/CPCG0196-B1/Manta-*/output/candidateSV.vcf.gz
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/Manta-1.6.0/candidateSV.vcf.gz
+        script: test/assert_vcf.sh
+
+      - actual: call-gSV-*/CPCG0196-B1/Manta-*/output/diploidSV.vcf.gz
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/Manta-1.6.0/diploidSV.vcf.gz
+        script: test/assert_vcf.sh
