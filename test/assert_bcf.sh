@@ -1,6 +1,6 @@
 #!/bin/bash
 function md5_bcf {
-    bcftools view -H $1 | md5sum | cut -f 1 -d ' '
+    bcftools view -H "$1" | md5sum | cut -f 1 -d ' '
 }
 
 if ! which bcftools &> /dev/null
@@ -12,8 +12,8 @@ then
     fi
 fi
 
-received=$(md5_bcf $1)
-expected=$(md5_bcf $2)
+received=$(md5_bcf "$1")
+expected=$(md5_bcf "$2")
 
 if [ "$received" == "$expected" ]; then
     echo "BCF files are equal"
