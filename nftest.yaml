@@ -14,23 +14,23 @@ cases:
     skip: false
     verbose: true
     asserts:
-      - actual: call-gSV-5.0.0-rc.1/CPCG0196-B1/DELLY-1.2.6/output/DELLY-1.2.6_TEST_CPCG0196-B1_gCNV.bcf
+      - actual: call-gSV-*/CPCG0196-B1/DELLY-1.2.6/output/DELLY-1.2.6_TEST_CPCG0196-B1_gCNV.bcf
         expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/DELLY-1.2.6/DELLY-1.2.6_TEST_CPCG0196-B1_gCNV.bcf
         script: test/assert_bcf.sh
 
-      - actual: call-gSV-5.0.0-rc.1/CPCG0196-B1/DELLY-1.2.6/output/DELLY-1.2.6_TEST_CPCG0196-B1_gSV.bcf
+      - actual: call-gSV-*/CPCG0196-B1/DELLY-1.2.6/output/DELLY-1.2.6_TEST_CPCG0196-B1_gSV.bcf
         expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/DELLY-1.2.6/DELLY-1.2.6_TEST_CPCG0196-B1_gSV.bcf
         script: test/assert_bcf.sh
 
-      - actual: call-gSV-5.0.0-rc.1/CPCG0196-B1/Manta-1.6.0/output/Manta-1.6.0_TEST_CPCG0196-B1_candidateSmallIndels.vcf.gz
+      - actual: call-gSV-*/CPCG0196-B1/Manta-1.6.0/output/Manta-1.6.0_TEST_CPCG0196-B1_candidateSmallIndels.vcf.gz
         expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/Manta-1.6.0/candidateSmallIndels.vcf.gz
         script: test/assert_vcf.sh
 
-      - actual: call-gSV-5.0.0-rc.1/CPCG0196-B1/Manta-1.6.0/output/Manta-1.6.0_TEST_CPCG0196-B1_candidateSV.vcf.gz
+      - actual: call-gSV-*/CPCG0196-B1/Manta-1.6.0/output/Manta-1.6.0_TEST_CPCG0196-B1_candidateSV.vcf.gz
         expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/Manta-1.6.0/candidateSV.vcf.gz
         script: test/assert_vcf.sh
 
-      - actual: call-gSV-5.0.0-rc.1/CPCG0196-B1/Manta-1.6.0/output/Manta-1.6.0_TEST_CPCG0196-B1_diploidSV.vcf.gz
+      - actual: call-gSV-*/CPCG0196-B1/Manta-1.6.0/output/Manta-1.6.0_TEST_CPCG0196-B1_diploidSV.vcf.gz
         expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/Manta-1.6.0/diploidSV.vcf.gz
         script: test/assert_vcf.sh
 
@@ -42,7 +42,7 @@ cases:
     skip: false
     verbose: true
     asserts:
-      - actual: call-gSV-5.0.0-rc.1/HG002.N/Manta-1.6.0/output/Manta-1.6.0_TEST_HG002.N_diploidSV.vcf.gz
+      - actual: call-gSV-*/HG002.N/Manta-1.6.0/output/Manta-1.6.0_TEST_HG002.N_diploidSV.vcf.gz
         expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-manta-std-input/HG002.N/Manta-1.6.0/Manta-1.6.0_TEST_HG002.N_diploidSV.vcf.gz
         script: test/assert_bcf.sh
 
@@ -54,10 +54,10 @@ cases:
     skip: false
     verbose: true
     asserts:
-      - actual: call-gSV-5.0.0-rc.1/CPCG0196-B1/DELLY-1.2.6/output/DELLY-1.2.6_TEST_CPCG0196-B1_gCNV.bcf
+      - actual: call-gSV-*/CPCG0196-B1/DELLY-1.2.6/output/DELLY-1.2.6_TEST_CPCG0196-B1_gCNV.bcf
         expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/DELLY-1.2.6/DELLY-1.2.6_TEST_CPCG0196-B1_gCNV.bcf
         script: test/assert_bcf.sh
 
-      - actual: call-gSV-5.0.0-rc.1/CPCG0196-B1/DELLY-1.2.6/output/DELLY-1.2.6_TEST_CPCG0196-B1_gSV.bcf
+      - actual: call-gSV-*/CPCG0196-B1/DELLY-1.2.6/output/DELLY-1.2.6_TEST_CPCG0196-B1_gSV.bcf
         expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/DELLY-1.2.6/DELLY-1.2.6_TEST_CPCG0196-B1_gSV.bcf
         script: test/assert_bcf.sh
