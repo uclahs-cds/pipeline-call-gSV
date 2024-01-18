@@ -23,15 +23,15 @@ cases:
         script: test/assert_bcf_vcf.sh
 
       - actual: call-gSV-*/CPCG0196-B1/Manta-1.6.0/output/Manta-1.6.0_TEST_CPCG0196-B1_candidateSmallIndels.vcf.gz
-        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/Manta-1.6.0/candidateSmallIndels.vcf.gz
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/Manta-1.6.0/Manta-1.6.0_TEST_CPCG0196-B1_candidateSmallIndels.vcf.gz
         script: test/assert_bcf_vcf.sh
 
       - actual: call-gSV-*/CPCG0196-B1/Manta-1.6.0/output/Manta-1.6.0_TEST_CPCG0196-B1_candidateSV.vcf.gz
-        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/Manta-1.6.0/candidateSV.vcf.gz
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/Manta-1.6.0/Manta-1.6.0_TEST_CPCG0196-B1_candidateSV.vcf.gz
         script: test/assert_bcf_vcf.sh
 
       - actual: call-gSV-*/CPCG0196-B1/Manta-1.6.0/output/Manta-1.6.0_TEST_CPCG0196-B1_diploidSV.vcf.gz
-        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/Manta-1.6.0/diploidSV.vcf.gz
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/Manta-1.6.0/Manta-1.6.0_TEST_CPCG0196-B1_diploidSV.vcf.gz
         script: test/assert_bcf_vcf.sh
 
   - name: gsv_discovery-manta-std-input
@@ -42,6 +42,14 @@ cases:
     skip: false
     verbose: true
     asserts:
+      - actual: call-gSV-*/HG002.N/Manta-1.6.0/output/Manta-1.6.0_TEST_HG002.N_candidateSmallIndels.vcf.gz
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-manta-std-input/HG002.N/Manta-1.6.0/Manta-1.6.0_TEST_HG002.N_candidateSmallIndels.vcf.gz
+        script: test/assert_bcf_vcf.sh
+
+      - actual: call-gSV-*/HG002.N/Manta-1.6.0/output/Manta-1.6.0_TEST_HG002.N_candidateSV.vcf.gz
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-manta-std-input/HG002.N/Manta-1.6.0/Manta-1.6.0_TEST_HG002.N_candidateSV.vcf.gz
+        script: test/assert_bcf_vcf.sh
+
       - actual: call-gSV-*/HG002.N/Manta-1.6.0/output/Manta-1.6.0_TEST_HG002.N_diploidSV.vcf.gz
         expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-manta-std-input/HG002.N/Manta-1.6.0/Manta-1.6.0_TEST_HG002.N_diploidSV.vcf.gz
         script: test/assert_bcf_vcf.sh
