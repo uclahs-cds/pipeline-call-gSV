@@ -5,7 +5,7 @@ All notable changes to the call-gSV pipeline.
 
 ## [Unreleased]
 ### Added
-- Add NFtest for gSV discovery - all tools, DELLY only and Manta only
+- Add NFtest for gSV discovery
 
 ### Changed
 - Update DELLY `v1.1.3` to `v1.2.6`
