@@ -2,7 +2,7 @@
 global:
   temp_dir: ./test/work
   nf_config: test/global.config
-  remove_temp: false
+  remove_temp: true
   clean_logs: true
 
 cases:
