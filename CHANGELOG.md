@@ -4,8 +4,15 @@ All notable changes to the call-gSV pipeline.
 ---
 
 ## [Unreleased]
+### Added
+- Add NFTest for gSV discovery
+
 ### Changed
 - Update DELLY `v1.1.3` to `v1.2.6`
+
+### Removed
+- Remove `set_env` method code in `default/methods.config`
+
 ---
 
 ## [5.0.0-rc.1] - 2023-10-30

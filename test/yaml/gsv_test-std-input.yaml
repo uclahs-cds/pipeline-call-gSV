@@ -1,0 +1,5 @@
+---
+input:
+  BAM:
+    normal:
+      - "/hot/software/pipeline/pipeline-call-gSV/Nextflow/development/input/data/CPCG0196-B1-downsampled-a-partial-sorted.bam"
