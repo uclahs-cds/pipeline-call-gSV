@@ -8,6 +8,7 @@ All notable changes to the call-gSV pipeline.
 - Add NFTest for gSV discovery
 
 ### Changed
+- Parameterize tool output dirs in `main.nf`
 - Update DELLY `v1.1.3` to `v1.2.6`
 
 ### Removed
