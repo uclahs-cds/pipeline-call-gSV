@@ -8,6 +8,7 @@ All notable changes to the call-gSV pipeline.
 - Add NFTest for gSV discovery
 
 ### Changed
+- Set up process retry mechanism
 - Update DELLY `v1.1.3` to `v1.2.6`
 
 ### Removed
