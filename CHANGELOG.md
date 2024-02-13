@@ -9,6 +9,7 @@ All notable changes to the call-gSV pipeline.
 
 ### Changed
 - Parameterize tool output dirs in `main.nf`
+- Parameterize workflow log dir in `main.nf`
 - Update DELLY `v1.1.3` to `v1.2.6`
 
 ### Removed
