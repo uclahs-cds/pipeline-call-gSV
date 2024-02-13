@@ -20,7 +20,7 @@ process call_gSV_Manta {
         mode: "copy",
         saveAs: { "${params.output_filename}_${file(it).getName()}" }
 
-    publishDir "${params.log_output_dir}/process-log",
+    publishDir "${params.log_output_dir}/process-log/${params.workflow_log_dir}",
         pattern: ".command.*",
         mode: "copy",
         saveAs: { "${task.process.replace(':', '/')}/log${file(it).getName()}" }

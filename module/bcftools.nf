@@ -16,7 +16,7 @@ process convert_BCF2VCF_BCFtools {
         pattern: "*.vcf",
         mode: "copy"
 
-    publishDir "${params.log_output_dir}/process-log",
+    publishDir "${params.log_output_dir}/process-log/${params.workflow_log_dir}",
         pattern: ".command.*",
         mode: "copy",
         saveAs: { "${task.process.replace(':', '/')}/log${file(it).getName()}" }

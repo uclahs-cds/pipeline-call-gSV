@@ -15,7 +15,7 @@ process call_gSV_Delly {
         pattern: "*.bcf*",
         mode: "copy"
 
-    publishDir "${params.log_output_dir}/process-log",
+    publishDir "${params.log_output_dir}/process-log/${params.workflow_log_dir}",
         pattern: ".command.*",
         mode: "copy",
         saveAs: { "${task.process.replace(':', '/')}/log${file(it).getName()}" }
@@ -52,7 +52,7 @@ process regenotype_gSV_Delly {
         pattern: "*.bcf*",
         mode: "copy"
 
-    publishDir "${params.log_output_dir}/process-log",
+    publishDir "${params.log_output_dir}/process-log/${params.workflow_log_dir}",
         pattern: ".command.*",
         mode: "copy",
         saveAs: { "${task.process.replace(':', '/')}/log${file(it).getName()}" }
@@ -90,7 +90,7 @@ process call_gCNV_Delly {
         pattern: "*.bcf*",
         mode: "copy"
 
-    publishDir "${params.log_output_dir}/process-log",
+    publishDir "${params.log_output_dir}/process-log/${params.workflow_log_dir}",
         pattern: ".command.*",
         mode: "copy",
         saveAs: { "${task.process.replace(':', '/')}/log${file(it).getName()}" }
@@ -128,7 +128,7 @@ process regenotype_gCNV_Delly {
         pattern: "*.bcf*",
         mode: "copy"
 
-    publishDir "${params.log_output_dir}/process-log",
+    publishDir "${params.log_output_dir}/process-log/${params.workflow_log_dir}",
         pattern: ".command.*",
         mode: "copy",
         saveAs: { "${task.process.replace(':', '/')}/log${file(it).getName()}" }
