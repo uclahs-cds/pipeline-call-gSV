@@ -15,7 +15,7 @@ process run_sha512sum {
         pattern: "*.sha512",
         mode: "copy"
 
-    publishDir "${params.log_output_dir}/process-log/${params.workflow_log_dir}",
+    publishDir "${params.workflow_log_dir}",
         pattern: ".command.*",
         mode: "copy",
         saveAs: { "${task.process}/${task.process}-${task.index}/log${file(it).getName()}" }
