@@ -11,19 +11,19 @@ Docker Images:
 process call_gSV_Manta {
     container params.docker_image_manta
 
-    publishDir "$params.output_dir_base/${params.docker_image_manta.split("/")[-1].replace(':', '-').capitalize()}/output",
+    publishDir "${params.workflow_output_dir}/output",
         pattern: "*vcf.gz*",
         mode: "copy"
 
-    publishDir "$params.output_dir_base/${params.docker_image_manta.split("/")[-1].replace(':', '-').capitalize()}/QC",
+    publishDir "${params.workflow_output_dir}/QC",
         pattern: "*Stats*",
         mode: "copy",
         saveAs: { "${params.output_filename}_${file(it).getName()}" }
 
-    publishDir "$params.log_output_dir/process-log/${params.docker_image_manta.split("/")[-1].replace(':', '-').capitalize()}",
+    publishDir "${params.workflow_log_dir}",
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
+        saveAs: { "${task.process.replace(':', '/')}/log${file(it).getName()}" }
 
     input:
         tuple val(bam_sample_name), path(input_bam), path(input_bam_bai)
