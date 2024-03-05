@@ -16,6 +16,7 @@ All notable changes to the call-gSV pipeline.
 
 ### Removed
 - Remove `set_env` method code in `default/methods.config`
+- Local copies of resource allocation functions
 
 ---
 
