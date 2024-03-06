@@ -5,6 +5,8 @@ All notable changes to the call-gSV pipeline.
 
 ## [Unreleased]
 ### Added
+- call `methods.setup_docker_cpus()` in `config/methods.config`
+- `CODEOWNERS` file
 - Add NFTest for gSV discovery
 
 ### Changed
@@ -15,7 +17,8 @@ All notable changes to the call-gSV pipeline.
 - Update DELLY `v1.1.3` to `v1.2.6`
 
 ### Removed
-- Remove `set_env` method code in `default/methods.config`
+- `methods.set_docker_sudo()` from `config/methods.config`
+- Remove `set_env` method code in `config/methods.config`
 - Local copies of resource allocation functions
 
 ---
