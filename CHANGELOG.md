@@ -5,7 +5,7 @@ All notable changes to the call-gSV pipeline.
 
 ## [Unreleased]
 ### Added
-- call `methods.setup_docker_cpus()` in `config/methods.config`
+- Call `methods.setup_docker_cpus()` in `config/methods.config`
 - `CODEOWNERS` file
 - Add NFTest for gSV discovery
 
