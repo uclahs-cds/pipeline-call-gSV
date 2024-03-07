@@ -8,6 +8,11 @@ All notable changes to the call-gSV pipeline.
 - Call `methods.setup_docker_cpus()` in `config/methods.config`
 - `CODEOWNERS` file
 - Add NFTest for gSV discovery
+- Add workflow to create release bundles with submodules
+- Add workflow to render PlantUML images to SVG
+- Add workflow to build and deploy documentation to GitHub Pages
+- Add workflow to run Nextflow configuration regression tests
+- Add one regression test
 
 ### Changed
 - Add exit code 1 to Manta retry strategy
