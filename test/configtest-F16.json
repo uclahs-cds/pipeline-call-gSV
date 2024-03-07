@@ -1,0 +1,520 @@
+{
+  "nextflow_version": "23.10.0",
+  "config": [
+    "test/global.config",
+    "test/config/gsv_discovery-all-tools.config"
+  ],
+  "params_file": "test/yaml/gsv_test-std-input.yaml",
+  "cpus": 16,
+  "memory_gb": 31,
+  "nf_params": {
+    "output_dir": "/tmp/test-only-outputs"
+  },
+  "envvars": {
+    "SLURM_JOB_ID": "300935"
+  },
+  "mocks": {
+    "check_path": "",
+    "parse_bam_header": {
+      "read_group": [
+        {
+          "SM": "8675309"
+        }
+      ]
+    }
+  },
+  "dated_fields": [
+    "params.log_output_dir",
+    "report.file",
+    "timeline.file",
+    "trace.file",
+    "params.date"
+  ],
+  "expected_result": {
+    "docker": {
+      "all_group_ids": "$(for i in `id --real --groups`; do echo -n \"--group-add=$i \"; done)",
+      "enabled": true,
+      "runOptions": "-u $(id -u):$(id -g) $(for i in `id --real --groups`; do echo -n \"--group-add=$i \"; done)",
+      "uid_and_gid": "-u $(id -u):$(id -g)"
+    },
+    "manifest": {
+      "author": "Yu Pan, Tim Sanders, Yael Berkovich, Mohammed Faizal Eeman Mootor",
+      "description": "A pipeline to call germline structural variants utilizing Delly and Manta",
+      "name": "call-gSV",
+      "version": "5.0.0-rc.1"
+    },
+    "params": {
+      "GCNV": "gCNV",
+      "GSV": "gSV",
+      "RGCNV": "regenotyped-gCNV",
+      "RGSV": "regenotyped-gSV",
+      "bcftools_version": "1.15.1",
+      "blcds_registered_dataset": false,
+      "cache_intermediate_pipeline_steps": false,
+      "dataset_id": "TEST",
+      "dataset_registry_prefix": "/hot/data",
+      "date": "19970704T165655Z",
+      "delly_version": "1.2.6",
+      "docker_container_registry": "ghcr.io/uclahs-cds",
+      "docker_image_bcftools": "ghcr.io/uclahs-cds/bcftools:1.15.1",
+      "docker_image_delly": "ghcr.io/uclahs-cds/delly:1.2.6",
+      "docker_image_manta": "ghcr.io/uclahs-cds/manta:1.6.0",
+      "docker_image_rtgtools": "ghcr.io/uclahs-cds/rtg-tools:3.12",
+      "docker_image_validate": "ghcr.io/uclahs-cds/pipeval:4.0.0-rc.2",
+      "docker_image_vcftools": "ghcr.io/uclahs-cds/vcftools:0.1.16",
+      "exclusion_file": "/hot/ref/tool-specific-input/Delly/GRCh38/human.hg38.excl.tsv",
+      "input": {
+        "BAM": {
+          "normal": [
+            "/hot/software/pipeline/pipeline-call-gSV/Nextflow/development/input/data/CPCG0196-B1-downsampled-a-partial-sorted.bam"
+          ]
+        }
+      },
+      "log_output_dir": "/tmp/test-only-outputs/call-gSV-5.0.0-rc.1/8675309/log-call-gSV-5.0.0-rc.1-19970704T165655Z",
+      "manta_version": "1.6.0",
+      "map_qual": "20",
+      "mappability_map": "/hot/ref/tool-specific-input/Delly/GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.r101.s501.blacklist.gz",
+      "max_cpus": "16",
+      "max_memory": "31 GB",
+      "min_cpus": "1",
+      "min_memory": "1 MB",
+      "output_dir": "/tmp/test-only-outputs",
+      "output_dir_base": "/tmp/test-only-outputs/call-gSV-5.0.0-rc.1/8675309",
+      "pipeval_version": "4.0.0-rc.2",
+      "proc_resource_params": {
+        "call_gSV_Delly": {
+          "cpus": "1",
+          "memory": "20 GB",
+          "retry_strategy": {
+            "memory": {
+              "operand": "12 GB",
+              "strategy": "add"
+            }
+          }
+        },
+        "call_gSV_Manta": {
+          "cpus": "1",
+          "ext": {
+            "retry_codes": []
+          },
+          "memory": "20 GB",
+          "retry_strategy": {
+            "memory": {
+              "operand": "12 GB",
+              "strategy": "add"
+            }
+          }
+        },
+        "run_validate_PipeVal": {
+          "cpus": "1",
+          "memory": "1 GB"
+        }
+      },
+      "reference_fasta": "/hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta",
+      "rtgtools_version": "3.12",
+      "run_delly": true,
+      "run_discovery": true,
+      "run_manta": true,
+      "run_qc": true,
+      "run_regenotyping": false,
+      "sample": "8675309",
+      "sample_to_process": [
+        {
+          "id": "8675309",
+          "path": "/hot/software/pipeline/pipeline-call-gSV/Nextflow/development/input/data/CPCG0196-B1-downsampled-a-partial-sorted.bam",
+          "sample_type": "normal"
+        }
+      ],
+      "save_intermediate_files": false,
+      "ucla_cds": true,
+      "variant_type": [
+        "gSV",
+        "gCNV"
+      ],
+      "vcftools_version": "0.1.16",
+      "work_dir": "/scratch/300935"
+    },
+    "params_schema": {
+      "dataset_id": {
+        "help": "Dataset identifier",
+        "required": true,
+        "type": "String"
+      },
+      "exclusion_file": {
+        "help": "Absolute path to an exclusion file",
+        "mode": "r",
+        "required": true,
+        "type": "Path"
+      },
+      "input": {
+        "elements": {
+          "BAM": {
+            "elements": {
+              "normal": {
+                "help": "Input BAM",
+                "required": true,
+                "type": "BAMEntryList"
+              },
+              "tumor": {
+                "help": "Input tumor BAM. Only to be used in exceptional use cases. Remove `normal` BAM if this is used.",
+                "required": false,
+                "type": "BAMEntryList"
+              }
+            },
+            "help": "Input BAM for germline SV/CNV calling",
+            "required": true,
+            "type": "InputBAMNamespace"
+          }
+        },
+        "help": "Input samples",
+        "required": true,
+        "type": "InputNamespace"
+      },
+      "map_qual": {
+        "default": "20",
+        "help": "Minimum Paired-End (PE) mapping quality for Delly",
+        "required": true,
+        "type": "Integer"
+      },
+      "mappability_map": {
+        "help": "Absolute path to a mappability file",
+        "mode": "r",
+        "required": true,
+        "type": "Path"
+      },
+      "merged_sites_gCNV": {
+        "help": "Absolute path to a BCF/VCF file containing merged gCNV sites across samples. Required when `run_regenotyping = true`.",
+        "mode": "r",
+        "required": false,
+        "type": "Path"
+      },
+      "merged_sites_gSV": {
+        "help": "Absolute path to a BCF/VCF file containing merged gSV sites across samples. Required when `run_regenotyping = true`.",
+        "mode": "r",
+        "required": false,
+        "type": "Path"
+      },
+      "output_dir": {
+        "help": "Absolute path to output directory",
+        "mode": "w",
+        "required": true,
+        "type": "Path"
+      },
+      "reference_fasta": {
+        "help": "Absolute path to a reference FASTA file",
+        "mode": "r",
+        "required": true,
+        "type": "Path"
+      },
+      "run_delly": {
+        "default": [
+          true
+        ],
+        "help": "Run Delly",
+        "required": true,
+        "type": "Bool"
+      },
+      "run_discovery": {
+        "default": [
+          true
+        ],
+        "help": "Identify SVs using Delly/Manta",
+        "required": true,
+        "type": "Bool"
+      },
+      "run_manta": {
+        "default": [
+          true
+        ],
+        "help": "Run Manta",
+        "required": true,
+        "type": "Bool"
+      },
+      "run_qc": {
+        "default": [
+          true
+        ],
+        "help": "Run QC",
+        "required": true,
+        "type": "Bool"
+      },
+      "run_regenotyping": {
+        "default": [
+          false
+        ],
+        "help": "Regenotype SVs/CNVs using Delly",
+        "required": true,
+        "type": "Bool"
+      },
+      "save_intermediate_files": {
+        "default": [
+          false
+        ],
+        "help": "Save intermediate files from the pipeline",
+        "required": true,
+        "type": "Bool"
+      },
+      "variant_type": {
+        "choices": [
+          "gSV",
+          "gCNV"
+        ],
+        "default": [
+          "gSV",
+          "gCNV"
+        ],
+        "help": "List of germline variant types to be called",
+        "required": true,
+        "type": "List"
+      }
+    },
+    "proc_names": "[Ljava.lang.String;@dec0ded",
+    "process": {
+      "cache": false,
+      "commonRetryCodes": [
+        "104",
+        "134",
+        "137",
+        "139",
+        "143",
+        "247"
+      ],
+      "containerOptions": {
+        "1": "--cpu-shares 1024 --cpus $task.cpus",
+        "2": "--cpu-shares 1024 --cpus $task.cpus",
+        "3": "--cpu-shares 1024 --cpus $task.cpus",
+        "closure": "--cpu-shares 1024 --cpus $task.cpus"
+      },
+      "cpus": {
+        "1": "1",
+        "2": "2",
+        "3": "3",
+        "closure": "closure()"
+      },
+      "echo": true,
+      "errorStrategy": {
+        "1": "terminate",
+        "2": "terminate",
+        "3": "terminate",
+        "closure": "terminate"
+      },
+      "executor": "local",
+      "maxRetries": "1",
+      "withLabel:process_high": {
+        "cpus": {
+          "1": "12",
+          "2": "16",
+          "3": "16",
+          "closure": "closure()"
+        },
+        "memory": {
+          "1": "31 GB",
+          "2": "31 GB",
+          "3": "31 GB",
+          "closure": "closure()"
+        }
+      },
+      "withLabel:process_low": {
+        "cpus": {
+          "1": "2",
+          "2": "4",
+          "3": "6",
+          "closure": "closure()"
+        },
+        "memory": {
+          "1": "3 GB",
+          "2": "6 GB",
+          "3": "9 GB",
+          "closure": "closure()"
+        }
+      },
+      "withLabel:process_medium": {
+        "cpus": {
+          "1": "6",
+          "2": "12",
+          "3": "16",
+          "closure": "closure()"
+        },
+        "memory": {
+          "1": "31 GB",
+          "2": "31 GB",
+          "3": "31 GB",
+          "closure": "closure()"
+        }
+      },
+      "withName:call_gSV_Delly": {
+        "cpus": "1",
+        "memory": {
+          "1": "20 GB",
+          "2": "31 GB",
+          "3": "31 GB",
+          "closure": "retry_updater(20 GB, add, 12 GB, $task.attempt, memory)"
+        }
+      },
+      "withName:call_gSV_Manta": {
+        "cpus": "1",
+        "ext": {
+          "retry_codes": []
+        },
+        "memory": {
+          "1": "20 GB",
+          "2": "31 GB",
+          "3": "31 GB",
+          "closure": "retry_updater(20 GB, add, 12 GB, $task.attempt, memory)"
+        }
+      },
+      "withName:run_validate_PipeVal": {
+        "cpus": "1",
+        "memory": "1 GB"
+      }
+    },
+    "report": {
+      "enabled": true,
+      "file": "/tmp/test-only-outputs/call-gSV-5.0.0-rc.1/8675309/log-call-gSV-5.0.0-rc.1-19970704T165655Z/nextflow-log/report.html"
+    },
+    "timeline": {
+      "enabled": true,
+      "file": "/tmp/test-only-outputs/call-gSV-5.0.0-rc.1/8675309/log-call-gSV-5.0.0-rc.1-19970704T165655Z/nextflow-log/timeline.html"
+    },
+    "trace": {
+      "enabled": true,
+      "file": "/tmp/test-only-outputs/call-gSV-5.0.0-rc.1/8675309/log-call-gSV-5.0.0-rc.1-19970704T165655Z/nextflow-log/trace.txt"
+    },
+    "tz": "sun.util.calendar.ZoneInfo[id=\"UTC\",offset=0,dstSavings=0,useDaylight=false,transitions=0,lastRule=null]",
+    "workDir": "/scratch/300935",
+    "yaml": {
+      "dataset_id": {
+        "help": "Dataset identifier",
+        "required": true,
+        "type": "String"
+      },
+      "exclusion_file": {
+        "help": "Absolute path to an exclusion file",
+        "mode": "r",
+        "required": true,
+        "type": "Path"
+      },
+      "input": {
+        "elements": {
+          "BAM": {
+            "elements": {
+              "normal": {
+                "help": "Input BAM",
+                "required": true,
+                "type": "BAMEntryList"
+              },
+              "tumor": {
+                "help": "Input tumor BAM. Only to be used in exceptional use cases. Remove `normal` BAM if this is used.",
+                "required": false,
+                "type": "BAMEntryList"
+              }
+            },
+            "help": "Input BAM for germline SV/CNV calling",
+            "required": true,
+            "type": "InputBAMNamespace"
+          }
+        },
+        "help": "Input samples",
+        "required": true,
+        "type": "InputNamespace"
+      },
+      "map_qual": {
+        "default": "20",
+        "help": "Minimum Paired-End (PE) mapping quality for Delly",
+        "required": true,
+        "type": "Integer"
+      },
+      "mappability_map": {
+        "help": "Absolute path to a mappability file",
+        "mode": "r",
+        "required": true,
+        "type": "Path"
+      },
+      "merged_sites_gCNV": {
+        "help": "Absolute path to a BCF/VCF file containing merged gCNV sites across samples. Required when `run_regenotyping = true`.",
+        "mode": "r",
+        "required": false,
+        "type": "Path"
+      },
+      "merged_sites_gSV": {
+        "help": "Absolute path to a BCF/VCF file containing merged gSV sites across samples. Required when `run_regenotyping = true`.",
+        "mode": "r",
+        "required": false,
+        "type": "Path"
+      },
+      "output_dir": {
+        "help": "Absolute path to output directory",
+        "mode": "w",
+        "required": true,
+        "type": "Path"
+      },
+      "reference_fasta": {
+        "help": "Absolute path to a reference FASTA file",
+        "mode": "r",
+        "required": true,
+        "type": "Path"
+      },
+      "run_delly": {
+        "default": [
+          true
+        ],
+        "help": "Run Delly",
+        "required": true,
+        "type": "Bool"
+      },
+      "run_discovery": {
+        "default": [
+          true
+        ],
+        "help": "Identify SVs using Delly/Manta",
+        "required": true,
+        "type": "Bool"
+      },
+      "run_manta": {
+        "default": [
+          true
+        ],
+        "help": "Run Manta",
+        "required": true,
+        "type": "Bool"
+      },
+      "run_qc": {
+        "default": [
+          true
+        ],
+        "help": "Run QC",
+        "required": true,
+        "type": "Bool"
+      },
+      "run_regenotyping": {
+        "default": [
+          false
+        ],
+        "help": "Regenotype SVs/CNVs using Delly",
+        "required": true,
+        "type": "Bool"
+      },
+      "save_intermediate_files": {
+        "default": [
+          false
+        ],
+        "help": "Save intermediate files from the pipeline",
+        "required": true,
+        "type": "Bool"
+      },
+      "variant_type": {
+        "choices": [
+          "gSV",
+          "gCNV"
+        ],
+        "default": [
+          "gSV",
+          "gCNV"
+        ],
+        "help": "List of germline variant types to be called",
+        "required": true,
+        "type": "List"
+      }
+    }
+  }
+}
