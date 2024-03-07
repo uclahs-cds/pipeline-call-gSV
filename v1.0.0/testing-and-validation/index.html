@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Testing and Validation - pipeline-call-gSV</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Testing and Validation";
+        var mkdocs_page_input_path = "testing-and-validation.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> pipeline-call-gSV
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../overview/">Overview</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../how-to-run/">How To Run</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../flow-diagram/">Flow Diagram</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../pipeline-steps/">Pipeline Steps</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../inputs/">Inputs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../outputs/">Outputs</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Testing and Validation</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#test-data-set">Test Data Set</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#performance-validation">Performance Validation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#quality-check-result-comparison">Quality Check Result Comparison</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#human-genome-benchmarks">Human Genome Benchmarks</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#validation-tool">Validation Tool</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../references/">References</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">pipeline-call-gSV</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Testing and Validation</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/v1.0.0/README.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="testing-and-validation">Testing and Validation</h2>
+<h3 id="test-data-set">Test Data Set</h3>
+<p>Testing was performed leveraging aligned and sorted bams generated using bwa-mem2-2.1 against reference GRCh38 (SMC-HET was aligned against hs37d5):</p>
+<ul>
+<li><strong>A-mini:</strong>    BWA-MEM2-2.1_TEST0000000_TWGSAMIN000001-T001-S01-F.bam and bai</li>
+<li><strong>A-partial:</strong> BWA-MEM2-2.1_TEST0000000_TWGSAPRT000001-T001-S01-F.bam and bai</li>
+<li><strong>A-full:</strong>    a-full-CPCG0196-B1.bam and bai</li>
+<li><strong>SMC-HET:</strong>    HG002.N.bam and bai</li>
+</ul>
+<h3 id="performance-validation">Performance Validation</h3>
+<p>Testing was performed primarily in the Boutros Lab SLURM Development cluster but additional functional tests were performed on the SGE cluster on 2/26/2021 and the SLURM Covid cluster.  Metrics below will be updated where relevant with additional testing and tuning outputs.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Test Case</th>
+<th style="text-align: left;">Test Date</th>
+<th style="text-align: left;">Node Type</th>
+<th style="text-align: left;">Duration</th>
+<th style="text-align: left;">CPU Hours</th>
+<th style="text-align: left;">Virtual Memory Usage (RAM) -peak rss</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">A-mini</td>
+<td style="text-align: left;">2021-02-12</td>
+<td style="text-align: left;">lowmem</td>
+<td style="text-align: left;">1m 29s</td>
+<td style="text-align: left;">a few seconds</td>
+<td style="text-align: left;">208.8 MB</td>
+</tr>
+<tr>
+<td style="text-align: left;">A-partial</td>
+<td style="text-align: left;">2021-02-10</td>
+<td style="text-align: left;">midmem</td>
+<td style="text-align: left;">42m 5s</td>
+<td style="text-align: left;">48.8</td>
+<td style="text-align: left;">8.9 GB</td>
+</tr>
+<tr>
+<td style="text-align: left;">A-full</td>
+<td style="text-align: left;">2021-02-10</td>
+<td style="text-align: left;">midmem</td>
+<td style="text-align: left;">7h 10m 43s</td>
+<td style="text-align: left;">509.0</td>
+<td style="text-align: left;">10.9 GB</td>
+</tr>
+<tr>
+<td style="text-align: left;">SMC-HET</td>
+<td style="text-align: left;">2021-02-12</td>
+<td style="text-align: left;">midmem</td>
+<td style="text-align: left;">3h 9m 60s</td>
+<td style="text-align: left;">223.5</td>
+<td style="text-align: left;">8.9 GB</td>
+</tr>
+</tbody>
+</table>
+<h3 id="quality-check-result-comparison">Quality Check Result Comparison</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Metric</th>
+<th style="text-align: left;">A-mini</th>
+<th style="text-align: left;">A-partial</th>
+<th style="text-align: left;">A-full</th>
+<th style="text-align: left;">SMC-HET</th>
+<th style="text-align: left;">Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Count Pass</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">2593</td>
+<td style="text-align: left;">62704</td>
+<td style="text-align: left;">15196</td>
+<td style="text-align: left;"><code>grep -c -w  "PASS" filename.vcf -1</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Count Deletion</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">1475</td>
+<td style="text-align: left;">49433</td>
+<td style="text-align: left;">9317</td>
+<td style="text-align: left;"><code>grep -c -w  "SVTYPE=DEL" filename.vcf</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Count Duplication</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">170</td>
+<td style="text-align: left;">2311</td>
+<td style="text-align: left;">1705</td>
+<td style="text-align: left;"><code>grep -c -w  "SVTYPE=DUP" filename.vcf</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Count Inversion</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">317</td>
+<td style="text-align: left;">2801</td>
+<td style="text-align: left;">2197</td>
+<td style="text-align: left;"><code>grep -c -w  "SVTYPE=INV" filename.vcf</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Count Translocation</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">384</td>
+<td style="text-align: left;">7439</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;"><code>grep -c -w  "SVTYPE=BND" filename.vcf</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Count Insertion</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">267</td>
+<td style="text-align: left;">1265</td>
+<td style="text-align: left;">2059</td>
+<td style="text-align: left;"><code>grep -c -w  "SVTYPE=INS" filename.vcf</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">PRECISE Calls</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">1850</td>
+<td style="text-align: left;">11541</td>
+<td style="text-align: left;">8267</td>
+<td style="text-align: left;"><code>grep -c -w  "PRECISE" filename.vcf</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">IMPRECISE Calls</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">764</td>
+<td style="text-align: left;">51709</td>
+<td style="text-align: left;">7012</td>
+<td style="text-align: left;"><code>grep -c -w  "IMPRECISE" filename.vcf</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Failed Filters</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">653</td>
+<td style="text-align: left;">44991</td>
+<td style="text-align: left;">2619</td>
+<td style="text-align: left;"><code>.stats.txt</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Passed Filters</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">1959</td>
+<td style="text-align: left;">18257</td>
+<td style="text-align: left;">12658</td>
+<td style="text-align: left;"><code>.stats.txt</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Structural variant breakends</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">219</td>
+<td style="text-align: left;">1124</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;"><code>.stats.txt</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Symbolic structural variants</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">1559</td>
+<td style="text-align: left;">12500</td>
+<td style="text-align: left;">11156</td>
+<td style="text-align: left;"><code>.stats.txt</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Same as reference</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">263</td>
+<td style="text-align: left;">4595</td>
+<td style="text-align: left;">1471</td>
+<td style="text-align: left;"><code>.stats.txt</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Missing Genotype</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">38</td>
+<td style="text-align: left;">31</td>
+<td style="text-align: left;"><code>.stats.txt</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Total Het/Hom ratio</td>
+<td style="text-align: left;">(2/0)</td>
+<td style="text-align: left;">1.00 (843/845)</td>
+<td style="text-align: left;">2.37 (9580/4044)</td>
+<td style="text-align: left;">1.86 (7251/3905)</td>
+<td style="text-align: left;"><code>.stats.txt</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Breakend Het/Hom ratio</td>
+<td style="text-align: left;">(0/0)</td>
+<td style="text-align: left;">0.84 (59/70)</td>
+<td style="text-align: left;">13.41 (1046/78)</td>
+<td style="text-align: left;">(0/0)</td>
+<td style="text-align: left;"><code>.stats.txt</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Symbolic SV Het/Hom ratio</td>
+<td style="text-align: left;">(2/0)</td>
+<td style="text-align: left;">1.01 (784/775)</td>
+<td style="text-align: left;">2.15 (8534/3966)</td>
+<td style="text-align: left;">1.86 (7251/3905)</td>
+<td style="text-align: left;"><code>.stats.txt</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Duplicate entries</td>
+<td style="text-align: left;">0 errors total</td>
+<td style="text-align: left;">1 error chr8:3893339</td>
+<td style="text-align: left;">1 error chr1:16050024</td>
+<td style="text-align: left;">1 error chr1:187464829</td>
+<td style="text-align: left;"><code>.validate.txt</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="human-genome-benchmarks">Human Genome Benchmarks</h3>
+<p>Note, per Nature the following benchmarks exist for the human genome:
+“Structural variants affect more bases: the typical genome contains an estimated <strong>2,100 to 2,500 structural variants</strong> (∼1,000 large deletions, ∼160 copy-number variants, ∼915 Alu insertions, ∼128 L1 insertions, ∼51 SVA insertions, ∼4 NUMTs, and ∼10 inversions), affecting ∼20 million bases of sequence.”</p>
+<h3 id="validation-tool">Validation Tool</h3>
+<p>Included is a template for validating your input files. For more information on the tool check out: https://github.com/uclahs-cds/tool-validate-nf</p>
+<hr />
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../outputs/" class="btn btn-neutral float-left" title="Outputs"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../references/" class="btn btn-neutral float-right" title="References">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/uclahs-cds/pipeline-call-gSV/tree/v1.0.0" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../outputs/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../references/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
