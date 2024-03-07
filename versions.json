@@ -9,11 +9,21 @@
     }
   },
   {
-    "version": "v4.0.0-rc.1",
-    "title": "v4.0.0-rc.1",
+    "version": "v4.0.0",
+    "title": "v4.0.0",
     "aliases": [
+      "latest",
       "release-candidate"
     ],
+    "properties": {
+      "commit": "10c333152d5404abb9bdba72beba44564c9a09e3",
+      "date": "2022-08-17T10:00:38-07:00"
+    }
+  },
+  {
+    "version": "v4.0.0-rc.1",
+    "title": "v4.0.0-rc.1",
+    "aliases": [],
     "properties": {
       "commit": "686bd4ed90c22c50e473509a7a5378b6b1fe0040",
       "date": "2022-07-29T14:16:48-07:00"
@@ -22,9 +32,7 @@
   {
     "version": "v3.0.0",
     "title": "v3.0.0",
-    "aliases": [
-      "latest"
-    ],
+    "aliases": [],
     "properties": {
       "commit": "314cad62eee15fca0a47db3dff5f3b20a66f2af3",
       "date": "2021-07-02T08:33:01-07:00"
