@@ -5,6 +5,7 @@ All notable changes to the call-gSV pipeline.
 
 ## [Unreleased]
 ### Added
+- Add processes to node configs
 - Call `methods.setup_docker_cpus()` in `config/methods.config`
 - `CODEOWNERS` file
 - Add NFTest for gSV discovery
