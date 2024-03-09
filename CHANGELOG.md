@@ -5,6 +5,7 @@ All notable changes to the call-gSV pipeline.
 
 ## [Unreleased]
 ### Added
+- Add configtest-F16 for nextflow pipeline test
 - Add processes to node configs
 - Call `methods.setup_docker_cpus()` in `config/methods.config`
 - `CODEOWNERS` file
