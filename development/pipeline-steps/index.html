@@ -112,7 +112,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Pipeline Steps</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/ad20d4a226952531a01aaa13aaeaf5c1040a9b0b/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/6173d9c2ee1d0e432ffa7afbadc2c1e1eb38b5ea/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -196,7 +196,7 @@ Manta calls SVs and indels from mapped paired-end sequencing reads. It is optimi
 </table>
 <h3 id="2-calling-copy-number-variants">2. Calling Copy Number Variants</h3>
 <p>The second step of the pipeline identifies any found CNVs. To do this, Delly requires an aligned and sorted BAM file and BAM index as an input, as well as the BCF output from the initial SV calling (to refine breakpoints) and a mappability map. Any CNVs identified are annotated and output as a single BCF file.</p>
-<p>Currently the following filters are applied by Delly when calling CNVs. Parameters with a "call-gSV default" can be updated in the sample specific nextflow <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/ad20d4a226952531a01aaa13aaeaf5c1040a9b0b/config/template.config">config</a> file.
+<p>Currently the following filters are applied by Delly when calling CNVs. Parameters with a "call-gSV default" can be updated in the sample specific nextflow <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/6173d9c2ee1d0e432ffa7afbadc2c1e1eb38b5ea/config/template.config">config</a> file.
 <br></p>
 <table>
 <thead>
