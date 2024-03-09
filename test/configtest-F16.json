@@ -82,13 +82,23 @@
       "output_dir_base": "/tmp/test-only-outputs/call-gSV-5.0.0-rc.1/8675309",
       "pipeval_version": "4.0.0-rc.2",
       "proc_resource_params": {
-        "call_gSV_Delly": {
+        "call_gCNV_Delly": {
           "cpus": "1",
-          "memory": "20 GB",
+          "memory": "8 GB",
           "retry_strategy": {
             "memory": {
-              "operand": "12 GB",
-              "strategy": "add"
+              "operand": "2",
+              "strategy": "exponential"
+            }
+          }
+        },
+        "call_gSV_Delly": {
+          "cpus": "1",
+          "memory": "8 GB",
+          "retry_strategy": {
+            "memory": {
+              "operand": "2",
+              "strategy": "exponential"
             }
           }
         },
@@ -97,11 +107,71 @@
           "ext": {
             "retry_codes": []
           },
-          "memory": "20 GB",
+          "memory": "8 GB",
           "retry_strategy": {
             "memory": {
-              "operand": "12 GB",
-              "strategy": "add"
+              "operand": "2",
+              "strategy": "exponential"
+            }
+          }
+        },
+        "convert_gCNV_BCF2VCF_BCFtools": {
+          "cpus": "1",
+          "memory": "1 GB",
+          "retry_strategy": {
+            "memory": {
+              "operand": "2",
+              "strategy": "exponential"
+            }
+          }
+        },
+        "convert_gSV_BCF2VCF_BCFtools": {
+          "cpus": "1",
+          "memory": "1 GB",
+          "retry_strategy": {
+            "memory": {
+              "operand": "2",
+              "strategy": "exponential"
+            }
+          }
+        },
+        "run_gCNV_vcf_validator_VCFtools": {
+          "cpus": "1",
+          "memory": "1 GB",
+          "retry_strategy": {
+            "memory": {
+              "operand": "2",
+              "strategy": "exponential"
+            }
+          }
+        },
+        "run_gCNV_vcfstats_RTGTools": {
+          "cpus": "1",
+          "memory": "1 GB",
+          "retry_strategy": {
+            "memory": {
+              "operand": "2",
+              "strategy": "exponential"
+            }
+          }
+        },
+        "run_gSV_vcf_validator_VCFtools": {
+          "cpus": "1",
+          "memory": "1 GB",
+          "retry_strategy": {
+            "memory": {
+              "operand": "2",
+              "strategy": "exponential"
+            }
+          }
+        },
+        "run_gSV_vcfstats_RTGTools": {
+          "cpus": "1",
+          "memory": "1 GB",
+          "retry_strategy": {
+            "memory": {
+              "operand": "2",
+              "strategy": "exponential"
             }
           }
         },
@@ -342,13 +412,22 @@
           "closure": "closure()"
         }
       },
+      "withName:call_gCNV_Delly": {
+        "cpus": "1",
+        "memory": {
+          "1": "8 GB",
+          "2": "16 GB",
+          "3": "31 GB",
+          "closure": "retry_updater(8 GB, exponential, 2, $task.attempt, memory)"
+        }
+      },
       "withName:call_gSV_Delly": {
         "cpus": "1",
         "memory": {
-          "1": "20 GB",
-          "2": "31 GB",
+          "1": "8 GB",
+          "2": "16 GB",
           "3": "31 GB",
-          "closure": "retry_updater(20 GB, add, 12 GB, $task.attempt, memory)"
+          "closure": "retry_updater(8 GB, exponential, 2, $task.attempt, memory)"
         }
       },
       "withName:call_gSV_Manta": {
@@ -357,10 +436,64 @@
           "retry_codes": []
         },
         "memory": {
-          "1": "20 GB",
-          "2": "31 GB",
+          "1": "8 GB",
+          "2": "16 GB",
           "3": "31 GB",
-          "closure": "retry_updater(20 GB, add, 12 GB, $task.attempt, memory)"
+          "closure": "retry_updater(8 GB, exponential, 2, $task.attempt, memory)"
+        }
+      },
+      "withName:convert_gCNV_BCF2VCF_BCFtools": {
+        "cpus": "1",
+        "memory": {
+          "1": "1 GB",
+          "2": "2 GB",
+          "3": "4 GB",
+          "closure": "retry_updater(1 GB, exponential, 2, $task.attempt, memory)"
+        }
+      },
+      "withName:convert_gSV_BCF2VCF_BCFtools": {
+        "cpus": "1",
+        "memory": {
+          "1": "1 GB",
+          "2": "2 GB",
+          "3": "4 GB",
+          "closure": "retry_updater(1 GB, exponential, 2, $task.attempt, memory)"
+        }
+      },
+      "withName:run_gCNV_vcf_validator_VCFtools": {
+        "cpus": "1",
+        "memory": {
+          "1": "1 GB",
+          "2": "2 GB",
+          "3": "4 GB",
+          "closure": "retry_updater(1 GB, exponential, 2, $task.attempt, memory)"
+        }
+      },
+      "withName:run_gCNV_vcfstats_RTGTools": {
+        "cpus": "1",
+        "memory": {
+          "1": "1 GB",
+          "2": "2 GB",
+          "3": "4 GB",
+          "closure": "retry_updater(1 GB, exponential, 2, $task.attempt, memory)"
+        }
+      },
+      "withName:run_gSV_vcf_validator_VCFtools": {
+        "cpus": "1",
+        "memory": {
+          "1": "1 GB",
+          "2": "2 GB",
+          "3": "4 GB",
+          "closure": "retry_updater(1 GB, exponential, 2, $task.attempt, memory)"
+        }
+      },
+      "withName:run_gSV_vcfstats_RTGTools": {
+        "cpus": "1",
+        "memory": {
+          "1": "1 GB",
+          "2": "2 GB",
+          "3": "4 GB",
+          "closure": "retry_updater(1 GB, exponential, 2, $task.attempt, memory)"
         }
       },
       "withName:run_validate_PipeVal": {
