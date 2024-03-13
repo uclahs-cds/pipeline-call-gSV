@@ -1,0 +1,48 @@
+@startuml
+skinparam SwimlaneTitleFontStyle bold
+
+:==Normal BAM
+---
+Input Normal BAM;
+:==Input Validation
+---
+Validate the input BAM and corresponding index file;
+split
+if (run_discovery) is (true) then
+    split
+        :==DELLY gSV
+        ---
+        Call germline SVs using DELLY;
+        :==DELLY gCNV
+        ---
+        Call germline CNVs using DELLY;
+        :==QC
+        ---
+        Quality Check variant calls;
+        :==Output Validation
+        ---
+        Validate BCF output;
+    split again
+        :==Manta gSV
+        ---
+        Call germline SVs using Manta;
+    end split
+else (false)
+endif
+
+split again
+if (run_regenotyping) is (true) then
+    :==Regenotype gSV
+    ---
+    Regenotype SVs using DELLY germline SV calls;
+    :==Regenotype gCNV
+    ---
+    Regenotype CNVs using DELLY germline CNV calls;
+else (false)
+endif
+end split
+
+@enduml
+
+
+
