@@ -5,6 +5,7 @@ All notable changes to the call-gSV pipeline.
 
 ## [Unreleased]
 ### Added
+- Add PlantUML diagram
 - Add configtest-F16 for nextflow pipeline test
 - Add processes to node configs
 - Call `methods.setup_docker_cpus()` in `config/methods.config`
@@ -17,6 +18,7 @@ All notable changes to the call-gSV pipeline.
 - Add one regression test
 
 ### Changed
+- Update version in render-puml action
 - Add exit code 1 to Manta retry strategy
 - Set up process retry mechanism
 - Parameterize tool output dirs in `main.nf`

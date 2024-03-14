@@ -1,27 +1,26 @@
-# Call Germline Structural Variant Pipeline
+# call-gSV
 
-- [call-gSV](#pipeline-name)
-  - [Overview](#overview)
-  - [How To Run](#how-to-run)
-  - [Flow Diagram](#flow-diagram)
-  - [Pipeline Steps](#pipeline-steps)
-    - [Discovery](#discovery)
-      - [1. Calling Structural Variants](#1-calling-structural-variants)
-      - [2. Calling Copy Number Variants](#2-calling-copy-number-variants)
-      - [3. Check Output Quality](#3-check-output-quality)
-    - [Regenotyping](#regenotyping)
-      - [1. Regenotyping Structural Variants](#1-regenotyping-structural-variants)
-      - [2. Regenotyping Copy Number Variants](#2-regenotyping-copy-number-variants)
-  - [Inputs](#inputs)
-  - [Outputs](#outputs)
-  - [Testing and Validation](#testing-and-validation)
-    - [Test Data Set](#test-data-set)
-    - [Performance Validation](#performance-validation)
-    - [Quality Check Result Comparison](#quality-check-result-comparison)
-    - [Human Genome Benchmarks](#human-genome-benchmarks)
-    - [Validation Tool](#validation-tool)
-  - [References](#references)
-  - [License](#license)
+- [Overview](#overview)
+- [How To Run](#how-to-run)
+- [Flow Diagram](#flow-diagram)
+- [Pipeline Steps](#pipeline-steps)
+  - [Discovery](#discovery)
+    - [1. Calling Structural Variants](#1-calling-structural-variants)
+    - [2. Calling Copy Number Variants](#2-calling-copy-number-variants)
+    - [3. Check Output Quality](#3-check-output-quality)
+  - [Regenotyping](#regenotyping)
+    - [1. Regenotyping Structural Variants](#1-regenotyping-structural-variants)
+    - [2. Regenotyping Copy Number Variants](#2-regenotyping-copy-number-variants)
+- [Inputs](#inputs)
+- [Outputs](#outputs)
+- [Testing and Validation](#testing-and-validation)
+  - [Test Data Set](#test-data-set)
+  - [Performance Validation](#performance-validation)
+  - [Quality Check Result Comparison](#quality-check-result-comparison)
+  - [Human Genome Benchmarks](#human-genome-benchmarks)
+  - [Validation Tool](#validation-tool)
+- [References](#references)
+- [License](#license)
 
 ## Overview
 
@@ -86,9 +85,7 @@ In the above command, the partition type can be changed based on the size of the
 
 ## Flow Diagram
 
-A directed acyclic graph of your pipeline.
-
-![call-gSV flow diagram](call-gSV-flowchart-diagram.drawio.svg?raw=true)
+![call-gSV flow diagram](docs/call-gSV.svg)
 
 ---
 
