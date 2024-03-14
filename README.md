@@ -1,26 +1,34 @@
 # Call Germline Structural Variant Pipeline
 
-- [call-gSV](#pipeline-name)
+- [Call Germline Structural Variant Pipeline](#call-germline-structural-variant-pipeline)
   - [Overview](#overview)
+    - [Node Specific Config File Settings](#node-specific-config-file-settings)
+  - [| `M64.config` | 64 / 950 GB | call\_gSV\_Delly; 1 / 470 GB | call\_gSV\_Manta; 1 / 470 GB | validate\_file; 1 / 1 GB |](#-m64config--64--950-gb--call_gsv_delly-1--470-gb--call_gsv_manta-1--470-gb--validate_file-1--1-gb-)
   - [How To Run](#how-to-run)
   - [Flow Diagram](#flow-diagram)
   - [Pipeline Steps](#pipeline-steps)
     - [Discovery](#discovery)
-      - [1. Calling Structural Variants](#1-calling-structural-variants)
-      - [2. Calling Copy Number Variants](#2-calling-copy-number-variants)
-      - [3. Check Output Quality](#3-check-output-quality)
+    - [1. Calling Structural Variants](#1-calling-structural-variants)
+    - [2. Calling Copy Number Variants](#2-calling-copy-number-variants)
+    - [3. Check Output Quality](#3-check-output-quality)
     - [Regenotyping](#regenotyping)
-      - [1. Regenotyping Structural Variants](#1-regenotyping-structural-variants)
-      - [2. Regenotyping Copy Number Variants](#2-regenotyping-copy-number-variants)
+    - [1. Regenotyping Structural Variants](#1-regenotyping-structural-variants)
+    - [2. Regenotyping Copy Number Variants](#2-regenotyping-copy-number-variants)
   - [Inputs](#inputs)
+    - [Input YAML](#input-yaml)
+    - [Nextflow Config File Parameters](#nextflow-config-file-parameters)
   - [Outputs](#outputs)
+  - [| `*.sha512` | generates SHA-512 hash to validate file integrity. |](#-sha512--generates-sha-512-hash-to-validate-file-integrity-)
   - [Testing and Validation](#testing-and-validation)
     - [Test Data Set](#test-data-set)
     - [Performance Validation](#performance-validation)
+      - [with Delly \<= `v0.9.1` in the pipeline](#with-delly--v091-in-the-pipeline)
+      - [with Delly \>= `v1.0.3` in the pipeline](#with-delly--v103-in-the-pipeline)
     - [Quality Check Result Comparison](#quality-check-result-comparison)
     - [Human Genome Benchmarks](#human-genome-benchmarks)
     - [Validation Tool](#validation-tool)
   - [References](#references)
+  - [Contributors](#contributors)
   - [License](#license)
 
 ## Overview
@@ -88,7 +96,7 @@ In the above command, the partition type can be changed based on the size of the
 
 A directed acyclic graph of your pipeline.
 
-![call-gSV flow diagram](call-gSV-flowchart-diagram.drawio.svg?raw=true)
+![call-gSV flow diagram](docs/call-gSV.puml?raw=true)
 
 ---
 
