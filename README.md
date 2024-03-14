@@ -96,7 +96,7 @@ In the above command, the partition type can be changed based on the size of the
 
 A directed acyclic graph of your pipeline.
 
-![call-gSV flow diagram](docs/call-gSV.puml?raw=true)
+![call-gSV flow diagram](docs/call-gSV.svg)
 
 ---
 
