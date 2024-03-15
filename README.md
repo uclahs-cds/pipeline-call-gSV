@@ -116,7 +116,7 @@ Currently the following filters are applied by Delly when calling SVs. Parameter
 
 ### 2. Calling Copy Number Variants
 
-The second step of the pipeline identifies any found CNVs. To do this, Delly requires an aligned and sorted BAM file and BAM index as an input, as well as the BCF output from the initial SV calling (to refine breakpoints) and a mappability map. Any CNVs identified are annotated and output as a single BCF file.
+The second step of the pipeline identifies CNVs. To do this, Delly requires an aligned and sorted BAM file, as well as the BCF output from the SV calling step (to refine breakpoints) and a mappability map. Any CNVs identified are annotated and output as a single BCF file.
 
 Currently the following filters are applied by Delly when calling CNVs. Parameters with a "call-gSV default" can be updated in the sample specific nextflow [config](config/template.config) file.
 <br>
@@ -307,7 +307,7 @@ The pipeline-call-gSV is licensed under the GNU General Public License version 2
 
 The pipeline-call-gSV takes BAM and BCF files and utilizes Delly to call/regenotype gSV/gCNV.
 
-Copyright (C) 2021-2022 University of California Los Angeles ("Boutros Lab") All rights reserved.
+Copyright (C) 2021-2024 University of California Los Angeles ("Boutros Lab") All rights reserved.
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 

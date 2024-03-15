@@ -4,6 +4,10 @@ All notable changes to the call-gSV pipeline.
 ---
 
 ## [Unreleased]
+
+---
+
+## [5.0.0] - 2024-03-15
 ### Added
 - Add PlantUML diagram
 - Add configtest-F16 for nextflow pipeline test
