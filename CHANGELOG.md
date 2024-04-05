@@ -5,6 +5,9 @@ All notable changes to the call-gSV pipeline.
 
 ## [Unreleased]
 
+### Changed
+- Update Nextflow configuration test workflows
+
 ---
 
 ## [5.0.0] - 2024-03-15
