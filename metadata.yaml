@@ -1,6 +1,6 @@
 ---
 category: "pipeline"
-description: "Nextflow pipeline to call structural variants and copy number variants using DELLY and Manta"
+description: "Nextflow pipeline to call germline structural variants and copy number variants using DELLY and Manta"
 maintainers: "Boutros Lab Infrastructure BoutrosLabInfrastructure@mednet.ucla.edu"
 languages: ["Nextflow", "Docker"]
 dependencies: ["Java", "Nextflow", "Docker"]
