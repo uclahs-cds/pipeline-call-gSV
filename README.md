@@ -40,6 +40,10 @@ The call-gSV nextflow pipeline, calls structural variants (SVs) and copy number 
 
 ## How To Run
 
+### Requirements
+Currently supported Nextflow versions: `v23.04.2`
+
+### Run steps
 Below is a summary of how to run the pipeline.  See [here](https://uclahs-cds.atlassian.net/wiki/spaces/BOUTROSLAB/pages/3197004/How+to+run+a+nextflow+pipeline) for full instructions.
 
 Pipelines should be run **WITH A SINGLE SAMPLE AT TIME**. Otherwise resource allocation and Nextflow errors could cause the pipeline to fail.
