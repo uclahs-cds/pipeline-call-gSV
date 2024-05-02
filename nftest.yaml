@@ -7,31 +7,31 @@ global:
 
 cases:
   - name: gsv_discovery-all-tools-std-input
-    message: test development branch using all tools and standard paired tumor and normal test input CPCG0196-B1 of a-partial size
+    message: test development branch using all tools and standard paired tumor and normal test input HG003 of 5X depth of coverage
     nf_script: ./main.nf
     nf_config: ./test/config/gsv_discovery-all-tools.config
     params_file: ./test/yaml/gsv_test-std-input.yaml
     skip: false
     verbose: true
     asserts:
-      - actual: call-gSV-*/CPCG0196-B1/DELLY-*/output/DELLY-*_TEST_CPCG0196-B1_gCNV.bcf
-        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/DELLY-1.2.6/DELLY-1.2.6_TEST_CPCG0196-B1_gCNV.bcf
+      - actual: call-gSV-*/HG003/DELLY-*/output/DELLY-*_TEST_HG003_gCNV.bcf
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/HG003/DELLY-1.2.6/DELLY-1.2.6_TEST_HG003_gCNV.bcf
         script: test/assert_bcf_vcf.sh
 
-      - actual: call-gSV-*/CPCG0196-B1/DELLY-*/output/DELLY-*_TEST_CPCG0196-B1_gSV.bcf
-        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/DELLY-1.2.6/DELLY-1.2.6_TEST_CPCG0196-B1_gSV.bcf
+      - actual: call-gSV-*/HG003/DELLY-*/output/DELLY-*_TEST_HG003_gSV.bcf
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/HG003/DELLY-1.2.6/DELLY-1.2.6_TEST_HG003_gSV.bcf
         script: test/assert_bcf_vcf.sh
 
-      - actual: call-gSV-*/CPCG0196-B1/Manta-*/output/Manta-*_TEST_CPCG0196-B1_candidateSmallIndels.vcf.gz
-        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/Manta-1.6.0/Manta-1.6.0_TEST_CPCG0196-B1_candidateSmallIndels.vcf.gz
+      - actual: call-gSV-*/HG003/Manta-*/output/Manta-*_TEST_HG003_candidateSmallIndels.vcf.gz
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/HG003/Manta-1.6.0/Manta-1.6.0_TEST_HG003_candidateSmallIndels.vcf.gz
         script: test/assert_bcf_vcf.sh
 
-      - actual: call-gSV-*/CPCG0196-B1/Manta-*/output/Manta-*_TEST_CPCG0196-B1_candidateSV.vcf.gz
-        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/Manta-1.6.0/Manta-1.6.0_TEST_CPCG0196-B1_candidateSV.vcf.gz
+      - actual: call-gSV-*/HG003/Manta-*/output/Manta-*_TEST_HG003_candidateSV.vcf.gz
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/HG003/Manta-1.6.0/Manta-1.6.0_TEST_HG003_candidateSV.vcf.gz
         script: test/assert_bcf_vcf.sh
 
-      - actual: call-gSV-*/CPCG0196-B1/Manta-*/output/Manta-*_TEST_CPCG0196-B1_diploidSV.vcf.gz
-        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/Manta-1.6.0/Manta-1.6.0_TEST_CPCG0196-B1_diploidSV.vcf.gz
+      - actual: call-gSV-*/HG003/Manta-*/output/Manta-*_TEST_HG003_diploidSV.vcf.gz
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/HG003/Manta-1.6.0/Manta-1.6.0_TEST_HG003_diploidSV.vcf.gz
         script: test/assert_bcf_vcf.sh
 
   - name: gsv_discovery-manta-std-input
@@ -55,17 +55,17 @@ cases:
         script: test/assert_bcf_vcf.sh
 
   - name: gsv_discovery-delly-std-input
-    message: test development branch using DELLY and a standard paired tumor and normal test input CPCG0196-B1 of a-partial size
+    message: test development branch using DELLY and a standard paired tumor and normal test input HG003 of a-partial size
     nf_script: ./main.nf
     nf_config: ./test/config/gsv_discovery-delly.config
     params_file: ./test/yaml/gsv_test-std-input.yaml
     skip: false
     verbose: true
     asserts:
-      - actual: call-gSV-*/CPCG0196-B1/DELLY-*/output/DELLY-*_TEST_CPCG0196-B1_gCNV.bcf
-        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/DELLY-1.2.6/DELLY-1.2.6_TEST_CPCG0196-B1_gCNV.bcf
+      - actual: call-gSV-*/HG003/DELLY-*/output/DELLY-*_TEST_HG003_gCNV.bcf
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/HG003/DELLY-1.2.6/DELLY-1.2.6_TEST_HG003_gCNV.bcf
         script: test/assert_bcf_vcf.sh
 
-      - actual: call-gSV-*/CPCG0196-B1/DELLY-*/output/DELLY-*_TEST_CPCG0196-B1_gSV.bcf
-        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/CPCG0196-B1/DELLY-1.2.6/DELLY-1.2.6_TEST_CPCG0196-B1_gSV.bcf
+      - actual: call-gSV-*/HG003/DELLY-*/output/DELLY-*_TEST_HG003_gSV.bcf
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/HG003/DELLY-1.2.6/DELLY-1.2.6_TEST_HG003_gSV.bcf
         script: test/assert_bcf_vcf.sh
