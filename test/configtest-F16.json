@@ -66,7 +66,7 @@
       "input": {
         "BAM": {
           "normal": [
-            "/hot/software/pipeline/pipeline-call-gSV/Nextflow/development/input/data/CPCG0196-B1-downsampled-a-partial-sorted.bam"
+            "/hot/software/pipeline/pipeline-call-gSV/Nextflow/development/input/data/BWA-MEM2-2.2.1_GATK-4.2.4.1_0000082_HG003_subsampled_5X_sorted.bam"
           ]
         }
       },
@@ -191,7 +191,7 @@
       "sample_to_process": [
         {
           "id": "8675309",
-          "path": "/hot/software/pipeline/pipeline-call-gSV/Nextflow/development/input/data/CPCG0196-B1-downsampled-a-partial-sorted.bam",
+          "path": "/hot/software/pipeline/pipeline-call-gSV/Nextflow/development/input/data/BWA-MEM2-2.2.1_GATK-4.2.4.1_0000082_HG003_subsampled_5X_sorted.bam",
           "sample_type": "normal"
         }
       ],

@@ -6,6 +6,7 @@ All notable changes to the call-gSV pipeline.
 ## [Unreleased]
 
 ### Changed
+- Use HG003 as test sample for NFTest
 - Update Nextflow configuration test workflows
 
 ---
