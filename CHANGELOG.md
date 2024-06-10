@@ -7,7 +7,7 @@ All notable changes to the call-gSV pipeline.
 
 ---
 
-## [5.1.0] - 2024-05-23
+## [5.1.0] - 2024-06-10
 ### Changed
 - Use HG003 as test sample for NFTest
 - Update Nextflow configuration test workflows
