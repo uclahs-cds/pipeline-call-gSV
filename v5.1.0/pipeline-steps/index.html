@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Pipeline Steps - pipeline-call-gSV</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Pipeline Steps";
+        var mkdocs_page_input_path = "pipeline-steps.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> pipeline-call-gSV
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../overview/">Overview</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../how-to-run/">How To Run</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../flow-diagram/">Flow Diagram</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Pipeline Steps</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#discovery">Discovery</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#1-calling-structural-variants">1. Calling Structural Variants</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#2-calling-copy-number-variants">2. Calling Copy Number Variants</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#3-check-output-quality">3. Check Output Quality</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#regenotyping">Regenotyping</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#1-regenotyping-structural-variants">1. Regenotyping Structural Variants</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#2-regenotyping-copy-number-variants">2. Regenotyping Copy Number Variants</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../inputs/">Inputs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../outputs/">Outputs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../testing-and-validation/">Testing and Validation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../references/">References</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../contributors/">Contributors</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../license/">License</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">pipeline-call-gSV</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Pipeline Steps</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/v5.1.0/README.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="pipeline-steps">Pipeline Steps</h2>
+<h3 id="discovery">Discovery</h3>
+<p>The "discovery" branch of the call-gSV pipeline allows you to identify germline SVs and CNVs utilizing either Delly or Manta. After variants are identified, basic quality checks are performed on the outputs of the processes.</p>
+<h3 id="1-calling-structural-variants">1. Calling Structural Variants</h3>
+<p>The first step of the pipeline requires an aligned and sorted BAM file and BAM index as an input for variant calling with <a href="https://github.com/dellytools/delly">Delly</a> or <a href="https://github.com/Illumina/manta">Manta</a>. Delly combines short-range and long-range paired-end mapping and split-read analysis for the discovery of balanced and unbalanced SVs at single-nucleotide breakpoint resolution (deletions, tandem duplications, inversions and translocations.) SVs are called, annotated and merged into a single BCF file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
+Manta calls SVs and indels from mapped paired-end sequencing reads. It is optimized for analysis of germline variation in small sets of individuals and somatic variation in tumor/normal sample pairs. Manta discovers, assembles and scores large-scale SVs, medium-sized indels and large insertions within a single efficient workflow.</p>
+<p>Currently the following filters are applied by Delly when calling SVs. Parameters with a "call-gSV default" can be updated in the nextflow.config file.
+<br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Delly default</th>
+<th style="text-align: left;">call-gSV default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>svtype</code></td>
+<td style="text-align: left;">ALL</td>
+<td style="text-align: left;"></td>
+<td>SV type to compute (DEL, INS, DUP, INV, BND, ALL)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>map-qual</code></td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">20</td>
+<td>Minimum paired-end (PE) mapping quality</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>qual-tra</code></td>
+<td style="text-align: left;">20</td>
+<td style="text-align: left;"></td>
+<td>Minimum PE quality for translocation</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>mad-cutoff</code></td>
+<td style="text-align: left;">9</td>
+<td style="text-align: left;"></td>
+<td>Insert size cutoff, median+s*MAD (deletions only)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>minclip</code></td>
+<td style="text-align: left;">25</td>
+<td style="text-align: left;"></td>
+<td>Minimum clipping length</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>min-clique-size</code></td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;"></td>
+<td>Minimum PE/SR clique size</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>minrefsep</code></td>
+<td style="text-align: left;">25</td>
+<td style="text-align: left;"></td>
+<td>Minimum reference separation</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>maxreadsep</code></td>
+<td style="text-align: left;">40</td>
+<td style="text-align: left;"></td>
+<td>Maximum read separation</td>
+</tr>
+<tr>
+<td style="text-align: left;"><br></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-calling-copy-number-variants">2. Calling Copy Number Variants</h3>
+<p>The second step of the pipeline identifies CNVs. To do this, Delly requires an aligned and sorted BAM file, as well as the BCF output from the SV calling step (to refine breakpoints) and a mappability map. Any CNVs identified are annotated and output as a single BCF file.</p>
+<p>Currently the following filters are applied by Delly when calling CNVs. Parameters with a "call-gSV default" can be updated in the sample specific nextflow <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/994f46de6c347999dfe2afb5fc1c5d271ef881d8/config/template.config">config</a> file.
+<br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Delly default</th>
+<th style="text-align: left;">call-gSV default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>quality</code></td>
+<td style="text-align: left;">10</td>
+<td style="text-align: left;"></td>
+<td>Minimum mapping quality</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ploidy</code></td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;"></td>
+<td>Baseline ploidy</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>sdrd</code></td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;"></td>
+<td>Minimum SD read-depth shift</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>cn-offset</code></td>
+<td style="text-align: left;">0.100000001</td>
+<td style="text-align: left;"></td>
+<td>Minimum CN offset</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>cnv-size</code></td>
+<td style="text-align: left;">1000</td>
+<td style="text-align: left;"></td>
+<td>Minimum CNV size</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>window-size</code></td>
+<td style="text-align: left;">10000</td>
+<td style="text-align: left;"></td>
+<td>Window size</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>window-offset</code></td>
+<td style="text-align: left;">10000</td>
+<td style="text-align: left;"></td>
+<td>Window offset</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>fraction-window</code></td>
+<td style="text-align: left;">0.25</td>
+<td style="text-align: left;"></td>
+<td>Minimum callable window fraction [0,1]</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>scan-window</code></td>
+<td style="text-align: left;">10000</td>
+<td style="text-align: left;"></td>
+<td>Scanning window size</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>fraction-unique</code></td>
+<td style="text-align: left;">0.800000012</td>
+<td style="text-align: left;"></td>
+<td>Uniqueness filter for scan windows [0,1]</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>mad-cutoff</code></td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;"></td>
+<td>Median + 3 * mad count cutoff</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>percentile</code></td>
+<td style="text-align: left;">0.000500000024</td>
+<td style="text-align: left;"></td>
+<td>Excl. extreme GC fraction</td>
+</tr>
+<tr>
+<td style="text-align: left;"><br></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-check-output-quality">3. Check Output Quality</h3>
+<p>For Delly, VCF files are generated from the BCFs to run the vcf-validate command from <a href="https://vcftools.github.io/perl_module.html#vcf-validator">VCFTools</a> and vcfstats from <a href="https://cdn.rawgit.com/RealTimeGenomics/rtg-tools/master/installer/resources/tools/RTGOperationsManual/rtg_command_reference.html#vcfstats">RTGTools</a>.  Outputs from both provide preliminary summary statistics that can be viewed and evaluated in preparation for downstream cohort-wide re-calling and re-genotyping. In the Manta branch of the pipeline, a stats directory is generated under the specific output directory <outputDirectory>/Manta-<version number>/results/stats where information can be found regarding the SVs identified.
+<br></p>
+<h3 id="regenotyping">Regenotyping</h3>
+<p>The "regenotyping" branch of the call-gSV pipeline allows you to regenotype previously identified SVs or CNVs using Delly.</p>
+<h3 id="1-regenotyping-structural-variants">1. Regenotyping Structural Variants</h3>
+<p>Similar to the "discovery" process, the first step of the regenotyping pipeline requires an aligned and sorted BAM file, BAM index, and a merged sites BCF (from the merge-SVsites pipeline) as inputs for SV regenotyping with <a href="https://github.com/dellytools/delly">Delly</a>. The provided sample is genotyped with the merged sites list. SVs are annotated and merged into a single BCF file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
+<br></p>
+<h3 id="2-regenotyping-copy-number-variants">2. Regenotyping Copy Number Variants</h3>
+<p>The second possible step of the regenotyping pipeline requires an aligned and sorted BAM file, BAM index, and a merged sites BCF as an input, as well as the BCF output from the initial SV calling (to refine breakpoints) and a mappability map. Any CNVs identified are annotated and output as a single BCF file.
+<br></p>
+<hr />
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../flow-diagram/" class="btn btn-neutral float-left" title="Flow Diagram"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../inputs/" class="btn btn-neutral float-right" title="Inputs">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/uclahs-cds/pipeline-call-gSV/tree/v5.1.0" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../flow-diagram/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../inputs/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
