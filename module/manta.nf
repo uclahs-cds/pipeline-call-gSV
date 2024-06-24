@@ -49,7 +49,7 @@ process call_gSV_Manta {
         --normalBam $input_bam \
         --referenceFasta $reference_fasta \
         --runDir MantaWorkflow
-    MantaWorkflow/runWorkflow.py
+    MantaWorkflow/runWorkflow.py -j ${task.cpus}
 
     # re-name Manta outputs based on output file name standardization - `params.output_filename`
     for variant_file in `ls MantaWorkflow/results/variants/*`
