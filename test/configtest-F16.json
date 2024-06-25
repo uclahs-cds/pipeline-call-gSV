@@ -111,7 +111,7 @@
           }
         },
         "call_gSV_Manta": {
-          "cpus": "1",
+          "cpus": "6",
           "ext": {
             "retry_codes": []
           },
@@ -304,7 +304,7 @@
         }
       },
       "withName:call_gSV_Manta": {
-        "cpus": "1",
+        "cpus": "6",
         "ext": {
           "retry_codes": []
         },

@@ -4,6 +4,8 @@ All notable changes to the call-gSV pipeline.
 ---
 
 ## [Unreleased]
+### Changed
+- Increase CPU allocation for Manta
 
 ---
 
