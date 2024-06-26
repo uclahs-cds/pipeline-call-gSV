@@ -20,11 +20,6 @@ process call_gSV_Manta {
         mode: "copy",
         saveAs: { "${params.output_filename}_${file(it).getName()}" }
 
-    publishDir "${params.workflow_log_dir}",
-        pattern: ".command.*",
-        mode: "copy",
-        saveAs: { "${task.process.replace(':', '/')}/log${file(it).getName()}" }
-
     input:
         tuple val(bam_sample_name), path(input_bam), path(input_bam_bai)
         path(reference_fasta)
@@ -38,7 +33,6 @@ process call_gSV_Manta {
         path("${params.output_filename}_candidateSV.vcf.gz"), emit: vcf_candidate_sv_file
         path("${params.output_filename}_candidateSV.vcf.gz.tbi"), emit: vcf_candidate_sv_tbi
         path "*Stats*"
-        path ".command.*"
         val bam_sample_name, emit: bam_sample_name
 
     script:
