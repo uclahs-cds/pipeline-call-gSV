@@ -203,6 +203,53 @@ input:
 
 An example of the NextFlow Input Parameters Config file can be found [here](config/template.config).
 
+### Base resource allocation updaters
+To optionally update the base resource (cpus or memory) allocations for processes, use the following structure and add the necessary parts to the [input.config](config/template.config) file. The default allocations can be found in the [node-specific config files](./config/)
+
+```Nextflow
+base_resource_update {
+    memory = [
+        [['process_name', 'process_name2'], <multiplier for resource>],
+        [['process_name3', 'process_name4'], <different multiplier for resource>]
+    ]
+    cpus = [
+        [['process_name', 'process_name2'], <multiplier for resource>],
+        [['process_name3', 'process_name4'], <different multiplier for resource>]
+    ]
+}
+```
+> **Note** Resource updates will be applied in the order they're provided so if a process is included twice in the memory list, it will be updated twice in the order it's given.
+Examples:
+
+- To double memory of all processes:
+```Nextflow
+base_resource_update {
+    memory = [
+        [[], 2]
+    ]
+}
+```
+- To double memory for `call_gSV_Delly` and triple memory for `run_validate_PipeVal` and `call_gSV_Manta`:
+```Nextflow
+base_resource_update {
+    memory = [
+        ['call_gSV_Delly', 2],
+        [['run_validate_PipeVal', 'call_gSV_Manta'], 3]
+    ]
+}
+```
+- To double CPUs and memory for `call_gSV_Manta` and double memory for `run_validate_PipeVal`:
+```Nextflow
+base_resource_update {
+    cpus = [
+        ['call_gSV_Manta', 2]
+    ]
+    memory = [
+        [['call_gSV_Manta', 'run_validate_PipeVal'], 2]
+    ]
+}
+```
+
 ---
 
 ## Outputs
