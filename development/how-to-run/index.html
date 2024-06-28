@@ -102,7 +102,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">How To Run</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/b0b9d3f5e861a3bc6e59808088265e56be8826d4/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/d9eb1895ea4489c5bc8555c5fb48c1a02c982193/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -124,13 +124,13 @@
 <p>The source code should never be modified when running our pipelines</p>
 </li>
 <li>
-<p>Create a config file for input, output, and parameters. An example for a config file can be found <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/b0b9d3f5e861a3bc6e59808088265e56be8826d4/config/template.config">here</a>. See <a href="../inputs/#Nextflow-Config-File-Parameters">Nextflow Config File Parameters</a> for the detailed description of each variable in the config file.</p>
+<p>Create a config file for input, output, and parameters. An example for a config file can be found <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/d9eb1895ea4489c5bc8555c5fb48c1a02c982193/config/template.config">here</a>. See <a href="../inputs/#Nextflow-Config-File-Parameters">Nextflow Config File Parameters</a> for the detailed description of each variable in the config file.</p>
 </li>
 <li>
 <p>Do not directly modify the source <code>template.config</code>, but rather you should copy it from the pipeline release folder to your project-specific folder and modify it there</p>
 </li>
 <li>
-<p>Create the input YAML using the <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/b0b9d3f5e861a3bc6e59808088265e56be8826d4/input/call-gSV-input.yaml">template</a>. See <a href="../inputs/#Input-YAML">Input YAML</a> for a detailed description.</p>
+<p>Create the input YAML using the <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/d9eb1895ea4489c5bc8555c5fb48c1a02c982193/input/call-gSV-input.yaml">template</a>. See <a href="../inputs/#Input-YAML">Input YAML</a> for a detailed description.</p>
 </li>
 <li>
 <p>Again, do not directly modify the source template YAML file.  Instead, copy it from the pipeline release folder to your project-specific folder and modify it there.</p>
@@ -143,8 +143,8 @@
 </code></pre>
 <ul>
 <li>For example, <code>path/to/main.nf</code> could be: <code>/hot/software/pipeline/pipeline-call-gSV/Nextflow/release/5.0.0-rc.1/main.nf</code></li>
-<li><code>path/to/sample-specific.config</code> is the path to where you saved your project-specific copy of <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/b0b9d3f5e861a3bc6e59808088265e56be8826d4/config/template.config">template.config</a></li>
-<li><code>path/to/input.yaml</code> is the path to where you saved your sample-specific copy of <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/b0b9d3f5e861a3bc6e59808088265e56be8826d4/input/call-gSV-input.yaml">call-gSV-input.yaml</a></li>
+<li><code>path/to/sample-specific.config</code> is the path to where you saved your project-specific copy of <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/d9eb1895ea4489c5bc8555c5fb48c1a02c982193/config/template.config">template.config</a></li>
+<li><code>path/to/input.yaml</code> is the path to where you saved your sample-specific copy of <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/d9eb1895ea4489c5bc8555c5fb48c1a02c982193/input/call-gSV-input.yaml">call-gSV-input.yaml</a></li>
 </ul>
 <p>To submit to UCLAHS-CDS's Azure cloud, use the submission script <a href="https://github.com/uclahs-cds/tool-submit-nf">here</a> with the command below:</p>
 <pre><code class="language-bash">python path/to/submit_nextflow_pipeline.py \
