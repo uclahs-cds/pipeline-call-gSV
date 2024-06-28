@@ -5,6 +5,7 @@ All notable changes to the call-gSV pipeline.
 
 ## [Unreleased]
 ### Changed
+- Use `methods.setup_process_afterscript()` for process logs
 - Increase CPU allocation for Manta
 
 ---
