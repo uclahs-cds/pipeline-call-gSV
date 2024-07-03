@@ -4,6 +4,10 @@ All notable changes to the call-gSV pipeline.
 ---
 
 ## [Unreleased]
+
+---
+
+## [5.2.0] - 2024-07-03
 ### Added
 - Add `methods.modify_base_allocations()` to update resource allocation
 
