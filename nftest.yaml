@@ -69,3 +69,23 @@ cases:
       - actual: call-gSV-*/HG003/DELLY-*/output/DELLY-*_TEST_HG003_gSV.bcf
         expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/HG003/DELLY-1.2.6/DELLY-1.2.6_TEST_HG003_gSV.bcf
         script: test/assert_bcf_vcf.sh
+
+  - name: base-resource-update-std-input
+    message: test development branch using Manta and an a-mini standard paired tumor and normal input
+    nf_script: ./main.nf
+    nf_config: ./test/config/base-resource-update.config
+    params_file: ./test/yaml/gsv-manta-input-a-mini.yaml
+    skip: false
+    verbose: true
+    asserts:
+      - actual: call-gSV-*/HG002.N/Manta-*/output/Manta-*_TEST_HG002.N_candidateSmallIndels.vcf.gz
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-manta-std-input/HG002.N/Manta-1.6.0/Manta-1.6.0_TEST_HG002.N_candidateSmallIndels.vcf.gz
+        script: test/assert_bcf_vcf.sh
+
+      - actual: call-gSV-*/HG002.N/Manta-*/output/Manta-*_TEST_HG002.N_candidateSV.vcf.gz
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-manta-std-input/HG002.N/Manta-1.6.0/Manta-1.6.0_TEST_HG002.N_candidateSV.vcf.gz
+        script: test/assert_bcf_vcf.sh
+
+      - actual: call-gSV-*/HG002.N/Manta-*/output/Manta-*_TEST_HG002.N_diploidSV.vcf.gz
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-manta-std-input/HG002.N/Manta-1.6.0/Manta-1.6.0_TEST_HG002.N_diploidSV.vcf.gz
+        script: test/assert_bcf_vcf.sh

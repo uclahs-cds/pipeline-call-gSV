@@ -15,17 +15,13 @@ process run_sha512sum {
         pattern: "*.sha512",
         mode: "copy"
 
-    publishDir "${params.workflow_log_dir}",
-        pattern: ".command.*",
-        mode: "copy",
-        saveAs: { "${task.process}/${task.process}-${task.index}/log${file(it).getName()}" }
+    ext log_dir_suffix: { "/${task.process.split(':')[-1]}-${task.index}" }
 
     input:
         path input_checksum_file
 
     output:
         path "${input_checksum_file}.sha512"
-        path ".command.*"
 
     """
         set -euo pipefail

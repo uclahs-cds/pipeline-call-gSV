@@ -111,7 +111,7 @@
           }
         },
         "call_gSV_Manta": {
-          "cpus": "1",
+          "cpus": "6",
           "ext": {
             "retry_codes": []
           },
@@ -213,6 +213,12 @@
       "work_dir": "/scratch/300935"
     },
     "process": {
+      "afterScript": {
+        "1": "",
+        "2": "",
+        "3": "",
+        "closure": ""
+      },
       "cache": false,
       "commonRetryCodes": [
         "104",
@@ -242,6 +248,21 @@
         "closure": "terminate"
       },
       "executor": "local",
+      "ext": {
+        "capture_logs": true,
+        "commonAfterScript": {
+          "1": "",
+          "2": "",
+          "3": "",
+          "closure": ""
+        },
+        "log_dir": {
+          "1": "ext",
+          "2": "ext",
+          "3": "ext",
+          "closure": "ext"
+        }
+      },
       "maxRetries": "1",
       "withLabel:process_high": {
         "cpus": {
@@ -304,7 +325,7 @@
         }
       },
       "withName:call_gSV_Manta": {
-        "cpus": "1",
+        "cpus": "6",
         "ext": {
           "retry_codes": []
         },
