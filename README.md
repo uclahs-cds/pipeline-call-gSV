@@ -31,10 +31,11 @@ The call-gSV nextflow pipeline, calls structural variants (SVs) and copy number 
 
 | Config File | Available Node cpus / memory | Designated Process 1; cpus / memory | Designated Process 2; cpus / memory | Designated Process 3; cpus / memory |
 |:------------|:---------|:-------------------------|:-------------------------|:-------------------------|
-| `F2.config` | 2 / 3 GB | call_gSV_Delly; 1 / 2 GB | call_gSV_Manta; 1 / 2 GB\* | validate_file; 1 / 1 GB |
-| `F32.config` | 32 / 62.8 GB | call_gSV_Delly; 1 / 30 GB | call_gSV_Manta; 1 / 30 GB | validate_file; 1 / 1 GB |
-| `F72.config` | 72 / 136.8 GB | call_gSV_Delly; 1 / 65 GB | call_gSV_Manta; 1 / 65 GB | validate_file; 1 / 1 GB |
-| `M64.config` | 64 / 950 GB | call_gSV_Delly; 1 / 470 GB | call_gSV_Manta; 1 / 470 GB | validate_file; 1 / 1 GB |
+| `F2.config` | 2 / 3 GB | call_gSV_Delly; 1 / 2 GB | call_gCNV_Delly; 1 / 2 GB | call_gSV_Manta; 1 / 2 GB\* |
+| `F16.config` | 16 /  GB | call_gSV_Delly; 1 / 8 GB | call_gCNV_Delly; 1 / 8 GB | call_gSV_Manta; 6 / 8 GB\* |
+| `F32.config` | 32 / 62.8 GB | call_gSV_Delly; 1 / 15 GB | call_gCNV_Delly; 1 / 15 GB | call_gSV_Manta; 12 / 15 GB |
+| `F72.config` | 72 / 136.8 GB | call_gSV_Delly; 1 / 30 GB | call_gCNV_Delly; 1 / 30 GB | call_gSV_Manta; 24 / 30 GB |
+| `M64.config` | 64 / 950 GB | call_gSV_Delly; 1 / 60 GB | call_gCNV_Delly; 1 / 60 GB | call_gSV_Manta; 30 / 60 GB |
 ---
 \* Manta SV calling wouldn't work on an F2 node due to incompatible resources. In order to test the pipeline for tasks not relevant to Manta, please set `run_manta = false` in the sample specific [config](config/template.config) file.
 
