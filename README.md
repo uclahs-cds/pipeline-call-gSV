@@ -1,5 +1,7 @@
 # call-gSV
 
+[![GitHub release](https://img.shields.io/github/v/release/uclahs-cds/pipeline-call-gSV)](https://github.com/uclahs-cds/pipeline-call-gSV/actions/workflows/prepare-release.yaml)
+
 - [Overview](#overview)
 - [How To Run](#how-to-run)
 - [Flow Diagram](#flow-diagram)
