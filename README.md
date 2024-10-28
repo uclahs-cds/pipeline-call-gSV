@@ -196,7 +196,7 @@ input:
 | `run_manta` | true | boolean | Whether or not the workflow should run Manta (either run_delly or run_manta must be set to `true`) |
 | `run_qc` | no | boolean | Optional parameter to indicate whether subsequent quality checks should be run on Delly outputs. Default value is `false`. |
 | `reference_fasta` | yes | path | Absolute path to the reference genome `FASTA` file. The reference genome is used by Delly for SV calling. |
-| `exclusion_file` | yes | path | Absolute path to the delly reference genome `exclusion` file utilized to remove suggested regions for SV calling. On Slurm, an HG38 exclusion file is located at `/hot/ref/tool-specific-input/Delly/hg38/human.hg38.excl.tsv` |
+| `exclusion_file` | yes | path | Absolute path to the delly reference genome `exclusion` file utilized to remove suggested regions for SV calling. On Slurm, an HG38 exclusion file is located at `/hot/resource/tool-specific-input/Delly/hg38/human.hg38.excl.tsv` |
 | `mappability_map` | yes | path | Absolute path to the delly mappability map to support GC and mappability fragment correction in CNV calling |
 | `map_qual` | no | path | minimum paired-end (PE) mapping quaility threshold for Delly. |
 | `save_intermediate_files` | yes | boolean | Optional parameter to indicate whether intermediate files will be saved. Default value is `false`. |
@@ -285,9 +285,9 @@ Testing was performed leveraging aligned and sorted BAMs generated using `bwa-me
 
 Test runs for the A-mini/partial/full samples were performed using the following reference files
 
-* **reference_fasta:** /hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta
-* **exclusion_file:** /hot/ref/tool-specific-input/Delly/GRCh38/human.hg38.excl.tsv
-* **mappability_map:** /hot/ref/tool-specific-input/Delly/GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.r101.s501.blacklist.gz
+* **reference_fasta:** /hot/resource/reference-genome/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta
+* **exclusion_file:** /hot/resource/tool-specific-input/Delly/GRCh38/human.hg38.excl.tsv
+* **mappability_map:** /hot/resource/tool-specific-input/Delly/GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.r101.s501.blacklist.gz
 
 ### Performance Validation
 
