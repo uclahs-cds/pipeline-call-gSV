@@ -70,7 +70,7 @@
       "docker_image_rtgtools": "ghcr.io/uclahs-cds/rtg-tools:3.12",
       "docker_image_validate": "ghcr.io/uclahs-cds/pipeval:4.0.0-rc.2",
       "docker_image_vcftools": "ghcr.io/uclahs-cds/vcftools:0.1.16",
-      "exclusion_file": "/hot/ref/tool-specific-input/Delly/GRCh38/human.hg38.excl.tsv",
+      "exclusion_file": "/hot/resource/tool-specific-input/Delly/GRCh38/human.hg38.excl.tsv",
       "input": {
         "BAM": {
           "normal": [
@@ -81,7 +81,7 @@
       "log_output_dir": "/tmp/test-only-outputs/call-gSV-VER.SI.ON/8675309/log-call-gSV-VER.SI.ON-19970704T165655Z",
       "manta_version": "1.6.0",
       "map_qual": "20",
-      "mappability_map": "/hot/ref/tool-specific-input/Delly/GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.r101.s501.blacklist.gz",
+      "mappability_map": "/hot/resource/tool-specific-input/Delly/GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.r101.s501.blacklist.gz",
       "max_cpus": "16",
       "max_memory": "31 GB",
       "min_cpus": "1",
@@ -188,7 +188,7 @@
           "memory": "1 GB"
         }
       },
-      "reference_fasta": "/hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta",
+      "reference_fasta": "/hot/resource/reference-genome/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta",
       "rtgtools_version": "3.12",
       "run_delly": true,
       "run_discovery": true,
