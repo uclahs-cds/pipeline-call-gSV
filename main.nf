@@ -72,6 +72,10 @@ include { call_gSV_Manta } from './module/manta' addParams(
     workflow_output_dir: "${params.output_dir_base}/Manta-${params.manta_version}",
     workflow_log_dir: "${params.log_output_dir}/process-log/Manta-${params.manta_version}"
     )
+include { plot_SV_circlize as plot_MantaSV_circlize } from './module/circos-plot.nf' addParams(
+    workflow_output_dir: "${params.output_dir_base}/Manta-${params.manta_version}",
+    workflow_log_dir: "${params.log_output_dir}/process-log/Manta-${params.manta_version}"
+)
 include { convert_BCF2VCF_BCFtools as convert_gSV_BCF2VCF_BCFtools; convert_BCF2VCF_BCFtools as convert_gCNV_BCF2VCF_BCFtools } from './module/bcftools' addParams(
     workflow_output_dir: "${params.output_dir_base}/DELLY-${params.delly_version}",
     workflow_log_dir: "${params.log_output_dir}/process-log/DELLY-${params.delly_version}"
@@ -146,6 +150,11 @@ workflow {
     if (params.run_discovery) {
         if (params.run_manta) {
             call_gSV_Manta(input_bam_ch, params.reference_fasta, reference_fasta_index)
+
+            plot_MantaSV_circlize(
+                call_gSV_Manta.out.vcf_candidate_sv_file.map{ ['Manta', it] }
+                )
+
             run_sha512sum_Manta(call_gSV_Manta.out.vcf_small_indel_sv_file.mix(
                 call_gSV_Manta.out.vcf_diploid_sv_file,
                 call_gSV_Manta.out.vcf_candidate_sv_file,
