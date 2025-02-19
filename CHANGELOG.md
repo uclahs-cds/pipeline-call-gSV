@@ -4,6 +4,9 @@ All notable changes to the call-gSV pipeline.
 ---
 
 ## [Unreleased]
+### Added
+- CIRCOS plotting for Manta
+
 
 ---
 
