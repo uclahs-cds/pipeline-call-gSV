@@ -72,9 +72,8 @@ include { call_gSV_Manta } from './module/manta' addParams(
     workflow_output_dir: "${params.output_dir_base}/Manta-${params.manta_version}",
     workflow_log_dir: "${params.log_output_dir}/process-log/Manta-${params.manta_version}"
     )
-include { convert_BCF2VCF_BCFtools as convert_gSV_BCF2VCF_BCFtools; convert_BCF2VCF_BCFtools as convert_gCNV_BCF2VCF_BCFtools } from './module/bcftools' addParams(
+include { convert_BCF2VCF } from './module/workflow-convert_BCF2VCF' addParams(
     workflow_output_dir: "${params.output_dir_base}/DELLY-${params.delly_version}",
-    workflow_log_dir: "${params.log_output_dir}/process-log/DELLY-${params.delly_version}"
     )
 include { run_vcfstats_RTGTools as run_gSV_vcfstats_RTGTools; run_vcfstats_RTGTools as run_gCNV_vcfstats_RTGTools } from './module/rtgtools' addParams(
     workflow_output_dir: "${params.output_dir_base}/DELLY-${params.delly_version}",
@@ -136,12 +135,12 @@ workflow {
     /**
     * Validate the input bams
     */
-    run_validate_PipeVal(input_validation)
+    // run_validate_PipeVal(input_validation)
     // Collect and store input validation output
-    run_validate_PipeVal.out.validation_result.collectFile(
-        name: 'input_validation.txt',
-        storeDir: "${params.output_dir_base}/validation/run_validate_PipeVal"
-        )
+    // run_validate_PipeVal.out.validation_result.collectFile(
+    //     name: 'input_validation.txt',
+    //     storeDir: "${params.output_dir_base}/validation/run_validate_PipeVal"
+    //     )
 
     if (params.run_discovery) {
         if (params.run_manta) {
@@ -156,8 +155,17 @@ workflow {
             }
         if (params.run_delly) {
             call_gSV_Delly(input_bam_ch, params.reference_fasta, reference_fasta_index, params.exclusion_file)
-            convert_gSV_BCF2VCF_BCFtools(call_gSV_Delly.out.bcf_sv_file, call_gSV_Delly.out.bam_sample_name, params.GSV)
-            run_sha512sum_gSV_Delly(call_gSV_Delly.out.bcf_sv_file.mix(call_gSV_Delly.out.bcf_sv_file_csi))
+            convert_BCF2VCF(
+                call_gSV_Delly.out.bam_sample_name,
+                call_gSV_Delly.out.bcf_sv_file,
+                call_gSV_Delly.out.bcf_sv_file_csi
+                )
+            run_sha512sum_gSV_Delly(
+                call_gSV_Delly.out.bcf_sv_file
+                .mix(call_gSV_Delly.out.bcf_sv_file_csi)
+                .mix(convert_BCF2VCF.out.gvcf)
+                .mix(convert_BCF2VCF.out.idx)
+                )
 
             if (params.variant_type.contains(params.GCNV)) {
                 call_gCNV_Delly(input_bam_ch, call_gSV_Delly.out.bcf_sv_file.toList(), params.reference_fasta, reference_fasta_index, params.mappability_map)
