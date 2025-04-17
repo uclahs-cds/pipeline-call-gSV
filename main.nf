@@ -155,7 +155,7 @@ workflow {
             }
         if (params.run_delly) {
             call_gSV_Delly(input_bam_ch, params.reference_fasta, reference_fasta_index, params.exclusion_file)
-            convert_BCF2VCF(
+            convert_gSV_BCF2VCF(
                 call_gSV_Delly.out.bam_sample_name,
                 call_gSV_Delly.out.bcf_sv_file,
                 call_gSV_Delly.out.bcf_sv_file_csi
@@ -163,14 +163,23 @@ workflow {
             run_sha512sum_gSV_Delly(
                 call_gSV_Delly.out.bcf_sv_file
                 .mix(call_gSV_Delly.out.bcf_sv_file_csi)
-                .mix(convert_BCF2VCF.out.gvcf)
-                .mix(convert_BCF2VCF.out.idx)
+                .mix(convert_gSV_BCF2VCF.out.gzvcf)
+                .mix(convert_gSV_BCF2VCF.out.idx)
                 )
 
             if (params.variant_type.contains(params.GCNV)) {
                 call_gCNV_Delly(input_bam_ch, call_gSV_Delly.out.bcf_sv_file.toList(), params.reference_fasta, reference_fasta_index, params.mappability_map)
-                convert_gCNV_BCF2VCF_BCFtools(call_gCNV_Delly.out.bcf_cnv_file, call_gCNV_Delly.out.bam_sample_name, params.GCNV)
-                run_sha512sum_gCNV_Delly(call_gCNV_Delly.out.bcf_cnv_file.mix(call_gCNV_Delly.out.bcf_cnv_file_csi))
+                convert_gCNV_BCF2VCF_BCFtools(
+                    call_gCNV_Delly.out.bam_sample_name,
+                    call_gCNV_Delly.out.bcf_cnv_file,
+                    call_gCNV_Delly.out.bcf_cnv_file_csi
+                    )
+                run_sha512sum_gCNV_Delly(
+                    call_gCNV_Delly.out.bcf_cnv_file
+                    .mix(call_gCNV_Delly.out.bcf_cnv_file_csi)
+                    .mix(convert_gCNV_BCF2VCF.out.gzvcf)
+                    .mix(convert_gCNV_BCF2VCF.out.idx)
+                    )
                 }
 
             if (params.run_qc) {
