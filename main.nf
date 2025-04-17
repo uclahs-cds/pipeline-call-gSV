@@ -72,7 +72,7 @@ include { call_gSV_Manta } from './module/manta' addParams(
     workflow_output_dir: "${params.output_dir_base}/Manta-${params.manta_version}",
     workflow_log_dir: "${params.log_output_dir}/process-log/Manta-${params.manta_version}"
     )
-include { convert_BCF2VCF } from './module/workflow-convert_BCF2VCF' addParams(
+include { convert_BCF2VCF as convert_gSV_BCF2VCF; convert_BCF2VCF as convert_gCNV_BCF2VCF } from './module/workflow-convert_BCF2VCF' addParams(
     workflow_output_dir: "${params.output_dir_base}/DELLY-${params.delly_version}",
     )
 include { run_vcfstats_RTGTools as run_gSV_vcfstats_RTGTools; run_vcfstats_RTGTools as run_gCNV_vcfstats_RTGTools } from './module/rtgtools' addParams(
