@@ -187,8 +187,8 @@ workflow {
                 run_gSV_vcf_validator_VCFtools(convert_gSV_BCF2VCF.out.gzvcf, call_gSV_Delly.out.bam_sample_name, params.GSV)
 
                 if (params.variant_type.contains(params.GCNV)) {
-                    run_gCNV_vcfstats_RTGTools(convert_gCNV_BCF2VCF_BCFtools.out.gzvcf, call_gCNV_Delly.out.bam_sample_name, params.GCNV)
-                    run_gCNV_vcf_validator_VCFtools(convert_gCNV_BCF2VCF_BCFtools.out.gzvcf, call_gCNV_Delly.out.bam_sample_name, params.GCNV)
+                    run_gCNV_vcfstats_RTGTools(convert_gCNV_BCF2VCF.out.gzvcf, call_gCNV_Delly.out.bam_sample_name, params.GCNV)
+                    run_gCNV_vcf_validator_VCFtools(convert_gCNV_BCF2VCF.out.gzvcf, call_gCNV_Delly.out.bam_sample_name, params.GCNV)
                     }
                 }
             }
