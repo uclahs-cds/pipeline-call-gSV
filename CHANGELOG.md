@@ -4,6 +4,8 @@ All notable changes to the call-gSV pipeline.
 ---
 
 ## [Unreleased]
+### Added
+- Add `convert_BCF2VCF` workflow
 
 ---
 
