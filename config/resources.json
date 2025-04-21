@@ -278,24 +278,6 @@
                 }
             }
         },
-        "plot_MantaSV_circlize": {
-            "cpus": {
-                "min": 1,
-                "fraction": 0.06,
-                "max": 1
-            },
-            "memory": {
-                "min": "1 GB",
-                "fraction": 0.03,
-                "max": "1 GB"
-            },
-            "retry_strategy": {
-                "memory": {
-                    "strategy": "add",
-                    "operand": "3 GB"
-                }
-            }
-        },
         "run_gSV_vcfstats_RTGTools": {
             "cpus": {
                 "min": 1,
@@ -365,6 +347,42 @@
                 "memory": {
                     "strategy": "exponential",
                     "operand": 2
+                }
+            }
+        },
+        "plot_MantaSV_circlize": {
+            "cpus": {
+                "min": 1,
+                "fraction": 0.06,
+                "max": 1
+            },
+            "memory": {
+                "min": "1 GB",
+                "fraction": 0.03,
+                "max": "1 GB"
+            },
+            "retry_strategy": {
+                "memory": {
+                    "strategy": "add",
+                    "operand": "3 GB"
+                }
+            }
+        },
+        "plot_DellySV_circlize": {
+            "cpus": {
+                "min": 1,
+                "fraction": 0.06,
+                "max": 1
+            },
+            "memory": {
+                "min": "1 GB",
+                "fraction": 0.03,
+                "max": "1 GB"
+            },
+            "retry_strategy": {
+                "memory": {
+                    "strategy": "add",
+                    "operand": "3 GB"
                 }
             }
         }
