@@ -114,21 +114,6 @@ input_ch_samples_with_index
     .map{ it -> [it.id, it.path, it.index] }
     .set { input_bam_ch }
 
-if (!params.reference_fasta) {
-    // error out - must provide a reference FASTA file
-    error "***Error: You must specify a reference FASTA file***"
-    }
-
-if (!params.exclusion_file) {
-    // error out - must provide exclusion file
-    error "***Error: You must provide an exclusion file***"
-    }
-
-if (!params.run_delly && !params.run_manta) {
-    // error out - must specify a valid SV caller
-    error "***Error: You must specify either Delly or Manta***"
-    }
-
 reference_fasta_index = "${params.reference_fasta}.fai"
 
 workflow {
