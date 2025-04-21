@@ -9,7 +9,7 @@
 # Description: This function takes in a BED data frame with 'INV', 'BND', and 'INS' SV types and
     # returns a list containing two modified BED data frames, insinvbnd.bed1 and insinvbnd.bed2,
     # using the 'chr.start', 'start', 'chr.end', and 'end' columns from the input dataframe.
-# Input: sample.sv.df (dataframe) - dataframe of SVs processed from Delly/Manta VCF output
+# Input: sample.sv.df (dataframe) - dataframe of SVs processed from DELLY/Manta VCF output
 # Output:
     # ins.inv.bnd.bed1 (dataframe) - dataframe of SVs with starting chr and position
     # ins.inv.bnd.bed2 (dataframe) - dataframe of SVs with ending chr and position

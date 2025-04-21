@@ -5,7 +5,7 @@
 # Authors: Raag Agrawal (2023-04-03), Selina Wu (2023-05-08)
 
 ### NOTES ##########################################################################################
-# The input VCF file should have been generated using Delly for structural variants detection.
+# The input VCF file should have been generated using DELLY for structural variants detection.
 
 ### PREAMBLE #######################################################################################
 library(circlize);
