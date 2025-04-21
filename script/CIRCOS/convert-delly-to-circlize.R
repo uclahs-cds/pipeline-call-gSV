@@ -7,7 +7,6 @@
 ### NOTES ##########################################################################################
 # The input VCF file should have been generated using Delly for structural variants detection.
 
-
 ### PREAMBLE #######################################################################################
 library(circlize);
 library(vcfR);
@@ -96,6 +95,5 @@ convert.delly.otherSV.to.circlize <- function(vcf, sample) {
 
     return(sv.data);
     }
-
 
 ### FIN ############################################################################################

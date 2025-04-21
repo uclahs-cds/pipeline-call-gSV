@@ -7,13 +7,11 @@
 ### NOTES ##########################################################################################
 # The input VCF file should have been generated using Manta for structural variants detection.
 
-
 ### PREAMBLE #######################################################################################
 library(circlize);
 library(vcfR);
 
 date <- Sys.Date();
-
 
 ### FUNCTIONS ######################################################################################
 ## Function: convert.manta.sv.to.circlize ---------------------------------------------------------
@@ -95,6 +93,5 @@ convert.manta.otherSV.to.circlize <- function(vcf, sample.id) {
 
     return(sv.data.manta);
     }
-
 
 ### FIN ############################################################################################

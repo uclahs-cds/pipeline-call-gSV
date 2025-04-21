@@ -4,7 +4,6 @@
 
 # Authors: Raag Agrawal (2023-04-03), Selina Wu (2023-05-09)
 
-
 ### FUNCTIONS ######################################################################################
 ## Function: get.InsInvBnd.df ----------------------------------------------------------------------
 # Description: This function takes in a BED data frame with 'INV', 'BND', and 'INS' SV types and
