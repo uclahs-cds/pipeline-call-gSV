@@ -104,7 +104,7 @@ The "discovery" branch of the call-gSV pipeline allows you to identify germline 
 
 ### 1. Calling Structural Variants
 
-The first step of the pipeline requires an aligned and sorted BAM file and BAM index as an input for variant calling with [Delly](https://github.com/dellytools/delly) or [Manta](https://github.com/Illumina/manta). Delly combines short-range and long-range paired-end mapping and split-read analysis for the discovery of balanced and unbalanced SVs at single-nucleotide breakpoint resolution (deletions, tandem duplications, inversions and translocations.) SVs are called, annotated and merged into a single BCF file. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
+The first step of the pipeline requires an aligned and sorted BAM file and BAM index as an input for variant calling with [Delly](https://github.com/dellytools/delly) or [Manta](https://github.com/Illumina/manta). Delly combines short-range and long-range paired-end mapping and split-read analysis for the discovery of balanced and unbalanced SVs at single-nucleotide breakpoint resolution (deletions, tandem duplications, inversions and translocations.) SVs are called, annotated and merged into a single BCF file which is then used to output a gzipped VCF file for user convenience. A default exclude map of Delly can be incorporated as an input which removes the telomeric and centromeric regions of all human chromosomes since these regions cannot be accurately analyzed with short-read data.
 Manta calls SVs and indels from mapped paired-end sequencing reads. It is optimized for analysis of germline variation in small sets of individuals and somatic variation in tumor/normal sample pairs. Manta discovers, assembles and scores large-scale SVs, medium-sized indels and large insertions within a single efficient workflow.
 
 Currently the following filters are applied by Delly when calling SVs. Parameters with a "call-gSV default" can be updated in the nextflow.config file.
@@ -123,7 +123,7 @@ Currently the following filters are applied by Delly when calling SVs. Parameter
 
 ### 2. Calling Copy Number Variants
 
-The second step of the pipeline identifies CNVs. To do this, Delly requires an aligned and sorted BAM file, as well as the BCF output from the SV calling step (to refine breakpoints) and a mappability map. Any CNVs identified are annotated and output as a single BCF file.
+The second step of the pipeline identifies CNVs. To do this, Delly requires an aligned and sorted BAM file, as well as the BCF output from the SV calling step (to refine breakpoints) and a mappability map. Any CNVs identified are annotated and output as a single BCF file. For convenience, the pipeline also outputs a gzipped CNV VCF file.
 
 Currently the following filters are applied by Delly when calling CNVs. Parameters with a "call-gSV default" can be updated in the sample specific nextflow [config](config/template.config) file.
 <br>
@@ -260,8 +260,9 @@ base_resource_update {
 | Output | Description |
 |:-------|:------------|
 | `.bcf` | Binary VCF output format with SVs if found. |
-| `.vcf` | VCF output format with SVs if found. If output by Manta, these VCFs will be compressed. |
-| `.bcf.csi` | CSI-format index for BAM files. |
+| `.bcf.csi` | CSI-format index for BCF files. |
+| `.vcf.gz` | Compressed VCF output format with SVs if found |
+| `.vcf.gz.tbi` | TBI-format index for VCF files. |
 | `.validate.txt` | output file from vcf-validator. |
 | `.stats.txt` | output file from RTG Tools. |
 | `report.html`, `timeline.html` and `trace.txt` | A Nextflow report, timeline and trace files. |

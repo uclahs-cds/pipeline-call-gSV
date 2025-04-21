@@ -72,9 +72,8 @@ include { call_gSV_Manta } from './module/manta' addParams(
     workflow_output_dir: "${params.output_dir_base}/Manta-${params.manta_version}",
     workflow_log_dir: "${params.log_output_dir}/process-log/Manta-${params.manta_version}"
     )
-include { convert_BCF2VCF_BCFtools as convert_gSV_BCF2VCF_BCFtools; convert_BCF2VCF_BCFtools as convert_gCNV_BCF2VCF_BCFtools } from './module/bcftools' addParams(
+include { convert_BCF2VCF as convert_gSV_BCF2VCF; convert_BCF2VCF as convert_gCNV_BCF2VCF } from './module/workflow-convert_BCF2VCF' addParams(
     workflow_output_dir: "${params.output_dir_base}/DELLY-${params.delly_version}",
-    workflow_log_dir: "${params.log_output_dir}/process-log/DELLY-${params.delly_version}"
     )
 include { run_vcfstats_RTGTools as run_gSV_vcfstats_RTGTools; run_vcfstats_RTGTools as run_gCNV_vcfstats_RTGTools } from './module/rtgtools' addParams(
     workflow_output_dir: "${params.output_dir_base}/DELLY-${params.delly_version}",
@@ -156,22 +155,40 @@ workflow {
             }
         if (params.run_delly) {
             call_gSV_Delly(input_bam_ch, params.reference_fasta, reference_fasta_index, params.exclusion_file)
-            convert_gSV_BCF2VCF_BCFtools(call_gSV_Delly.out.bcf_sv_file, call_gSV_Delly.out.bam_sample_name, params.GSV)
-            run_sha512sum_gSV_Delly(call_gSV_Delly.out.bcf_sv_file.mix(call_gSV_Delly.out.bcf_sv_file_csi))
+            convert_gSV_BCF2VCF(
+                call_gSV_Delly.out.bam_sample_name,
+                call_gSV_Delly.out.bcf_sv_file,
+                call_gSV_Delly.out.bcf_sv_file_csi
+                )
+            run_sha512sum_gSV_Delly(
+                call_gSV_Delly.out.bcf_sv_file
+                .mix(call_gSV_Delly.out.bcf_sv_file_csi)
+                .mix(convert_gSV_BCF2VCF.out.gzvcf)
+                .mix(convert_gSV_BCF2VCF.out.idx)
+                )
 
             if (params.variant_type.contains(params.GCNV)) {
                 call_gCNV_Delly(input_bam_ch, call_gSV_Delly.out.bcf_sv_file.toList(), params.reference_fasta, reference_fasta_index, params.mappability_map)
-                convert_gCNV_BCF2VCF_BCFtools(call_gCNV_Delly.out.bcf_cnv_file, call_gCNV_Delly.out.bam_sample_name, params.GCNV)
-                run_sha512sum_gCNV_Delly(call_gCNV_Delly.out.bcf_cnv_file.mix(call_gCNV_Delly.out.bcf_cnv_file_csi))
+                convert_gCNV_BCF2VCF(
+                    call_gCNV_Delly.out.bam_sample_name,
+                    call_gCNV_Delly.out.bcf_cnv_file,
+                    call_gCNV_Delly.out.bcf_cnv_file_csi
+                    )
+                run_sha512sum_gCNV_Delly(
+                    call_gCNV_Delly.out.bcf_cnv_file
+                    .mix(call_gCNV_Delly.out.bcf_cnv_file_csi)
+                    .mix(convert_gCNV_BCF2VCF.out.gzvcf)
+                    .mix(convert_gCNV_BCF2VCF.out.idx)
+                    )
                 }
 
             if (params.run_qc) {
-                run_gSV_vcfstats_RTGTools(convert_gSV_BCF2VCF_BCFtools.out.vcf_file, call_gSV_Delly.out.bam_sample_name, params.GSV)
-                run_gSV_vcf_validator_VCFtools(convert_gSV_BCF2VCF_BCFtools.out.vcf_file, call_gSV_Delly.out.bam_sample_name, params.GSV)
+                run_gSV_vcfstats_RTGTools(convert_gSV_BCF2VCF.out.gzvcf, call_gSV_Delly.out.bam_sample_name, params.GSV)
+                run_gSV_vcf_validator_VCFtools(convert_gSV_BCF2VCF.out.gzvcf, call_gSV_Delly.out.bam_sample_name, params.GSV)
 
                 if (params.variant_type.contains(params.GCNV)) {
-                    run_gCNV_vcfstats_RTGTools(convert_gCNV_BCF2VCF_BCFtools.out.vcf_file, call_gCNV_Delly.out.bam_sample_name, params.GCNV)
-                    run_gCNV_vcf_validator_VCFtools(convert_gCNV_BCF2VCF_BCFtools.out.vcf_file, call_gCNV_Delly.out.bam_sample_name, params.GCNV)
+                    run_gCNV_vcfstats_RTGTools(convert_gCNV_BCF2VCF.out.gzvcf, call_gCNV_Delly.out.bam_sample_name, params.GCNV)
+                    run_gCNV_vcf_validator_VCFtools(convert_gCNV_BCF2VCF.out.gzvcf, call_gCNV_Delly.out.bam_sample_name, params.GCNV)
                     }
                 }
             }
