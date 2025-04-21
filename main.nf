@@ -83,6 +83,9 @@ include { run_vcf_validator_VCFtools as run_gSV_vcf_validator_VCFtools; run_vcf_
     workflow_output_dir: "${params.output_dir_base}/DELLY-${params.delly_version}",
     workflow_log_dir: "${params.log_output_dir}/process-log/DELLY-${params.delly_version}"
     )
+include { plot_SV_circlize as plot_DellySV_circlize; plot_SV_circlize as plot_MantaSV_circlize } from './module/circos-plot.nf' addParams(
+    workflow_output_dir: "${params.output_dir_base}/Manta-${params.manta_version}"
+    )
 include { run_sha512sum as run_sha512sum_gSV_Delly; run_sha512sum as run_sha512sum_gCNV_Delly; run_sha512sum as run_sha512sum_regeno_gSV_Delly; run_sha512sum as run_sha512sum_regeno_gCNV_Delly } from './module/sha512' addParams(
     workflow_output_dir: "${params.output_dir_base}/DELLY-${params.delly_version}",
     workflow_log_dir: "${params.log_output_dir}/process-log/DELLY-${params.delly_version}"
@@ -130,6 +133,16 @@ workflow {
     if (params.run_discovery) {
         if (params.run_manta) {
             call_gSV_Manta(input_bam_ch, params.reference_fasta, reference_fasta_index)
+
+            call_gSV_Manta.out.vcf_diploid_sv_file
+                .map{ ['Manta', it] }
+                .view{ "HERE: $it" }
+                .set{ input_ch_plot_manta }
+
+            plot_MantaSV_circlize(
+                input_ch_plot_manta
+                )
+
             run_sha512sum_Manta(call_gSV_Manta.out.vcf_small_indel_sv_file.mix(
                 call_gSV_Manta.out.vcf_diploid_sv_file,
                 call_gSV_Manta.out.vcf_candidate_sv_file,
@@ -140,11 +153,22 @@ workflow {
             }
         if (params.run_delly) {
             call_gSV_Delly(input_bam_ch, params.reference_fasta, reference_fasta_index, params.exclusion_file)
+
             convert_gSV_BCF2VCF(
                 call_gSV_Delly.out.bam_sample_name,
                 call_gSV_Delly.out.bcf_sv_file,
                 call_gSV_Delly.out.bcf_sv_file_csi
                 )
+
+            convert_gSV_BCF2VCF.out.gzvcf
+                .map{ ['DELLY', it] }
+                .view{ "HERE: $it" }
+                .set{ input_ch_plot_delly }
+
+            plot_DellySV_circlize(
+                input_ch_plot_delly
+                )
+
             run_sha512sum_gSV_Delly(
                 call_gSV_Delly.out.bcf_sv_file
                 .mix(call_gSV_Delly.out.bcf_sv_file_csi)
