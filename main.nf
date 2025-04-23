@@ -137,7 +137,7 @@ workflow {
         if (params.run_manta) {
             call_gSV_Manta(input_bam_ch, params.reference_fasta, reference_fasta_index)
 
-            call_gSV_Manta.out.vcf_diploid_sv_file
+            call_gSV_Manta.out.vcf_candidate_sv_file
                 .map{ ['Manta', it] }
                 .view{ "HERE: $it" }
                 .set{ input_ch_plot_manta }
