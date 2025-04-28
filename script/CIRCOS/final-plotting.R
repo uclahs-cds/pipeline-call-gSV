@@ -135,6 +135,11 @@ layout(matrix(c(1, 2), nrow = 2), heights = c(3, 0.4));
 par(mar = c(0, 1, 1, 1));
 CIRCLIZE.SETUP();
 CIRCLIZE.CHROMOSOME.LAYOUT();
+
+# Filter ins.inv.bnd.bed1 and ins.inv.bnd.bed2 using chromosomes in get.all.sector.index()
+all.chr <- get.all.sector.index();
+sample.df <- sample.df[sample.df$chr.start %in% all.chr & sample.df$chr.end %in% all.chr, ];
+
 list.of.InsInvBnd <- get.InsInvBnd.df(sample.df);
 CIRCLIZE.INSINVBND(insinvbnd.list = list.of.InsInvBnd);
 
