@@ -19,7 +19,7 @@ parser$add_argument('--output.type', type = 'character', help = 'output format e
 parser$add_argument('--output.filename', type = 'character', help = 'output filename with extension', required = TRUE);
 parser$add_argument('--sample.name', type = 'character', help = 'Sample name', required = TRUE);
 parser$add_argument('--script.source', type = 'character', help = 'Path to directory containing helper scripts', required = TRUE);
-parser$add_argument('--sv.caller', type = 'character', help = 'Either Delly, Manta, or SURVIVOR verbatim', default = 'Delly');
+parser$add_argument('--sv.caller', type = 'character', help = 'Either DELLY, Manta, or SURVIVOR verbatim', default = 'Delly');
 parser$add_argument('--plot.title', type = 'logical', help = 'print a title? TRUE or FALSE', default = TRUE);
 parser$add_argument('--genome.build', type = 'character', help = 'Genome build (e.g. hg38, hg19)', default = 'hg38');
 
@@ -68,8 +68,8 @@ sample <- sample.name
 print('Successfully read in VCF file')
 
 #### PROCESS SV ####################################################################################
-if (sv.caller == 'Delly') {
-    print('Processing Delly SVs\n')
+if (sv.caller == 'DELLY') {
+    print('Processing DELLY SVs\n')
 
     # Use Delly conversion functions to extract SV data into dataframes
     otherSV.df <- convert.delly.otherSV.to.circlize(vcf = vcf.object, sample = sample);
