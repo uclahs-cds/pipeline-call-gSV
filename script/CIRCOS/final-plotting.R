@@ -51,8 +51,6 @@ cat('Genome build:', genome.build, '\n');
 
 source(paste0(script.source, '/convert-manta-to-circlize.R'));
 source(paste0(script.source, '/convert-delly-to-circlize.R'));
-source(paste0(script.source, '/convert-SURVIVOR-to-circlize.R'));
-source(paste0(script.source, '/convert-battenberg-to-circlize.R'));
 source(paste0(script.source, '/circos-plot-setup.R'));
 
 #### SPECIFY COLOR PALLETTE#########################################################################
@@ -83,13 +81,6 @@ if (sv.caller == 'Delly') {
         # Use Manta conversion functions to extract SV data into dataframes
         otherSV.df <- convert.manta.otherSV.to.circlize(vcf = vcf.object, sample.id = sample);
         bnd.df.unfiltered <- convert.manta.BND.to.circlize(vcf = vcf.object, sample.id = sample);
-
-        } else if (sv.caller == 'SURVIVOR') {
-        print('Processing SURVIVOR consensus SVs\n')
-
-        # Use SURVIVOR conversion functions to extract SV data into dataframes
-        otherSV.df <- convert.survivor.to.circlize(vcf = vcf.object, sample.id = sample);
-        bnd.df.unfiltered <- data.frame();
 
         } else {
             stop('SV caller not recognised');
