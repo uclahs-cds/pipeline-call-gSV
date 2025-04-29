@@ -51,6 +51,7 @@ process plot_SV_circlize {
             --sv.caller "${caller}" \
             --plot.title TRUE \
             --output.filename "${output_filename}.png" \
-            --script.source "${projectDir}/script/CIRCOS"
+            --script.source "${projectDir}/script/CIRCOS" \
+            --genome.build ${params.genome_build}
     """
 }

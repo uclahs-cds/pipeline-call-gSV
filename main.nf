@@ -139,7 +139,6 @@ workflow {
 
             call_gSV_Manta.out.vcf_candidate_sv_file
                 .map{ ['Manta', it] }
-                .view{ "HERE: $it" }
                 .set{ input_ch_plot_manta }
 
             plot_MantaSV_circlize(
@@ -165,7 +164,6 @@ workflow {
 
             convert_gSV_BCF2VCF.out.gzvcf
                 .map{ ['DELLY', it] }
-                .view{ "HERE: $it" }
                 .set{ input_ch_plot_delly }
 
             plot_DellySV_circlize(

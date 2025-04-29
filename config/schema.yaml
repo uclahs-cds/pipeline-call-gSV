@@ -43,6 +43,13 @@ run_qc:
   help: 'Run QC'
   default:
     - true
+genome_build:
+  type: 'String'
+  required: true
+  help: 'Genome build'
+  choices:
+    - hg19
+    - hg38
 output_dir:
   type: 'Path'
   mode: 'w'
