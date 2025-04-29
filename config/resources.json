@@ -173,6 +173,42 @@
                     "operand": "500 MB"
                 }
             }
+        },
+        "plot_MantaSV_circlize": {
+            "cpus": {
+                "min": 1,
+                "fraction": 0.5,
+                "max": 1
+            },
+            "memory": {
+                "min": "3 GB",
+                "fraction": 0.79,
+                "max": "3 GB"
+            },
+            "retry_strategy": {
+                "memory": {
+                    "strategy": "add",
+                    "operand": "1 GB"
+                }
+            }
+        },
+        "plot_DellySV_circlize": {
+            "cpus": {
+                "min": 1,
+                "fraction": 0.5,
+                "max": 1
+            },
+            "memory": {
+                "min": "3 GB",
+                "fraction": 0.79,
+                "max": "3 GB"
+            },
+            "retry_strategy": {
+                "memory": {
+                    "strategy": "add",
+                    "operand": "1 GB"
+                }
+            }
         }
     },
     "f16": {
@@ -357,14 +393,14 @@
                 "max": 1
             },
             "memory": {
-                "min": "1 GB",
-                "fraction": 0.03,
-                "max": "1 GB"
+                "min": "3 GB",
+                "fraction": 0.10,
+                "max": "3 GB"
             },
             "retry_strategy": {
                 "memory": {
                     "strategy": "add",
-                    "operand": "3 GB"
+                    "operand": "5 GB"
                 }
             }
         },
@@ -375,14 +411,14 @@
                 "max": 1
             },
             "memory": {
-                "min": "1 GB",
-                "fraction": 0.03,
-                "max": "1 GB"
+                "min": "3 GB",
+                "fraction": 0.10,
+                "max": "3 GB"
             },
             "retry_strategy": {
                 "memory": {
                     "strategy": "add",
-                    "operand": "3 GB"
+                    "operand": "5 GB"
                 }
             }
         }
@@ -561,6 +597,42 @@
                     "operand": 2
                 }
             }
+        },
+        "plot_MantaSV_circlize": {
+            "cpus": {
+                "min": 1,
+                "fraction": 0.03,
+                "max": 1
+            },
+            "memory": {
+                "min": "3 GB",
+                "fraction": 0.05,
+                "max": "3 GB"
+            },
+            "retry_strategy": {
+                "memory": {
+                    "strategy": "add",
+                    "operand": "5 GB"
+                }
+            }
+        },
+        "plot_DellySV_circlize": {
+            "cpus": {
+                "min": 1,
+                "fraction": 0.03,
+                "max": 1
+            },
+            "memory": {
+                "min": "3 GB",
+                "fraction": 0.05,
+                "max": "3 GB"
+            },
+            "retry_strategy": {
+                "memory": {
+                    "strategy": "add",
+                    "operand": "5 GB"
+                }
+            }
         }
     },
     "f72": {
@@ -735,6 +807,42 @@
                 "memory": {
                     "strategy": "exponential",
                     "operand": 2
+                }
+            }
+        },
+        "plot_MantaSV_circlize": {
+            "cpus": {
+                "min": 1,
+                "fraction": 0.01,
+                "max": 1
+            },
+            "memory": {
+                "min": "3 GB",
+                "fraction": 0.02,
+                "max": "3 GB"
+            },
+            "retry_strategy": {
+                "memory": {
+                    "strategy": "add",
+                    "operand": "5 GB"
+                }
+            }
+        },
+        "plot_DellySV_circlize": {
+            "cpus": {
+                "min": 1,
+                "fraction": 0.01,
+                "max": 1
+            },
+            "memory": {
+                "min": "3 GB",
+                "fraction": 0.02,
+                "max": "3 GB"
+            },
+            "retry_strategy": {
+                "memory": {
+                    "strategy": "add",
+                    "operand": "5 GB"
                 }
             }
         }
@@ -913,6 +1021,42 @@
                     "operand": 2
                 }
             }
+        },
+        "plot_MantaSV_circlize": {
+            "cpus": {
+                "min": 1,
+                "fraction": 0.02,
+                "max": 1
+            },
+            "memory": {
+                "min": "3 GB",
+                "fraction": 0.00,
+                "max": "3 GB"
+            },
+            "retry_strategy": {
+                "memory": {
+                    "strategy": "add",
+                    "operand": "5 GB"
+                }
+            }
+        },
+        "plot_DellySV_circlize": {
+            "cpus": {
+                "min": 1,
+                "fraction": 0.02,
+                "max": 1
+            },
+            "memory": {
+                "min": "3 GB",
+                "fraction": 0.00,
+                "max": "3 GB"
+            },
+            "retry_strategy": {
+                "memory": {
+                    "strategy": "add",
+                    "operand": "5 GB"
+                }
+            }
         }
     },
     "default": {
@@ -1087,6 +1231,42 @@
                 "memory": {
                     "strategy": "exponential",
                     "operand": 2
+                }
+            }
+        },
+        "plot_MantaSV_circlize": {
+            "cpus": {
+                "min": 1,
+                "fraction": 0.01,
+                "max": 1
+            },
+            "memory": {
+                "min": "3 GB",
+                "fraction": 0.02,
+                "max": "3 GB"
+            },
+            "retry_strategy": {
+                "memory": {
+                    "strategy": "add",
+                    "operand": "5 GB"
+                }
+            }
+        },
+        "plot_DellySV_circlize": {
+            "cpus": {
+                "min": 1,
+                "fraction": 0.01,
+                "max": 1
+            },
+            "memory": {
+                "min": "3 GB",
+                "fraction": 0.02,
+                "max": "3 GB"
+            },
+            "retry_strategy": {
+                "memory": {
+                    "strategy": "add",
+                    "operand": "5 GB"
                 }
             }
         }
