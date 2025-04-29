@@ -104,10 +104,6 @@ sample.df <- rbind(
     bnd.df
     );
 
-# Remove SVs that have 'random' or 'decoy' in the chromosome name
-sample.df <- subset(sample.df, !grepl('random|decoy|alt|Un', chr.start));
-sample.df <- subset(sample.df, !grepl('random|decoy|alt|Un', chr.end));
-
 print('Successfully processed SV file')
 
 
