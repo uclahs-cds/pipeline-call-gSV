@@ -16,6 +16,12 @@ if (run_discovery) is (true) then
         ---
         Call germline SVs using DELLY
         (BCF);
+        split
+            :==CIRCOS plot
+            ---
+            Generate CIRCOS plot for DELLY gSV
+            (PNG);
+        end split
         :==DELLY gCNV
         ---
         Call germline CNVs using DELLY
