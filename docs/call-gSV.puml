@@ -16,18 +16,21 @@ if (run_discovery) is (true) then
         ---
         Call germline SVs using DELLY
         (BCF);
-        -right-> :process1-plot-image;
-        note right: This step generates a circos plot
-        :==DELLY gCNV
-        ---
-        Call germline CNVs using DELLY
-        (BCF);
-        :==QC
-        ---
-        Quality Check variant calls;
-        :==Output Validation
-        ---
-        Validate BCF output;
+        split
+            :==process1-plot-image
+            ---
+            This step generates a circos plot;
+        split again
+            :==DELLY gCNV
+            ---
+            Call germline CNVs using DELLY
+            (BCF);
+            :==QC
+            ---
+            Quality Check variant calls;
+            :==Output Validation
+            ---
+            Validate BCF output;
     split again
         :==Manta gSV
         ---
