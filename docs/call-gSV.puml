@@ -17,9 +17,10 @@ if (run_discovery) is (true) then
         Call germline SVs using DELLY
         (BCF);
         split
-            :==process1-plot-image
+            :==CIRCOS plot
             ---
-            This step generates a circos plot;
+            Plot CIRCOS for DELLY gSV
+            (PNG);
         split again
             :==DELLY gCNV
             ---
@@ -37,6 +38,10 @@ if (run_discovery) is (true) then
         ---
         Call germline SVs using Manta
         (VCF);
+        :==CIRCOS plot
+        ---
+        Plot CIRCOS for Manta gSV
+        (PNG);
     end split
 else (false)
 endif
