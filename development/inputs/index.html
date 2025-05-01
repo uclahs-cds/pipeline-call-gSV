@@ -104,7 +104,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Inputs</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/51a3b02d482a9728d39fde7f19045691f75477a2/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/8d0bee09f82cde3a4d9231e226da3c9a150295ea/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -166,6 +166,12 @@ input:
 <td style="text-align: left;">yes</td>
 <td style="text-align: left;">boolean</td>
 <td style="text-align: left;">Affirms if dataset should be registered in the Boutros Lab Data registry. Default value is <code>false</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>genome_build</code></td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Genome build for circos plot, <code>hg19</code> or <code>hg38</code>. Default is set to <code>hg38</code></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>variant_type</code></td>
@@ -259,9 +265,9 @@ input:
 </tr>
 </tbody>
 </table>
-<p>An example of the NextFlow Input Parameters Config file can be found <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/51a3b02d482a9728d39fde7f19045691f75477a2/config/template.config">here</a>.</p>
+<p>An example of the NextFlow Input Parameters Config file can be found <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/8d0bee09f82cde3a4d9231e226da3c9a150295ea/config/template.config">here</a>.</p>
 <h3 id="base-resource-allocation-updaters">Base resource allocation updaters</h3>
-<p>To optionally update the base resource (cpus or memory) allocations for processes, use the following structure and add the necessary parts to the <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/51a3b02d482a9728d39fde7f19045691f75477a2/config/template.config">input.config</a> file. The default allocations can be found in the <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/51a3b02d482a9728d39fde7f19045691f75477a2/config">node-specific config files</a></p>
+<p>To optionally update the base resource (cpus or memory) allocations for processes, use the following structure and add the necessary parts to the <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/8d0bee09f82cde3a4d9231e226da3c9a150295ea/config/template.config">input.config</a> file. The default allocations can be found in the <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/8d0bee09f82cde3a4d9231e226da3c9a150295ea/config">node-specific config files</a></p>
 <pre><code class="language-Nextflow">base_resource_update {
     memory = [
         [['process_name', 'process_name2'], &lt;multiplier for resource&gt;],
