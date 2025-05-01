@@ -48,7 +48,7 @@ endif
 stop
 
 fork again
-if (run_regenotyping) is (tre) then
+if (run_regenotyping) is (true) then
     split
     :==Regenotype gSV
     ---
