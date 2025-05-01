@@ -77,6 +77,14 @@
           "cpus": "1",
           "memory": "1 GB"
         },
+        "plot_DellySV_circlize": {
+          "cpus": "1",
+          "memory": "3 GB"
+        },
+        "plot_MantaSV_circlize": {
+          "cpus": "1",
+          "memory": "3 GB"
+        },
         "run_gCNV_vcf_validator_VCFtools": {
           "cpus": "1",
           "memory": "1 GB"
@@ -101,18 +109,21 @@
       "bcftools_version": "1.15.1",
       "blcds_registered_dataset": false,
       "cache_intermediate_pipeline_steps": false,
+      "circlize_version": "0.4.16_vcfR-1.15.0_BoutrosLab.plotting.general-7.1.0",
       "dataset_id": "TEST",
       "dataset_registry_prefix": "/hot/data",
       "date": "19970704T165655Z",
       "delly_version": "1.2.6",
       "docker_container_registry": "ghcr.io/uclahs-cds",
       "docker_image_bcftools": "ghcr.io/uclahs-cds/bcftools:1.15.1",
+      "docker_image_circlize": "ghcr.io/uclahs-cds/circlize:0.4.16_vcfR-1.15.0_BoutrosLab.plotting.general-7.1.0",
       "docker_image_delly": "ghcr.io/uclahs-cds/delly:1.2.6",
       "docker_image_manta": "ghcr.io/uclahs-cds/manta:1.6.0",
       "docker_image_rtgtools": "ghcr.io/uclahs-cds/rtg-tools:3.12",
       "docker_image_validate": "ghcr.io/uclahs-cds/pipeval:4.0.0-rc.2",
       "docker_image_vcftools": "ghcr.io/uclahs-cds/vcftools:0.1.16",
       "exclusion_file": "/hot/resource/tool-specific-input/Delly/GRCh38/human.hg38.excl.tsv",
+      "genome_build": "hg38",
       "input": {
         "BAM": {
           "normal": [
@@ -163,6 +174,18 @@
           "memory": {
             "operand": "2",
             "strategy": "exponential"
+          }
+        },
+        "plot_DellySV_circlize": {
+          "memory": {
+            "operand": "5 GB",
+            "strategy": "add"
+          }
+        },
+        "plot_MantaSV_circlize": {
+          "memory": {
+            "operand": "5 GB",
+            "strategy": "add"
           }
         },
         "run_gCNV_vcf_validator_VCFtools": {
@@ -353,6 +376,24 @@
           "2": "2 GB",
           "3": "4 GB",
           "closure": "retry_updater(1 GB, exponential, 2, $task.attempt, memory)"
+        }
+      },
+      "withName:plot_DellySV_circlize": {
+        "cpus": "1",
+        "memory": {
+          "1": "3 GB",
+          "2": "8 GB",
+          "3": "13 GB",
+          "closure": "retry_updater(3 GB, add, 5 GB, $task.attempt, memory)"
+        }
+      },
+      "withName:plot_MantaSV_circlize": {
+        "cpus": "1",
+        "memory": {
+          "1": "3 GB",
+          "2": "8 GB",
+          "3": "13 GB",
+          "closure": "retry_updater(3 GB, add, 5 GB, $task.attempt, memory)"
         }
       },
       "withName:run_gCNV_vcf_validator_VCFtools": {

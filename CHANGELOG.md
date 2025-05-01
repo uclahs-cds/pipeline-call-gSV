@@ -5,6 +5,7 @@ All notable changes to the call-gSV pipeline.
 
 ## [Unreleased]
 ### Added
+- Add circos plot module
 - Add `convert_BCF2VCF` workflow
 
 ---

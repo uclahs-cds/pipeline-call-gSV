@@ -16,21 +16,32 @@ if (run_discovery) is (true) then
         ---
         Call germline SVs using DELLY
         (BCF);
-        :==DELLY gCNV
-        ---
-        Call germline CNVs using DELLY
-        (BCF);
-        :==QC
-        ---
-        Quality Check variant calls;
-        :==Output Validation
-        ---
-        Validate BCF output;
+        split
+            :==CIRCOS plot
+            ---
+            Plot CIRCOS for DELLY gSV
+            (PNG);
+        split again
+            :==DELLY gCNV
+            ---
+            Call germline CNVs using DELLY
+            (BCF);
+            :==QC
+            ---
+            Quality Check variant calls;
+            :==Output Validation
+            ---
+            Validate BCF output;
+        end split
     split again
         :==Manta gSV
         ---
         Call germline SVs using Manta
         (VCF);
+        :==CIRCOS plot
+        ---
+        Plot CIRCOS for Manta gSV
+        (PNG);
     end split
 else (false)
 endif

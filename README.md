@@ -188,6 +188,7 @@ input:
 |:----------------|:---------|:-----|:------------|
 | `dataset_id` | yes | string | Boutros lab dataset id. |
 | `blcds_registered_dataset` | yes | boolean | Affirms if dataset should be registered in the Boutros Lab Data registry. Default value is `false`. |
+| `genome_build` | no | string | Genome build for circos plot, `hg19` or `hg38`. Default is set to `hg38` |
 | `variant_type` | yes | list | List containing variant types to call. Default is `["gSV", "gCNV"]` |
 | `run_discovery` | yes | boolean | Specifies whether or not to run the "disovery" branch of the pipeline. Default value is `true`. (either `run_discovery` or `run_regenotyping` must be `true`) |
 | `run_regenotyping` | yes | boolean | Specifies whether or not to run the "regenotyping" branch of the pipeline. Default value is `false`. (either `run_discovery` or `run_regenotyping` must be `true`) |
@@ -261,8 +262,9 @@ base_resource_update {
 |:-------|:------------|
 | `.bcf` | Binary VCF output format with SVs if found. |
 | `.bcf.csi` | CSI-format index for BCF files. |
-| `.vcf.gz` | Compressed VCF output format with SVs if found |
+| `.vcf.gz` | Compressed VCF output format with SVs if found. |
 | `.vcf.gz.tbi` | TBI-format index for VCF files. |
+| `.png` | SV Circos plot for individual SV callers as QC output. |
 | `.validate.txt` | output file from vcf-validator. |
 | `.stats.txt` | output file from RTG Tools. |
 | `report.html`, `timeline.html` and `trace.txt` | A Nextflow report, timeline and trace files. |
