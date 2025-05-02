@@ -4,6 +4,10 @@ All notable changes to the call-gSV pipeline.
 ---
 
 ## [Unreleased]
+### Changed
+- Remove `methods.modify_base_allocations()`
+- Use `resource_handler` for generalize resourses
+
 ### Added
 - Add circos plot module
 - Add `convert_BCF2VCF` workflow
