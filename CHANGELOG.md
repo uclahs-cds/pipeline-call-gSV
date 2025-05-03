@@ -9,6 +9,9 @@ All notable changes to the call-gSV pipeline.
 - Add circos plot module
 - Add `convert_BCF2VCF` workflow
 
+### Changed
+- Replace `methods.modify_base_allocations()` with `resource_handler`
+
 ## [5.2.0] - 2024-07-03
 
 ### Added
