@@ -1,0 +1,72 @@
+@startuml
+skinparam SwimlaneTitleFontStyle bold
+
+start
+
+:==Normal BAM
+---
+Input Normal BAM;
+:==Input Validation
+---
+Validate the input BAM and corresponding index file;
+fork
+if (run_discovery) is (true) then
+    split
+        :==DELLY gSV
+        ---
+        Call germline SVs using DELLY
+        (BCF);
+        split
+            :==CIRCOS plot
+            ---
+            Plot CIRCOS for DELLY gSV
+            (PNG);
+        split again
+            :==DELLY gCNV
+            ---
+            Call germline CNVs using DELLY
+            (BCF);
+            :==QC
+            ---
+            Quality Check variant calls;
+            :==Output Validation
+            ---
+            Validate BCF output;
+        end split
+    split again
+        :==Manta gSV
+        ---
+        Call germline SVs using Manta
+        (VCF);
+        :==CIRCOS plot
+        ---
+        Plot CIRCOS for Manta gSV
+        (PNG);
+    end split
+else (false)
+endif
+stop
+
+fork again
+if (run_regenotyping) is (true) then
+    split
+    :==Regenotype gSV
+    ---
+    Regenotype SVs
+    using DELLY gSV calls
+    (BCF);
+    note right: input\nmerged\ngSV sites
+    split again
+    :==Regenotype gCNV
+    ---
+    Regenotype CNVs
+    using DELLY gCNV calls
+    (BCF);
+    note left: input\nmerged\ngCNV sites
+    end split
+
+else (false)
+endif
+stop
+
+@enduml
