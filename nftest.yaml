@@ -15,11 +15,11 @@ cases:
     verbose: true
     asserts:
       - actual: call-gSV-*/HG003/DELLY-*/output/DELLY-*_TEST_HG003_gCNV.bcf
-        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/HG003/DELLY-1.2.6/DELLY-1.2.6_TEST_HG003_gCNV.bcf
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/HG003/DELLY-1.5.0/DELLY-1.5.0_TEST_HG003_gCNV.bcf
         script: test/assert_bcf_vcf.sh
 
       - actual: call-gSV-*/HG003/DELLY-*/output/DELLY-*_TEST_HG003_gSV.bcf
-        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/HG003/DELLY-1.2.6/DELLY-1.2.6_TEST_HG003_gSV.bcf
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/HG003/DELLY-1.5.0/DELLY-1.5.0_TEST_HG003_gSV.bcf
         script: test/assert_bcf_vcf.sh
 
       - actual: call-gSV-*/HG003/Manta-*/output/Manta-*_TEST_HG003_candidateSmallIndels.vcf.gz
@@ -63,11 +63,11 @@ cases:
     verbose: true
     asserts:
       - actual: call-gSV-*/HG003/DELLY-*/output/DELLY-*_TEST_HG003_gCNV.bcf
-        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/HG003/DELLY-1.2.6/DELLY-1.2.6_TEST_HG003_gCNV.bcf
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/HG003/DELLY-1.5.0/DELLY-1.5.0_TEST_HG003_gCNV.bcf
         script: test/assert_bcf_vcf.sh
 
       - actual: call-gSV-*/HG003/DELLY-*/output/DELLY-*_TEST_HG003_gSV.bcf
-        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/HG003/DELLY-1.2.6/DELLY-1.2.6_TEST_HG003_gSV.bcf
+        expect: /hot/software/pipeline/pipeline-call-gSV/Nextflow/development/test-output/gsv_discovery-all-tools-std-input/HG003/DELLY-1.5.0/DELLY-1.5.0_TEST_HG003_gSV.bcf
         script: test/assert_bcf_vcf.sh
 
   - name: base-resource-update-std-input
