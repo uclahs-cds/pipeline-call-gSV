@@ -1,5 +1,0 @@
----
-input:
-  BAM:
-    normal:
-      - "/hot/software/pipeline/pipeline-call-gSV/Nextflow/development/input/data/BWA-MEM2-2.2.1_GATK-4.2.4.1_0000082_HG003_subsampled_5X_sorted.bam"

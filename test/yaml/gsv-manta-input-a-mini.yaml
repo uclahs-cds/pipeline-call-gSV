@@ -1,5 +1,0 @@
----
-input:
-  BAM:
-    normal:
-      - "/hot/data/unregistered/SMC-HET/normal/bams/A-mini/n1/output/HG002.N-n1.bam"
