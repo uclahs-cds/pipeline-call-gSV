@@ -51,25 +51,21 @@ Below is a summary of how to run the pipeline.  See [here](https://uclahs-cds.at
 
 Pipelines should be run **WITH A SINGLE SAMPLE AT TIME**. Otherwise resource allocation and Nextflow errors could cause the pipeline to fail.
 
-1. The recommended way of running the pipeline is to directly use the source code located here: `/hot/software/pipeline/pipeline-call-gSV/Nextflow/release/`, rather than cloning a copy of the pipeline.
-
-    * The source code should never be modified when running our pipelines
-
-2. Create a config file for input, output, and parameters. An example for a config file can be found [here](config/template.config). See [Nextflow Config File Parameters](#Nextflow-Config-File-Parameters) for the detailed description of each variable in the config file.
+1. Create a config file for input, output, and parameters. An example for a config file can be found [here](config/template.config). See [Nextflow Config File Parameters](#Nextflow-Config-File-Parameters) for the detailed description of each variable in the config file.
 
     * Do not directly modify the source `template.config`, but rather you should copy it from the pipeline release folder to your project-specific folder and modify it there
 
-3. Create the input YAML using the [template](input/call-gSV-input.yaml). See [Input YAML](#Input-YAML) for a detailed description.
+2. Create the input YAML using the [template](input/call-gSV-input.yaml). See [Input YAML](#Input-YAML) for a detailed description.
 
    * Again, do not directly modify the source template YAML file.  Instead, copy it from the pipeline release folder to your project-specific folder and modify it there.
 
-4. The pipeline can be executed locally using the command below:
+3. The pipeline can be executed locally using the command below:
 
 ```bash
 nextflow run path/to/main.nf -config path/to/sample-specific.config
 ```
 
-* For example, `path/to/main.nf` could be: `/hot/software/pipeline/pipeline-call-gSV/Nextflow/release/5.0.0-rc.1/main.nf`
+* For example, `path/to/main.nf` could be: `/path/to/pipeline-call-gSV/main.nf`
 * `path/to/sample-specific.config` is the path to where you saved your project-specific copy of [template.config](config/template.config)
 * `path/to/input.yaml` is the path to where you saved your sample-specific copy of [call-gSV-input.yaml](input/call-gSV-input.yaml)
 
@@ -202,7 +198,7 @@ input:
 | `map_qual` | no | path | minimum paired-end (PE) mapping quaility threshold for Delly. |
 | `save_intermediate_files` | yes | boolean | Optional parameter to indicate whether intermediate files will be saved. Default value is `false`. |
 | `output_dir` | yes | path | Absolute path to the directory where the output files to be saved. |
-| `work_dir` | optional | path | Path of working directory for Nextflow. When included in the sample config file, Nextflow intermediate files and logs will be saved to this directory. With `ucla_cds`, the default is `/scratch` and should only be changed for testing/development. Changing this directory to `/hot` or `/tmp` can lead to high server latency and potential disk space limitations, respectively. |
+| `work_dir` | optional | path | Path of working directory for Nextflow. When included in the sample config file, Nextflow intermediate files and logs will be saved to this directory. With `ucla_cds`, the default is `/scratch` and should only be changed for testing/development. Changing this directory to any other can lead to high server latency and potential disk space limitations, respectively. |
 | `docker_container_registry` | optional | string | Registry containing tool Docker images. Default: `ghcr.io/uclahs-cds` |
 
 An example of the NextFlow Input Parameters Config file can be found [here](config/template.config).

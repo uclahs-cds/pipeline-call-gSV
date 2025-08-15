@@ -7,6 +7,7 @@ All notable changes to the call-gSV pipeline.
 ### Changed
 
 - Update DELLY `v1.2.6` to `v1.5.0`
+- Remove cluster paths from README
 
 ## [5.3.0] - 2025-05-02
 
