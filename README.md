@@ -62,12 +62,8 @@ Pipelines should be run **WITH A SINGLE SAMPLE AT TIME**. Otherwise resource all
 3. The pipeline can be executed locally using the command below:
 
 ```bash
-nextflow run path/to/main.nf -config path/to/sample-specific.config
+nextflow run path/to/main.nf -config path/to/sample-specific.config -params-file path/to/input.yaml
 ```
-
-* For example, `path/to/main.nf` could be: `/path/to/pipeline-call-gSV/main.nf`
-* `path/to/sample-specific.config` is the path to where you saved your project-specific copy of [template.config](config/template.config)
-* `path/to/input.yaml` is the path to where you saved your sample-specific copy of [call-gSV-input.yaml](input/call-gSV-input.yaml)
 
 To submit to UCLAHS-CDS's Azure cloud, use the submission script [here](https://github.com/uclahs-cds/tool-submit-nf) with the command below:
 
@@ -198,7 +194,7 @@ input:
 | `map_qual` | no | path | minimum paired-end (PE) mapping quaility threshold for Delly. |
 | `save_intermediate_files` | yes | boolean | Optional parameter to indicate whether intermediate files will be saved. Default value is `false`. |
 | `output_dir` | yes | path | Absolute path to the directory where the output files to be saved. |
-| `work_dir` | optional | path | Path of working directory for Nextflow. When included in the sample config file, Nextflow intermediate files and logs will be saved to this directory. With `ucla_cds`, the default is `/scratch` and should only be changed for testing/development. Changing this directory to any other can lead to high server latency and potential disk space limitations, respectively. |
+| `work_dir` | optional | path | The path to a temporary working directory for Nextflow, storing intermediate files and logs. It is recommended to use fast, local storage with high I/O performance. |
 | `docker_container_registry` | optional | string | Registry containing tool Docker images. Default: `ghcr.io/uclahs-cds` |
 
 An example of the NextFlow Input Parameters Config file can be found [here](config/template.config).
