@@ -1,10 +1,9 @@
 {
   "nextflow_version": "23.10.0",
   "config": [
-    "test/global.config",
-    "test/config/gsv_discovery-all-tools.config"
+    "config/template.config"
   ],
-  "params_file": "test/yaml/gsv_test-std-input.yaml",
+  "params_file": "input/call-gSV-input.yaml",
   "cpus": 16,
   "memory_gb": 31,
   "nf_params": {
@@ -111,8 +110,6 @@
       "cache_intermediate_pipeline_steps": false,
       "circlize_version": "0.4.16_vcfR-1.15.0_BoutrosLab.plotting.general-7.1.0",
       "dataset_id": "TEST",
-      "dataset_registry_prefix": "/hot/data",
-      "date": "19970704T165655Z",
       "delly_version": "1.5.0",
       "docker_container_registry": "ghcr.io/uclahs-cds",
       "docker_image_bcftools": "ghcr.io/uclahs-cds/bcftools:1.15.1",
@@ -122,19 +119,19 @@
       "docker_image_rtgtools": "ghcr.io/uclahs-cds/rtg-tools:3.12",
       "docker_image_validate": "ghcr.io/uclahs-cds/pipeval:4.0.0-rc.2",
       "docker_image_vcftools": "ghcr.io/uclahs-cds/vcftools:0.1.16",
-      "exclusion_file": "/hot/resource/tool-specific-input/Delly/GRCh38/human.hg38.excl.tsv",
+      "exclusion_file": "/example/delly/excludeTemplates/human.hg38.excl.tsv",
       "genome_build": "hg38",
       "input": {
         "BAM": {
           "normal": [
-            "/hot/software/pipeline/pipeline-call-gSV/Nextflow/development/input/data/BWA-MEM2-2.2.1_GATK-4.2.4.1_0000082_HG003_subsampled_5X_sorted.bam"
+            "/absolute/path/to/input/BAM"
           ]
         }
       },
       "log_output_dir": "/tmp/test-only-outputs/call-gSV-VER.SI.ON/8675309/log-call-gSV-VER.SI.ON-19970704T165655Z",
       "manta_version": "1.6.0",
       "map_qual": "20",
-      "mappability_map": "/hot/resource/tool-specific-input/Delly/GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.r101.s501.blacklist.gz",
+      "mappability_map": "/example/delly/mappabilityMaps/Homo_sapiens.GRCh38.dna.primary_assembly.fa.r101.s501.blacklist.gz",
       "max_cpus": "16",
       "max_memory": "31 GB",
       "max_time": "24d 20h 31m 24s",
@@ -144,7 +141,7 @@
       "output_dir": "/tmp/test-only-outputs",
       "output_dir_base": "/tmp/test-only-outputs/call-gSV-VER.SI.ON/8675309",
       "pipeval_version": "4.0.0-rc.2",
-      "reference_fasta": "/hot/resource/reference-genome/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta",
+      "reference_fasta": "/example/genome/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta",
       "retry_information": {
         "call_gCNV_Delly": {
           "memory": {
@@ -223,7 +220,7 @@
       "sample_to_process": [
         {
           "id": "8675309",
-          "path": "/hot/software/pipeline/pipeline-call-gSV/Nextflow/development/input/data/BWA-MEM2-2.2.1_GATK-4.2.4.1_0000082_HG003_subsampled_5X_sorted.bam",
+          "path": "/absolute/path/to/input/BAM",
           "sample_type": "normal"
         }
       ],
@@ -455,7 +452,6 @@
       "enabled": true,
       "file": "/tmp/test-only-outputs/call-gSV-VER.SI.ON/8675309/log-call-gSV-VER.SI.ON-19970704T165655Z/nextflow-log/trace.txt"
     },
-    "tz": "sun.util.calendar.ZoneInfo[id=\"UTC\",offset=0,dstSavings=0,useDaylight=false,transitions=0,lastRule=null]",
     "workDir": "/scratch/300935"
   }
 }
