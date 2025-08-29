@@ -104,7 +104,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Inputs</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/d6a60410164e4726c5719d4b55b1b133dad72f27/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/c7dda738fbfef32c61ff183f2e528a02354c0907/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -225,7 +225,7 @@ input:
 <td style="text-align: left;"><code>exclusion_file</code></td>
 <td style="text-align: left;">yes</td>
 <td style="text-align: left;">path</td>
-<td style="text-align: left;">Absolute path to the delly reference genome <code>exclusion</code> file utilized to remove suggested regions for SV calling. On Slurm, an HG38 exclusion file is located at <code>/hot/resource/tool-specific-input/Delly/hg38/human.hg38.excl.tsv</code></td>
+<td style="text-align: left;">Absolute path to the delly reference genome <code>exclusion</code> file utilized to remove suggested regions for SV calling. On Slurm, an HG38 exclusion file is located at <code>/example/delly/excludeTemplates/human.hg38.excl.tsv</code></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>mappability_map</code></td>
@@ -255,7 +255,7 @@ input:
 <td style="text-align: left;"><code>work_dir</code></td>
 <td style="text-align: left;">optional</td>
 <td style="text-align: left;">path</td>
-<td style="text-align: left;">Path of working directory for Nextflow. When included in the sample config file, Nextflow intermediate files and logs will be saved to this directory. With <code>ucla_cds</code>, the default is <code>/scratch</code> and should only be changed for testing/development. Changing this directory to <code>/hot</code> or <code>/tmp</code> can lead to high server latency and potential disk space limitations, respectively.</td>
+<td style="text-align: left;">The path to a temporary working directory for Nextflow, storing intermediate files and logs. It is recommended to use fast, local storage with high I/O performance.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>docker_container_registry</code></td>
@@ -265,9 +265,9 @@ input:
 </tr>
 </tbody>
 </table>
-<p>An example of the NextFlow Input Parameters Config file can be found <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/d6a60410164e4726c5719d4b55b1b133dad72f27/config/template.config">here</a>.</p>
+<p>An example of the NextFlow Input Parameters Config file can be found <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/c7dda738fbfef32c61ff183f2e528a02354c0907/config/template.config">here</a>.</p>
 <h3 id="base-resource-allocation-updaters">Base resource allocation updaters</h3>
-<p>To optionally update the base resource (cpus or memory) allocations for processes, use the following structure and add the necessary parts to the <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/d6a60410164e4726c5719d4b55b1b133dad72f27/config/template.config">input.config</a> file. The default allocations can be found in the <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/d6a60410164e4726c5719d4b55b1b133dad72f27/config">node-specific config files</a></p>
+<p>To optionally update the base resource (cpus or memory) allocations for processes, use the following structure and add the necessary parts to the <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/c7dda738fbfef32c61ff183f2e528a02354c0907/config/template.config">input.config</a> file. The default allocations can be found in the <a href="https://github.com/uclahs-cds/pipeline-call-gSV/blob/c7dda738fbfef32c61ff183f2e528a02354c0907/config">node-specific config files</a></p>
 <pre><code class="language-Nextflow">base_resource_update {
     memory = [
         [['process_name', 'process_name2'], &lt;multiplier for resource&gt;],
